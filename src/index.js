@@ -5,8 +5,8 @@ import { PropertyKey, findPropertyKeyInArray } from './propertykey'
 export const findRedundantProperties = () => {
   let jsonFile = `./assets/test.json`
   if (fs.existsSync(jsonFile)) {
-    // let content = fs.readFileSync(jsonFile)
-    let content = '{"aa,aa":"o,bja","b":["0","1","1,b","1c","1d", "2"],"b":1, "c":{"d":"some object"}}'
+    let content = fs.readFileSync(jsonFile).toString()
+    // let content = '{"aa,aa":"o,bja","b":["0","1","1,b","1c","1d", "2"],"b":1, "c":{"d":"some object"}}'
     if (isJSON(content)) {
       checkRedundancy(content)
     } else {
