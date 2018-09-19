@@ -31,7 +31,7 @@ const sections = [
 
 const options = commandLineArgs(sections[1].optionList)
 
-const run = (options) => {
+const runCli = (options) => {
   if (options.src != null) {
     let duplicatedPropertyKeys = findRedundantProperties(options.src)
     if (duplicatedPropertyKeys != null) {
@@ -42,4 +42,4 @@ const run = (options) => {
   }
 }
 
-run(options)
+runCli(options)
