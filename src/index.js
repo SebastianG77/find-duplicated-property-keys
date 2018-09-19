@@ -7,13 +7,14 @@ export const findRedundantProperties = (jsonFile) => {
     let content = fs.readFileSync(jsonFile).toString()
     // let content = '{"aa,aa":"o,bja","b":["0","1","1,b","1c","1d", "2"],"b":1, "c":{"d":"some object"}}'
     if (isJSON(content)) {
-      checkRedundancy(content)
+      return checkRedundancy(content)
     } else {
       console.log(`ERROR: File ${jsonFile} is no valid JSON file.`)
     }
   } else {
     console.log(`ERROR: File ${jsonFile} does not exist.`)
   }
+  return null
 }
 
 const checkRedundancy = (content) => {
@@ -72,9 +73,6 @@ const checkRedundancy = (content) => {
       }
     }
   })
-
-  console.log('all ' + propertyKeys.toString())
-  console.log(propertyKeys.filter(propertyKey => propertyKey.occurrence > 1).toString())
   return propertyKeys.filter(propertyKey => propertyKey.occurrence > 1)
 }
 

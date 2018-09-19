@@ -33,7 +33,10 @@ const options = commandLineArgs(sections[1].optionList)
 
 const run = (options) => {
   if (options.src != null) {
-    return findRedundantProperties(options.src)
+    let duplicatedPropertyKeys = findRedundantProperties(options.src)
+    if (duplicatedPropertyKeys != null) {
+      console.log(duplicatedPropertyKeys.toString())
+    }
   } else {
     console.log(commandLineUsage(sections))
   }
