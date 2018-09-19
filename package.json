@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest ./src/",
     "dist": "standard src/**/*.js && ./node_modules/.bin/babel src --out-dir build",
-    "start": "node ./build/index"
+    "start": "node ./build/cli"
   },
   "keywords": [
     "JSON",

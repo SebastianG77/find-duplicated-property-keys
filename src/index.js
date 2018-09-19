@@ -2,8 +2,7 @@ import fs from 'fs'
 import isJSON from 'is-json'
 import { PropertyKey, findPropertyKeyInArray } from './propertykey'
 
-export const findRedundantProperties = () => {
-  let jsonFile = `./assets/test.json`
+export const findRedundantProperties = (jsonFile) => {
   if (fs.existsSync(jsonFile)) {
     let content = fs.readFileSync(jsonFile).toString()
     // let content = '{"aa,aa":"o,bja","b":["0","1","1,b","1c","1d", "2"],"b":1, "c":{"d":"some object"}}'
@@ -103,5 +102,3 @@ const formatKey = (unformattedKey) => {
   }
   return null
 }
-
-findRedundantProperties()
