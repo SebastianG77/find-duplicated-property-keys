@@ -2,7 +2,7 @@ import path from 'path'
 import appRoot from 'app-root-path'
 
 import { PropertyKey } from '../propertykey'
-import { findRedundantProperties } from '../index'
+import { findDuplicatedProperties } from '../index'
 
 const { describe, expect, it } = global
 
@@ -10,14 +10,14 @@ let appRootPath = appRoot.toString()
 
 describe(`Validate a JSON file that does not contain any duplicates`, () => {
   it(`returns an empty list`, () => {
-    let duplicatedProperties = findRedundantProperties(path.join(appRootPath, `./assets/test_files/valid_JSON_file.json`))
+    let duplicatedProperties = findDuplicatedProperties(path.join(appRootPath, `./assets/test_files/valid_JSON_file.json`))
     expect(duplicatedProperties).toHaveLength(0)
   })
 })
 
 describe(`Property <instance>.name is duplicated`, () => {
   it(`returns the expected property object`, () => {
-    let duplicatedProperties = findRedundantProperties(path.join(appRootPath, `./assets/test_files/one_duplicated_string.json`))
+    let duplicatedProperties = findDuplicatedProperties(path.join(appRootPath, `./assets/test_files/one_duplicated_string.json`))
     comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `name`], 2)])
   })
 })

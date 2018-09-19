@@ -1,7 +1,7 @@
 import commandLineArgs from 'command-line-args'
 import commandLineUsage from 'command-line-usage'
 
-import { findRedundantProperties } from './index'
+import { findDuplicatedProperties } from './index'
 
 const sections = [
   {
@@ -33,7 +33,7 @@ const options = commandLineArgs(sections[1].optionList)
 
 const runCli = (options) => {
   if (options.src != null) {
-    let duplicatedPropertyKeys = findRedundantProperties(options.src)
+    let duplicatedPropertyKeys = findDuplicatedProperties(options.src)
     if (duplicatedPropertyKeys != null) {
       console.log(duplicatedPropertyKeys.toString())
     }
