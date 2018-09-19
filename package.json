@@ -17,6 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
+    "app-root-path": "^2.1.0",
     "command-line-args": "^5.0.2",
     "command-line-usage": "^5.0.5",
     "is-json": "^2.0.1"

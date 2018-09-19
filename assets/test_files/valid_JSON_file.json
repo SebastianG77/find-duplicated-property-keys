@@ -1,0 +1,30 @@
+{
+  "name": "Me",
+  "myObject": {
+    "isBoolean": true,
+    "mySecondObject": {
+      "year": 2018,
+      "good_years": [
+        1987,
+        1998,
+        2009,
+        2018
+      ]
+    },
+    "truthArray": [
+      true,
+      false,
+      true
+    ]
+  },
+  "weight": 50.5,
+  "friends": [
+    "you",
+    "he",
+    "she",
+    "it"
+  ],
+  "pets": [
+    "dog"
+  ]
+}
