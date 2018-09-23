@@ -1,0 +1,14 @@
+{
+    "myObject": {
+        "mySecondObject": {
+            "pets": [
+                "dog",
+                "cat"
+            ],
+            "pets": [
+                "pig",
+                "cat"
+            ]
+        }
+    }
+}

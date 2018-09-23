@@ -120,7 +120,7 @@ describe(`One string property is contained by an object Object which is also con
 
 describe(`One array of string porperty is contained by an object Object which is also contained by another object`, () => {
   it(`returns the expected property object`, () => {
-    let duplicatedProperties = findDuplicatedProperties(path.join(appRootPath, `./assets/test_files/one_duplicated_array_of_string_deep_within_an_object.json`))
+    let duplicatedProperties = findDuplicatedProperties(path.join(appRootPath, `./assets/test_files/one_duplicated_array_deep_within_an_object.json`))
     comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `myObject`, `mySecondObject`, `pets`], 2)])
   })
 })
