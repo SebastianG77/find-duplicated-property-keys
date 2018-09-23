@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest ./src/ --coverage",
-    "dist": "standard src/**/*.js && ./node_modules/.bin/babel src --out-dir build",
+    "dist": "standard src/**/*.js && yarn test && ./node_modules/.bin/babel src --out-dir build",
     "start": "node ./build/cli"
   },
   "keywords": [
