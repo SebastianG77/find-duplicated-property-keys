@@ -1,0 +1,9 @@
+{
+    "myObject": {
+        "isBoolean": true
+    },
+    "myObject": {
+        "isBoolean": true,
+        "isBoolean": false
+    }
+}

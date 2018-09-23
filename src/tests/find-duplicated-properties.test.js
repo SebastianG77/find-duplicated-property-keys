@@ -85,6 +85,13 @@ describe(`Object property <instance>.myObject is duplicated and both properties 
   })
 })
 
+describe(`Object property <instance>.myObject is duplicated and one property also has a duplicated boolean property`, () => {
+  it(`returns the expected property object`, () => {
+    let duplicatedProperties = findDuplicatedProperties(path.join(appRootPath, `./assets/test_files/one_duplicated_object_with_duplication_in_one_object.json`))
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `myObject`], 2), createPropertyKey([`<instance>`, `myObject`, `isBoolean`], 2)])
+  })
+})
+
 const createPropertyKey = (propertyPath, occurrence) => {
   let propertyKey = PropertyKey()
   propertyKey.propertyPath = propertyPath
@@ -97,6 +104,7 @@ const comparePropertyKeyArrays = (result, expected) => {
   result.forEach(resultValue => {
     expect(expected.filter(expectedValue => (
       resultValue.occurrence === expectedValue.occurrence &&
+      expectedValue.propertyPath.length === resultValue.propertyPath.length &&
       expectedValue.propertyPath.every((property, index) => (
         property === resultValue.propertyPath[index]
       ))))).toHaveLength(1)
