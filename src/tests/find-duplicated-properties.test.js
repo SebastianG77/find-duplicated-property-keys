@@ -52,7 +52,7 @@ describe(`Boolean property <instance>.isBoolean is duplicated`, () => {
 
 describe(`Array of string property <instance>.pets is duplicated`, () => {
   it(`returns the expected property object`, () => {
-    let duplicatedProperties = findDuplicatedProperties(path.join(appRootPath, `./assets/test_files/one_duplicated_array.json`))
+    let duplicatedProperties = findDuplicatedProperties(path.join(appRootPath, `./assets/test_files/one_duplicated_array_of_string.json`))
     comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `pets`], 2)])
   })
 })
