@@ -1,6 +1,6 @@
 import fs from 'fs'
 import isJSON from 'is-json'
-import { PropertyKey, findPropertyKeyInArray } from './propertykey'
+import { PropertyKey, findPropertyKeysInArray } from './propertykey'
 
 export const findDuplicatedProperties = (jsonFile) => {
   if (fs.existsSync(jsonFile)) {
@@ -33,7 +33,7 @@ const checkRedundancy = (content) => {
   *
   */
   let splittedContent = formattedContent.split(/\{(?=(?:[^"]|"[^"]*")*$)|,(?=(?:[^"]|"[^"]*")*$)/)
-  let parentStack = [PropertyKey([`<instance>`])]
+  let parentStack = [PropertyKey(`<instance>`, null)]
   let propertyKeys = []
   splittedContent.forEach(keyValuePair => {
     /*
@@ -53,19 +53,19 @@ const checkRedundancy = (content) => {
         return null
       }
 
-      let currentPropertyKey = PropertyKey(parentStack[parentStack.length - 1].propertyPath.concat([formattedKey]))
-      let propertyKeyInArray = findPropertyKeyInArray(propertyKeys, currentPropertyKey)
-      let finalPropertyKey
-      if (propertyKeyInArray === null) {
-        finalPropertyKey = currentPropertyKey
-        propertyKeys.push(finalPropertyKey)
+      let parent = parentStack[parentStack.length - 1]
+      let currentPropertyKey = PropertyKey(formattedKey, parent)
+      let propertyKeysInArray = findPropertyKeysInArray(propertyKeys, currentPropertyKey)
+      if (propertyKeysInArray.length === 0) {
+        propertyKeys.push(currentPropertyKey)
+      } else if (propertyKeysInArray.length === 1) {
+        propertyKeysInArray[0].occurrence++
       } else {
-        propertyKeyInArray.occurrence++
-        finalPropertyKey = propertyKeyInArray
+        console.log(`Error: Property ${currentPropertyKey.toString()} occurs multiple times in propertyKeys.`)
       }
 
       if (splitByColon[1].trim() === (``)) {
-        parentStack.push(finalPropertyKey)
+        parentStack.push(currentPropertyKey)
       }
 
       if (splitByColon[1].trim().endsWith(`}`)) {

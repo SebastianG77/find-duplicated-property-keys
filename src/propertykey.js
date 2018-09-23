@@ -1,29 +1,15 @@
-export const PropertyKey = (propertyPath) => {
+export const PropertyKey = (key, parent) => {
   let PropertyKey = {
-    propertyPath: propertyPath,
+    propertyPath: parent == null ? [key] : parent.propertyPath.concat([key]),
+    parent: parent,
     occurrence: 1,
     toString: () => { return PropertyKey.propertyPath.join(`.`) }
   }
   return PropertyKey
 }
 
-export const findPropertyKeyInArray = (propertyKeyArray, propertyKey) => {
-  for (let i = 0; i < propertyKeyArray.length; i++) {
-    let propertyKeyItem = propertyKeyArray[i]
-    if (propertyKey.length === propertyKeyItem.length) {
-      let isEqual = true
-      let propertyKeyPath = propertyKey.propertyPath
-      let propertyKeyItemPath = propertyKeyItem.propertyPath
-      for (let j = 0; j < propertyKeyPath.length; j++) {
-        if (propertyKeyPath[j] !== propertyKeyItemPath[j]) {
-          isEqual = false
-          break
-        }
-      }
-      if (isEqual) {
-        return propertyKeyItem
-      }
-    }
-  }
-  return null
-}
+export const findPropertyKeysInArray = (propertyKeysArray, propertyKey) =>
+  propertyKeysArray.filter(propertyInArray => propertyInArray.parent === propertyKey.parent && propertyPathsAreEqual(propertyInArray.propertyPath, propertyKey.propertyPath))
+
+const propertyPathsAreEqual = (firstPropertyPath, secondPropertyPath) =>
+  firstPropertyPath.length === secondPropertyPath.length && firstPropertyPath.every((propertyKey, index) => propertyKey === secondPropertyPath[index])
