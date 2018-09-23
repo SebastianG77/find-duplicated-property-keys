@@ -1,5 +1,6 @@
 import commandLineArgs from 'command-line-args'
 import commandLineUsage from 'command-line-usage'
+import fs from 'fs'
 
 import { findDuplicatedProperties } from './index'
 
@@ -32,13 +33,19 @@ const sections = [
 const options = commandLineArgs(sections[1].optionList)
 
 const runCli = (options) => {
-  if (options.src != null) {
-    let duplicatedPropertyKeys = findDuplicatedProperties(options.src)
-    if (duplicatedPropertyKeys != null) {
-      console.log(duplicatedPropertyKeys.toString())
-    }
-  } else {
+  if (options == null || options.src == null) {
     console.log(commandLineUsage(sections))
+  } else {
+    let jsonFile = options.src
+    if (fs.existsSync(jsonFile)) {
+      let content = fs.readFileSync(jsonFile).toString()
+      let duplicatedPropertyKeys = findDuplicatedProperties(content)
+      if (duplicatedPropertyKeys != null) {
+        console.log(duplicatedPropertyKeys.toString())
+      }
+    } else {
+      throw new Error(`File ${jsonFile} does not exist.`)
+    }
   }
 }
 
