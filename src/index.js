@@ -7,12 +7,11 @@ export const findDuplicatedProperties = (jsonFile) => {
     if (isValidJSON(content)) {
       return checkRedundancy(content)
     } else {
-      console.log(`ERROR: File ${jsonFile} is no valid JSON file.`)
+      throw new Error(`File ${jsonFile} is no valid JSON file.`)
     }
   } else {
-    console.log(`ERROR: File ${jsonFile} does not exist.`)
+    throw new Error(`File ${jsonFile} does not exist.`)
   }
-  return null
 }
 
 const checkRedundancy = (content) => {
@@ -68,7 +67,7 @@ const checkRedundancy = (content) => {
       } else if (propertyKeysInArray.length === 1) {
         propertyKeysInArray[0].occurrence++
       } else {
-        console.log(`Error: Property ${currentPropertyKey.toString()} occurs multiple times in propertyKeys.`)
+        throw new Error(`Property ${currentPropertyKey.toString()} occurs multiple times in propertyKeys.`)
       }
 
       if (splitByColon[1].trim() === (``)) {
@@ -92,14 +91,13 @@ const formatKey = (unformattedKey) => {
   if (formattedKey.startsWith(`"`) && formattedKey.endsWith(`"`)) {
     formattedKey = formattedKey.substring(1, formattedKey.length - 1)
     if (formattedKey.trim() === ``) {
-      console.log(`Error: Key ${formattedKey} is empty`)
+      throw new Error(`Key ${formattedKey} is empty`)
     } else {
       return formattedKey
     }
   } else {
-    console.log(`Error: Key ${formattedKey} is not wrapped by ""`)
+    throw new Error(`Key ${formattedKey} is not wrapped by ""`)
   }
-  return null
 }
 
 const isValidJSON = (content) => {
