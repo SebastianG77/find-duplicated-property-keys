@@ -32,7 +32,7 @@ const checkRedundancy = (content) => {
   *
   */
   let splittedContent = formattedContent.split(/\{(?=(?:[^"]|"[^"]*")*$)|,(?=(?:[^"]|"[^"]*")*$)/)
-  let parentStack = [PropertyKey(`<instance>`, null)]
+  let parentStack = []
   let propertyKeys = []
   splittedContent.forEach(keyValuePair => {
     /*
@@ -50,6 +50,15 @@ const checkRedundancy = (content) => {
       let formattedKey = formatKey(splitByColon[0])
       if (formattedKey === null) {
         return null
+      }
+
+      if (parentStack.length === 0) {
+        /*
+        * If the parents stack is empty we add a dummy parent '<instance>' to indicate the parent of the
+        * property  is the root. Note: If the root is an array instead of an ordinary object, this if
+        * statement may be passed multiple times.
+        */
+        parentStack.push(PropertyKey(`<instance>`, null))
       }
 
       let parent = parentStack[parentStack.length - 1]
@@ -76,13 +85,7 @@ const checkRedundancy = (content) => {
 }
 
 const initContent = (content) => {
-  let trimmedContent = content.trim()
-  if (trimmedContent.startsWith(`{`) && trimmedContent.endsWith(`}`)) {
-    return trimmedContent.substring(1, trimmedContent.length - 1).trim()
-  } else {
-    console.log(`Error: JSON Object is not wrapped by { }`)
-  }
-  return null
+  return content.trim()
 }
 
 const formatKey = (unformattedKey) => {
