@@ -99,6 +99,6 @@ const comparePropertyKeyArrays = (result, expected) => {
       resultValue.occurrence === expectedValue.occurrence &&
       expectedValue.propertyPath.every((property, index) => (
         property === resultValue.propertyPath[index]
-      )))).length).toBe(1)
+      ))))).toHaveLength(1)
   })
 }
