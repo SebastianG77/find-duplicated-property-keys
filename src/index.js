@@ -1,12 +1,11 @@
 import fs from 'fs'
-import isJSON from 'is-json'
 import { PropertyKey, findPropertyKeysInArray } from './propertykey'
 
 export const findDuplicatedProperties = (jsonFile) => {
   if (fs.existsSync(jsonFile)) {
     let content = fs.readFileSync(jsonFile).toString()
     // let content = '{"aa,aa":"o,bja","b":["0","1","1,b","1c","1d", "2"],"b":1, "c":{"d":"some object"}}'
-    if (isJSON(content)) {
+    if (isValidJSON(content)) {
       return checkRedundancy(content)
     } else {
       console.log(`ERROR: File ${jsonFile} is no valid JSON file.`)
@@ -99,4 +98,13 @@ const formatKey = (unformattedKey) => {
     console.log(`Error: Key ${formattedKey} is not wrapped by ""`)
   }
   return null
+}
+
+const isValidJSON = (content) => {
+  try {
+    JSON.parse(content)
+  } catch (err) {
+    return false
+  }
+  return true
 }
