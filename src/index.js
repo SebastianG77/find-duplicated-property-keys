@@ -20,7 +20,9 @@ const checkRedundancy = (content) => {
   * these values should not make any problems.
   *
   */
-  let splittedContent = formattedContent.split(/\{(?=(?:[^"]|"[^"]*")*$)|,(?=(?:[^"]|"[^"]*")*$)/)
+  // let splittedContent = formattedContent.split(/\{(?=(?:[^"]|"[^"]*")*$)|,(?=(?:[^"]|"[^"]*")*$)/)
+  let splittedContent = formattedContent.match(/(?:[^"]|"[^"]*"\s*):\s*(?:[^"]|"[^"]*"\s*)|true|false|\[.*]|\d(?:\.\d)?\s*(?:,|{|})/g)
+  console.log('splittedcontent ' + splittedContent)
   let parentStack = []
   let propertyKeys = []
   splittedContent.forEach(keyValuePair => {
@@ -58,7 +60,7 @@ const checkRedundancy = (content) => {
         throw new Error(`Property ${currentPropertyKey.toString()} occurs multiple times in propertyKeys.`)
       }
 
-      if (splitByColon[1].trim() === (``)) {
+      if (splitByColon[1].trim() === (`{`)) {
         parentStack.push(currentPropertyKey)
       }
 
