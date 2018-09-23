@@ -16,9 +16,6 @@ export const findDuplicatedProperties = (jsonFile) => {
 
 const checkRedundancy = (content) => {
   let formattedContent = initContent(content)
-  if (formattedContent === null) {
-    return null
-  }
 
   /*
   * Regex for splitting by , or } characters which are not contained by quotes. Regex bases on the
@@ -46,9 +43,6 @@ const checkRedundancy = (content) => {
     */
     if (splitByColon.length >= 2) {
       let formattedKey = formatKey(splitByColon[0])
-      if (formattedKey === null) {
-        return null
-      }
 
       if (parentStack.length === 0) {
         /*
