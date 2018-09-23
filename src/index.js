@@ -4,7 +4,6 @@ import { PropertyKey, findPropertyKeysInArray } from './propertykey'
 export const findDuplicatedProperties = (jsonFile) => {
   if (fs.existsSync(jsonFile)) {
     let content = fs.readFileSync(jsonFile).toString()
-    // let content = '{"aa,aa":"o,bja","b":["0","1","1,b","1c","1d", "2"],"b":1, "c":{"d":"some object"}}'
     if (isValidJSON(content)) {
       return checkRedundancy(content)
     } else {
