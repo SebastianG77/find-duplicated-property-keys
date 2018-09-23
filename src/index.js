@@ -1,16 +1,10 @@
-import fs from 'fs'
 import { PropertyKey, findPropertyKeysInArray } from './propertykey'
 
-export const findDuplicatedProperties = (jsonFile) => {
-  if (fs.existsSync(jsonFile)) {
-    let content = fs.readFileSync(jsonFile).toString()
-    if (isValidJSON(content)) {
-      return checkRedundancy(content)
-    } else {
-      throw new Error(`File ${jsonFile} is no valid JSON file.`)
-    }
+export const findDuplicatedProperties = (content) => {
+  if (isValidJSON(content)) {
+    return checkRedundancy(content)
   } else {
-    throw new Error(`File ${jsonFile} does not exist.`)
+    throw new Error(`Input is no valid JSON file.`)
   }
 }
 
