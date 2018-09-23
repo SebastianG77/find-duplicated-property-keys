@@ -57,6 +57,13 @@ describe(`Array of string property <instance>.pets is duplicated`, () => {
   })
 })
 
+describe(`Array of integer property <instance>.good_years is duplicated`, () => {
+  it(`returns the expected property object`, () => {
+    let duplicatedProperties = findDuplicatedProperties(path.join(appRootPath, `./assets/test_files/one_duplicated_array_of_integer.json`))
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `good_years`], 2)])
+  })
+})
+
 describe(`Object property <instance>.myObject is duplicated`, () => {
   it(`returns the expected property object`, () => {
     let duplicatedProperties = findDuplicatedProperties(path.join(appRootPath, `./assets/test_files/one_duplicated_object.json`))
@@ -133,11 +140,16 @@ describe(`Root is a valid array`, () => {
 })
 
 describe(`Root is a an array but one of the objects contained by the array contains a duplicated string property`, () => {
-  it(`returns an empty list`, () => {
+  it(`returns the expected property object`, () => {
     let duplicatedProperties = findDuplicatedProperties(path.join(appRootPath, `./assets/test_files/root_is_an_array_and_one_contains_a_duplicated_string.json`))
-    console.log('duplciatedproperties ' + duplicatedProperties[0].toString())
-
     comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `name`], 2)])
+  })
+})
+
+describe(`Root is a an array but one of the objects contained by the array contains a duplicated string property whereas the other one contains a duplicated array of strings`, () => {
+  it(`returns the expected property objects`, () => {
+    let duplicatedProperties = findDuplicatedProperties(path.join(appRootPath, `./assets/test_files/root_is_an_array_and_both_contain_a_duplicated_property.json`))
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `name`], 2), createPropertyKey([`<instance>`, `pets`], 2)])
   })
 })
 

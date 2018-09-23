@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Me",
+        "name": "You"
+    },
+    {
+        "pets": [
+            "dog",
+            "cat"
+        ],
+        "pets": [
+            "pig",
+            "cow"
+        ]
+    }
+]
