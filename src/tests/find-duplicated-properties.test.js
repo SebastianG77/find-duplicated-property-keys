@@ -92,6 +92,55 @@ describe(`Object property <instance>.myObject is duplicated and one property als
   })
 })
 
+describe(`Object property <instance>.myObject is duplicated and both properties also have a duplicated boolean property`, () => {
+  it(`returns the expected property objects`, () => {
+    let duplicatedProperties = findDuplicatedProperties(path.join(appRootPath, `./assets/test_files/one_duplicated_object_with_duplication_in_both_objects.json`))
+    let expectedResultValues = returnExpectedResultValues(duplicatedProperties, [createPropertyKey([`<instance>`, `myObject`], 2), createPropertyKey([`<instance>`, `myObject`, `isBoolean`], 2), createPropertyKey([`<instance>`, `myObject`, `isBoolean`], 2)])
+    expect(expectedResultValues).toHaveLength(3)
+    expectedResultValues.forEach(expectedResultValue =>
+      expect(expectedResultValue).toHaveLength(expectedResultValue.every(expectedResult => expectedResult.propertyPath.every(property =>
+        [`<instance>`, `myObject`].includes(property))) ? 1 : 2)
+    )
+  })
+})
+
+describe(`One string property is contained by an object Object which is also contained by another object`, () => {
+  it(`returns the expected property object`, () => {
+    let duplicatedProperties = findDuplicatedProperties(path.join(appRootPath, `./assets/test_files/one_duplicated_string_deep_within_an_object.json`))
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `myObject`, `mySecondObject`, `name`], 2)])
+  })
+})
+
+describe(`One array of string porperty is contained by an object Object which is also contained by another object`, () => {
+  it(`returns the expected property object`, () => {
+    let duplicatedProperties = findDuplicatedProperties(path.join(appRootPath, `./assets/test_files/one_duplicated_array_of_string_deep_within_an_object.json`))
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `myObject`, `mySecondObject`, `pets`], 2)])
+  })
+})
+
+describe(`Root is duplicated`, () => {
+  it(`does not validate anything as an invalid file has been passed as argument`, () => {
+    let duplicatedProperties = findDuplicatedProperties(path.join(appRootPath, `./assets/test_files/root_is_duplicated.json`))
+    expect(duplicatedProperties).toBeNull()
+  })
+})
+
+describe(`Root is a valid array`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedProperties(path.join(appRootPath, `./assets/test_files/root_is_an_array.json`))
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe(`Root is a an array but one of the objects contained by the array contains a duplicated string property`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedProperties(path.join(appRootPath, `./assets/test_files/root_is_an_array_and_one_contains_a_duplicated_string.json`))
+    console.log('duplciatedproperties ' + duplicatedProperties[0].toString())
+
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `name`], 2)])
+  })
+})
+
 const createPropertyKey = (propertyPath, occurrence) => {
   let propertyKey = PropertyKey()
   propertyKey.propertyPath = propertyPath
@@ -100,13 +149,23 @@ const createPropertyKey = (propertyPath, occurrence) => {
 }
 
 const comparePropertyKeyArrays = (result, expected) => {
+  let expectedResultValues = returnExpectedResultValues(result, expected)
+
+  expectedResultValues.forEach(expectedResultValue => {
+    expect(expectedResultValue).toHaveLength(1)
+  })
+}
+
+const returnExpectedResultValues = (result, expected) => {
+  let expectedResultValues = []
   expect(result).toHaveLength(expected.length)
   result.forEach(resultValue => {
-    expect(expected.filter(expectedValue => (
+    expectedResultValues.push(expected.filter(expectedValue => (
       resultValue.occurrence === expectedValue.occurrence &&
       expectedValue.propertyPath.length === resultValue.propertyPath.length &&
       expectedValue.propertyPath.every((property, index) => (
         property === resultValue.propertyPath[index]
-      ))))).toHaveLength(1)
+      )))))
   })
+  return expectedResultValues
 }
