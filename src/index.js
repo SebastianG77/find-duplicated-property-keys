@@ -21,7 +21,7 @@ const checkRedundancy = (content) => {
   *
   */
   // let splittedContent = formattedContent.split(/\{(?=(?:[^"]|"[^"]*")*$)|,(?=(?:[^"]|"[^"]*")*$)/)
-  let splittedContent = formattedContent.match(/(?:[^"]|"[^"]*"\s*):\s*(?:[^"]|"[^"]*"\s*)|true|false|\[.*]|\d(?:\.\d)?\s*(?:,|{|})/g)
+  let splittedContent = formattedContent.match(/((?:[^"]|"[^"]*"\s*)):\s(?:(?:[^"]|"[^"]*"\s*)|\btrue\b|\bfalse\b|\[[^\]]*]|\d*(?:\.\d)?)\s*(?:,|{|})/g)
   console.log('splittedcontent ' + splittedContent)
   let parentStack = []
   let propertyKeys = []
