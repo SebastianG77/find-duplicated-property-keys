@@ -171,7 +171,7 @@ describe(`String property <instance>.name is duplicated and contains a comma wit
 describe(`String property <instance>.name is duplicated and contains a comma within its key`, () => {
   it(`returns the expected property object`, () => {
     let duplicatedProperties = findDuplicatedProperties(readFile(path.join(appRootPath, `./assets/test_files/one_duplicated_string_with_comma_key.json`)))
-    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `name`], 2)])
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `firstname, lastname`], 2)])
   })
 })
 
@@ -193,7 +193,6 @@ const createPropertyKey = (propertyPath, occurrence) => {
 
 const comparePropertyKeyArrays = (result, expected) => {
   let expectedResultValues = returnExpectedResultValues(result, expected)
-
   expectedResultValues.forEach(expectedResultValue => {
     expect(expectedResultValue).toHaveLength(1)
   })
