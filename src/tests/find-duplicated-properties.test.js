@@ -210,6 +210,20 @@ describe(`Validate a JSON file that has an array whose second object contains a 
   })
 })
 
+describe(`Validate a valid JSON file that containy an empty string property <instance>.`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedProperties(readFile(path.join(appRootPath, `./assets/test_files/valid_JSON_with_string_for_empty_property_key.json`)))
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe(`Empty string property <instance>. is duplicated`, () => {
+  it(`returns the expected property object`, () => {
+    let duplicatedProperties = findDuplicatedProperties(readFile(path.join(appRootPath, `./assets/test_files/one_duplicated_string_for_empty_property_key.json`)))
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, ``], 2)])
+  })
+})
+
 const readFile = (fileName) => (fs.readFileSync(fileName).toString())
 
 const createPropertyKey = (propertyPath, occurrence) => {
