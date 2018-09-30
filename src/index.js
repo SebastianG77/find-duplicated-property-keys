@@ -39,10 +39,7 @@ const checkRedundancy = (content) => {
         throw new Error(`Property ${currentPropertyKey.toString()} occurs multiple times in propertyKeys.`)
       }
 
-      /*
-       * Value is {
-       */
-      if (value.endsWith(`{`) || value.endsWith(`[`)) {
+      if (value === `{` || value === `[`) {
         parentStack.push(currentPropertyKey)
       }
 
