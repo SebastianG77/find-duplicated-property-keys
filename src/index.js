@@ -15,7 +15,7 @@ const checkRedundancy = (content) => {
   let parentStack = []
   let propertyKeys = []
   splittedContent.forEach(keyValuePair => {
-    console.log('keyValuePair ' + keyValuePair.key + ' ' + keyValuePair.key.endsWith(':') + ' myvalue ' + keyValuePair.value + ' parentstacksize ' + parentStack.map(parent => parent.propertyKey).toString())
+    console.log('keyValuePair ' + keyValuePair.key + ' ' + keyValuePair.key.endsWith(':') + ' myvalue ' + keyValuePair.value + ' parentstacksize ' + parentStack.toString())
 
     let unformattedKey = keyValuePair.key
     let value = keyValuePair.value
