@@ -56,7 +56,7 @@ const checkRedundancy = (content) => {
         * itself has to be checked for duplicates. Hence we add the array index to the parent stack but do not
         * add the key to propertyKeys.
         */
-        if (value.endsWith(`,`) || (value === '{' && unformattedKey.substring(1, unformattedKey.length - 1) > 0)) {
+        if (value.endsWith(`,`)) {
           parentStack.pop()
         }
 
