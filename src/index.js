@@ -19,13 +19,13 @@ const checkRedundancy = (content) => {
 
     let unformattedKey = keyValuePair.key
     let value = keyValuePair.value
+    
+    addInstanceParentToStackIfNecessary(parentStack)
 
     /*
      * If the key does not have a : it must be an array key.
     */
     if (unformattedKey.endsWith(':')) {
-      addInstanceParentToStackIfNecessary(parentStack)
-
       let formattedKey = formatKey(unformattedKey)
 
       let parent = parentStack[parentStack.length - 1]
@@ -59,8 +59,6 @@ const checkRedundancy = (content) => {
         if (value.endsWith(`,`)) {
           parentStack.pop()
         }
-
-        addInstanceParentToStackIfNecessary(parentStack)
         let currentPropertyKey = PropertyKey(unformattedKey, parentStack[parentStack.length - 1])
         parentStack.push(currentPropertyKey)
       } else if (value.endsWith(']')) {
