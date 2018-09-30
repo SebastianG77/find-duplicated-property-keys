@@ -140,16 +140,15 @@ const manualSplit = (content) => {
 }
 
 const formatKey = (unformattedKey) => {
-  let formattedKey = unformattedKey.trim()
-  if (formattedKey.startsWith(`"`) && formattedKey.endsWith(`":`)) {
-    formattedKey = formattedKey.substring(1, formattedKey.length - 2)
+  if (unformattedKey.startsWith(`"`) && unformattedKey.endsWith(`":`)) {
+    let formattedKey = unformattedKey.substring(1, unformattedKey.length - 2)
     if (formattedKey.trim() === ``) {
       throw new Error(`Key ${formattedKey} is empty`)
     } else {
       return formattedKey
     }
   } else {
-    throw new Error(`Key ${formattedKey} is not wrapped by ""`)
+    throw new Error(`Key ${unformattedKey} is not wrapped by ""`)
   }
 }
 
