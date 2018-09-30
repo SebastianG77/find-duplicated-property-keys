@@ -24,14 +24,7 @@ const checkRedundancy = (content) => {
      * If the key does not have a : it must be an array key.
     */
     if (unformattedKey.endsWith(':')) {
-      if (parentStack.length === 0) {
-        /*
-        * If the parents stack is empty we add a dummy parent '<instance>' to indicate the parent of the
-        * property  is the root. Note: If the root is an array instead of an ordinary object, this if
-        * statement may be passed multiple times.
-        */
-        parentStack.push(PropertyKey(`<instance>`, null))
-      }
+      addInstanceParentToStackIfNecessary(parentStack)
 
       let formattedKey = formatKey(unformattedKey)
 
@@ -61,25 +54,16 @@ const checkRedundancy = (content) => {
       }
     } else {
       if (value === `[` || (value.endsWith(`,`) && value !== (`,`)) || value === `{`) {
-        if (value.endsWith(`,`) || value === '{') {
-          parentStack.pop()
-        }
-
-        if (parentStack.length === 0) {
-          /*
-          * If the parents stack is empty we add a dummy parent '<instance>' to indicate the parent of the
-          * property  is the root. Note: If the root is an array instead of an ordinary object, this if
-          * statement may be passed multiple times.
-          */
-          parentStack.push(PropertyKey(`<instance>`, null))
-        }
-
         /*
         * Array values may contain duplicates. However, if an array value contains an object, the object
         * itself has to be checked for duplicates. Hence we add the array index to the parent stack but do not
         * add the key to propertyKeys.
         */
+        if (value.endsWith(`,`) || value === '{') {
+          parentStack.pop()
+        }
 
+        addInstanceParentToStackIfNecessary(parentStack)
         let currentPropertyKey = PropertyKey(unformattedKey, parentStack[parentStack.length - 1])
         parentStack.push(currentPropertyKey)
       } else if (value.endsWith(']')) {
@@ -92,6 +76,17 @@ const checkRedundancy = (content) => {
 
 const initContent = (content) => {
   return content.trim()
+}
+
+const addInstanceParentToStackIfNecessary = (parentStack) => {
+  if (parentStack.length === 0) {
+    /*
+    * If the parents stack is empty we add a dummy parent '<instance>' to indicate the parent of the
+    * property  is the root. Note: If the root is an array instead of an ordinary object, this if
+    * statement may be passed multiple times.
+    */
+    parentStack.push(PropertyKey(`<instance>`, null))
+  }
 }
 
 const manualSplit = (content) => {
