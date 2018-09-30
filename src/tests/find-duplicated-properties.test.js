@@ -196,6 +196,13 @@ describe(`Validate a JSON file that has an array with duplicated object values`,
   })
 })
 
+describe(`Validate a JSON file that has an array object with duplicated property keys`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedProperties(readFile(path.join(appRootPath, `./assets/test_files/one_duplicated_property_key_in_array_object.json`)))
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `pets`, `[0]`, `name`], 2)])
+  })
+})
+
 const readFile = (fileName) => (fs.readFileSync(fileName).toString())
 
 const createPropertyKey = (propertyPath, occurrence) => {

@@ -56,7 +56,7 @@ const checkRedundancy = (content) => {
         * itself has to be checked for duplicates. Hence we add the array index to the parent stack but do not
         * add the key to propertyKeys.
         */
-        if (value.endsWith(`,`) || value === '{') {
+        if (value.endsWith(`,`) || (value === '{' && unformattedKey.substring(1, unformattedKey.length - 1) > 0)) {
           parentStack.pop()
         }
 
@@ -111,8 +111,8 @@ const manualSplit = (content) => {
             let currentValue = content.substring(lastSubStringEnding, newSubStringEnding).trim()
             if (currentChar === `[`) {
               arrayStack.push(0)
-            }
-            if (currentKey === undefined) {
+              rawCurrentKey = currentKey
+            } else if (currentKey === undefined) {
               if (currentChar === `,`) {
                 arrayStack[arrayStack.length - 1]++
               }
