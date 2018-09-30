@@ -46,7 +46,7 @@ const checkRedundancy = (content) => {
       /*
        * Value is of any type but followed by a } instead of a ,
        */
-      if ((value.endsWith(`}`)) || value.endsWith(`]`)) {
+      if (value.endsWith(`}`) || value.endsWith(`]`)) {
         parentStack.pop()
       }
     } else {
