@@ -41,7 +41,7 @@ const runCli = (options) => {
       let content = fs.readFileSync(jsonFile).toString()
       let duplicatedPropertyKeys = findDuplicatedProperties(content)
       if (duplicatedPropertyKeys != null) {
-        console.log('result ' + duplicatedPropertyKeys.toString())
+        console.log(duplicatedPropertyKeys.toString())
       }
     } else {
       throw new Error(`File ${jsonFile} does not exist.`)
