@@ -11,49 +11,14 @@ export const findDuplicatedProperties = (content) => {
 const checkRedundancy = (content) => {
   let formattedContent = initContent(content)
 
-  /*
-  * Regex for splitting by , or } characters which are not contained by quotes. Regex bases on the
-  * answer to this question: https://stackoverflow.com/a/632552. The split function also returns
-  * undefined values an and comma strings. So we just remove them as they are not needed.
-  * Since also arrays may contain commas, this split will also return some invalid array entries
-  * which are part of a subarray. However these invalid values will get filtered out later anyway, so
-  * these values should not make any problems.
-  *
-  */
-  // let splittedContent = formattedContent.split(/\{(?=(?:[^"]|"[^"]*")*$)|,(?=(?:[^"]|"[^"]*")*$)/)
-  // TODO: ["blabla\]"] ist ungueltig
-  // let splittedContent = formattedContent.match(/"(?:[^"]|(?<=\\)")*"\s*:\s(?:"(?:[^"]|(?<=\\)")*"|\btrue\b|\bfalse\b|\[[\S\s]*?]|\d*(\.\d)?)\s*(?:,|{|})/g)
-  // splittedContent = splittedContent.filter(split => split !== undefined)
   let splittedContent = manualSplit(formattedContent)
-  // console.log('splittedContent ' + splittedContent.map(split => 'key ' + split.key + ' value ' + split.value))
   let parentStack = []
   let propertyKeys = []
   splittedContent.forEach(keyValuePair => {
     console.log('keyValuePair ' + keyValuePair.key + ' ' + keyValuePair.key.endsWith(':') + ' myvalue ' + keyValuePair.value + ' parentstacksize ' + parentStack.map(parent => parent.propertyKey).toString())
 
-    /*
-    * Regex for splitting by colons which are not contained by quotes. Regex has bases on this
-    * answer https://stackoverflow.com/a/632552.
-    *
-    */
-    // let formattedKeyValuePair = keyValuePair.trim()
-    // let unformattedKey = formattedKeyValuePair.match(/"(?:[^"]|(?<=\\)")*"\s*:/)
     let unformattedKey = keyValuePair.key
     let value = keyValuePair.value
-    /*
-    * If the length of the returned array is less than 2, we have an invalid split value, that is the result
-    * of an arry. Since we are not intersted in the property values we simply ignore these entries.
-    */
-    // if (unformattedKey.length >= 1) {
-
-    //  if (parentStack.length === 0) {
-    /*
-    * If the parents stack is empty we add a dummy parent '<instance>' to indicate the parent of the
-    * property  is the root. Note: If the root is an array instead of an ordinary object, this if
-    * statement may be passed multiple times.
-    */
-    //  parentStack.push({ propertyKey: PropertyKey(`<instance>`, null), isArray: false })
-    // }
 
     /*
      * If the key does not have a : it must be an array key.
@@ -94,10 +59,6 @@ const checkRedundancy = (content) => {
       if ((value.endsWith(`}`)) || value.endsWith(`]`)) {
         parentStack.pop()
       }
-      // } else {
-      //  throw new Error(`No key found for ${keyValuePair.toString()}.`)
-
-      // }
     } else {
       if (value === `[` || (value.endsWith(`,`) && value !== (`,`)) || value === `{`) {
         if (value.endsWith(`,`) || value === '{') {
@@ -120,14 +81,12 @@ const checkRedundancy = (content) => {
         */
 
         let currentPropertyKey = PropertyKey(unformattedKey, parentStack[parentStack.length - 1])
-        console.log('parentstacklength ' + parentStack.length + ' unformattedkey ' + unformattedKey)
         parentStack.push(currentPropertyKey)
       } else if (value.endsWith(']')) {
         parentStack.pop()
       }
     }
   })
-  // console.log('result ' + propertyKeys.filter(propertyKey => propertyKey.occurrence > 1))
   return propertyKeys.filter(propertyKey => propertyKey.occurrence > 1)
 }
 
@@ -194,7 +153,6 @@ const formatKey = (unformattedKey) => {
     formattedKey = formattedKey.substring(1, formattedKey.length)
     formattedKey = formattedKey.trim()
   }
-  // console.log('myformatedkey ' + formattedKey + ' starts ' + formattedKey.startsWith(`"`) + ' ends ' + formattedKey.endsWith(`":`))
   if (formattedKey.startsWith(`"`) && formattedKey.endsWith(`":`)) {
     formattedKey = formattedKey.substring(1, formattedKey.length - 2)
     if (formattedKey.trim() === ``) {
