@@ -140,7 +140,7 @@ describe(`Root is a valid array`, () => {
   })
 })
 
-describe(`Root is a an array but one of the objects contained by the array contains a duplicated string propertyxx`, () => {
+describe(`Root is a an array but one of the objects contained by the array contains a duplicated string property`, () => {
   it(`returns the expected property object`, () => {
     let duplicatedProperties = findDuplicatedProperties(readFile(path.join(appRootPath, `./assets/test_files/root_is_an_array_and_one_contains_a_duplicated_string.json`)))
     comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `[1]`, `name`], 2)])
@@ -179,6 +179,20 @@ describe(`String property <instance>.name is duplicated and contains a quote wit
   it(`returns the expected property object`, () => {
     let duplicatedProperties = findDuplicatedProperties(readFile(path.join(appRootPath, `./assets/test_files/one_duplicated_string_with_quote_value.json`)))
     comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `name`], 2)])
+  })
+})
+
+describe(`Validate a JSON file that has an array with duplicated string values`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedProperties(readFile(path.join(appRootPath, `./assets/test_files/one_duplicated_string_in_array.json`)))
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe(`Validate a JSON file that has an array with duplicated object values`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedProperties(readFile(path.join(appRootPath, `./assets/test_files/one_duplicated_object_in_array.json`)))
+    expect(duplicatedProperties).toHaveLength(0)
   })
 })
 
