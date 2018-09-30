@@ -141,10 +141,6 @@ const manualSplit = (content) => {
 
 const formatKey = (unformattedKey) => {
   let formattedKey = unformattedKey.trim()
-  if (formattedKey.startsWith(`{`)) {
-    formattedKey = formattedKey.substring(1, formattedKey.length)
-    formattedKey = formattedKey.trim()
-  }
   if (formattedKey.startsWith(`"`) && formattedKey.endsWith(`":`)) {
     formattedKey = formattedKey.substring(1, formattedKey.length - 2)
     if (formattedKey.trim() === ``) {
