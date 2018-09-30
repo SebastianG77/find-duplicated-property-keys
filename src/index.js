@@ -19,7 +19,7 @@ const checkRedundancy = (content) => {
 
     let unformattedKey = keyValuePair.key
     let value = keyValuePair.value
-    
+
     addInstanceParentToStackIfNecessary(parentStack)
 
     /*
@@ -122,11 +122,10 @@ const manualSplit = (content) => {
             if (rawCurrentKey !== undefined) {
               keyValuePairs.push({ key: currentKey, value: currentValue })
             }
-
-            currentKey = undefined
             if (currentChar === ']') {
               arrayStack.pop()
             }
+            currentKey = undefined
             lastSubStringEnding = newSubStringEnding
           }
         }
