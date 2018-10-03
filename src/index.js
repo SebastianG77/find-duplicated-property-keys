@@ -85,7 +85,7 @@ const addInstanceParentToStackIfNecessary = (parentStack) => {
 }
 
 const manualSplit = (content) => {
-  let equalAmountOfQuotes = true
+  let evenAmountOfQuotes = true
   let isEscaped = false
   let lastSubStringEnding = 0
   let currentKey
@@ -97,10 +97,10 @@ const manualSplit = (content) => {
       isEscaped = !isEscaped
     } else {
       if (currentChar === `"` && !isEscaped) {
-        equalAmountOfQuotes = !equalAmountOfQuotes
+        evenAmountOfQuotes = !evenAmountOfQuotes
       } else {
         let newSubStringEnding = i + 1
-        if (equalAmountOfQuotes) {
+        if (evenAmountOfQuotes) {
           if (currentChar === `:`) {
             currentKey = content.substring(lastSubStringEnding, newSubStringEnding).trim()
             lastSubStringEnding = newSubStringEnding
