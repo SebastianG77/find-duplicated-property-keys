@@ -224,6 +224,13 @@ describe(`Empty string property <instance>. is duplicated`, () => {
   })
 })
 
+describe(`String property <instance>.name\\ is duplicated`, () => {
+  it(`returns the expected property object`, () => {
+    let duplicatedProperties = findDuplicatedProperties(readFile(path.join(appRootPath, `./assets/test_files/one_duplicated_string_whose_key_ends_with_a_backslash.json`)))
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `name\\\\`], 2)])
+  })
+})
+
 const readFile = (fileName) => (fs.readFileSync(fileName).toString())
 
 const createPropertyKey = (propertyPath, occurrence) => {
