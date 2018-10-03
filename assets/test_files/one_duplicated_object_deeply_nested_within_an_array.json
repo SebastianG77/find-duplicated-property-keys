@@ -1,0 +1,42 @@
+{
+    "pets": [
+        {
+            "definition": {
+                "name": "Bob",
+                "type": "dog",
+                "puppies": [
+                    {
+                        "definition": {
+                            "name": "Marry",
+                            "type": "dog",
+                            "puppies": [
+                                {
+                                    "definition": {
+                                        "name": "Max",
+                                        "type": "dog"
+                                    }
+                                },
+                                {
+                                    "definition": {
+                                        "name": "Carl",
+                                        "type": "dog"
+                                    },
+                                    "definition": {
+                                        "name": "Carla",
+                                        "type": "dog"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "definition": {
+                "name": "Margie",
+                "type": "cat"
+            }
+        }
+    ]
+}
