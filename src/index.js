@@ -1,4 +1,4 @@
-import { PropertyKey, findPropertyKeysInArray } from './propertykey'
+import { PropertyKey, addPropertyKeyToArray } from './propertykey'
 
 export const findDuplicatedProperties = (content) => {
   if (isValidJSON(content)) {
@@ -10,62 +10,13 @@ export const findDuplicatedProperties = (content) => {
 
 const checkRedundancy = (content) => {
   let formattedContent = initContent(content)
-
-  let splittedContent = manualSplit(formattedContent)
-  let parentStack = []
+  let keyValuePairs = extractKeyValuePairsOfContent(formattedContent)
   let propertyKeys = []
-  splittedContent.forEach(keyValuePair => {
-    console.log('keyValuePair ' + keyValuePair.key + ' ' + keyValuePair.key.endsWith(':') + ' myvalue ' + keyValuePair.value + ' parentstacksize ' + parentStack.toString())
 
-    let unformattedKey = keyValuePair.key
-    let value = keyValuePair.value
-
-    addInstanceParentToStackIfNecessary(parentStack)
-
-    /*
-     * If the key does not have a : it must be an array key.
-    */
-    if (unformattedKey.endsWith(':')) {
-      let formattedKey = formatKey(unformattedKey)
-
-      let parent = parentStack[parentStack.length - 1]
-      let currentPropertyKey = PropertyKey(formattedKey, parent)
-      let propertyKeysInArray = findPropertyKeysInArray(propertyKeys, currentPropertyKey)
-      if (propertyKeysInArray.length === 0) {
-        propertyKeys.push(currentPropertyKey)
-      } else if (propertyKeysInArray.length === 1) {
-        propertyKeysInArray[0].occurrence++
-      } else {
-        throw new Error(`Property ${currentPropertyKey.toString()} occurs multiple times in propertyKeys.`)
-      }
-
-      if (value === `{` || value === `[`) {
-        parentStack.push(currentPropertyKey)
-      }
-
-      /*
-       * Value is of any type but followed by a } instead of a ,
-       */
-      if (value.endsWith(`}`) || value.endsWith(`]`)) {
-        parentStack.pop()
-      }
-    } else {
-      if (value === `[` || (value.endsWith(`,`) && value !== (`,`)) || value === `{`) {
-        /*
-        * Array values may contain duplicates. However, if an array value contains an object, the object
-        * itself has to be checked for duplicates. Hence we add the array index to the parent stack but do not
-        * add the key to propertyKeys.
-        */
-        if (value.endsWith(`,`)) {
-          parentStack.pop()
-        }
-        let currentPropertyKey = PropertyKey(unformattedKey, parentStack[parentStack.length - 1])
-        parentStack.push(currentPropertyKey)
-      } else if (value.endsWith(']')) {
-        parentStack.pop()
-      }
-    }
+  keyValuePairs.map(keyValue => keyValue.key).forEach(propertyKey => {
+    addPropertyKeyToArray(propertyKeys, propertyKey)
   })
+
   return propertyKeys.filter(propertyKey => propertyKey.occurrence > 1)
 }
 
@@ -73,25 +24,123 @@ const initContent = (content) => {
   return content.trim()
 }
 
-const addInstanceParentToStackIfNecessary = (parentStack) => {
-  if (parentStack.length === 0) {
-    /*
-    * If the parents stack is empty we add a dummy parent '<instance>' to indicate the parent of the
-    * property  is the root. Note: If the root is an array instead of an ordinary object, this if
-    * statement may be passed multiple times.
-    */
-    parentStack.push(PropertyKey(`<instance>`, null))
+const extractKeyValuePairsOfContent = (content) => {
+  let parentStack = [PropertyKey(`<instance>`, null)]
+  for (let i = 0; i < content.length; i++) {
+    let currentChar = content.charAt(i)
+    if (currentChar === '{') {
+      return extractKeyValuePairsOfObject(content, parentStack, i + 1).keyValuePairs
+    } else if (currentChar === '[') {
+      return extractKeyValuePairsOfArray(content, parentStack, i + 1).keyValuePairs
+    }
   }
 }
 
-const manualSplit = (content) => {
+const extractKeyValuePairsOfObject = (content, parentStack, startIndex) => {
+  let currentPropertyKey
+  let keyValuePairs = []
+  for (let i = startIndex; i < content.length; i++) {
+    let currentChar = content.charAt(i)
+    if (currentChar.trim() !== ``) {
+      if (currentChar === '{' && currentPropertyKey !== undefined) {
+        parentStack.push(currentPropertyKey.propertyKey)
+        keyValuePairs.push({ key: currentPropertyKey.propertyKey, value: `{` })
+        let extractedKeyValuePairs = extractKeyValuePairsOfObject(content, parentStack, i + 1)
+        i = extractedKeyValuePairs.newIndex
+        keyValuePairs = keyValuePairs.concat(extractedKeyValuePairs.keyValuePairs)
+        currentPropertyKey = undefined
+        parentStack.pop()
+      } else if (currentChar === '}') {
+        return { keyValuePairs: keyValuePairs, newIndex: i }
+      } else if (currentChar === '[') {
+        parentStack.push(currentPropertyKey.propertyKey)
+        keyValuePairs.push({ key: currentPropertyKey.propertyKey, value: `[` })
+        let extractedKeyValuePairs = extractKeyValuePairsOfArray(content, parentStack, i + 1)
+        i = extractedKeyValuePairs.newIndex
+        keyValuePairs = keyValuePairs.concat(extractedKeyValuePairs.keyValuePairs)
+        currentPropertyKey = undefined
+      } else if (currentChar === ']') {
+        parentStack.pop()
+      } else {
+        if (currentPropertyKey === undefined) {
+          currentPropertyKey = extractPropertyKey(content, parentStack, i)
+          i = currentPropertyKey.newIndex
+        } else {
+          let extractedPropertyValue = extractPropertyValue(content, i)
+          keyValuePairs.push({ key: currentPropertyKey.propertyKey, value: extractedPropertyValue.propertyValue })
+          i = extractedPropertyValue.newIndex
+          currentPropertyKey = undefined
+        }
+      }
+    }
+  }
+}
+
+const extractKeyValuePairsOfArray = (content, parentStack, startIndex) => {
+  let currentIndex = 0
+  let currentKey = PropertyKey(`[${currentIndex}]`, parentStack[parentStack.length - 1])
+  parentStack.push(currentKey)
+  let keyValuePairs = []
+  for (let i = startIndex; i < content.length; i++) {
+    let currentChar = content.charAt(i)
+    if (currentChar.trim() !== ``) {
+      if (currentChar === `,`) {
+        parentStack.pop()
+        currentIndex++
+        currentKey = PropertyKey(`[${currentIndex}]`, parentStack[parentStack.length - 1])
+        parentStack.push(currentKey)
+      } else if (currentChar === `{`) {
+        let extractedKeyValuePairs = extractKeyValuePairsOfObject(content, parentStack, i + 1)
+        i = extractedKeyValuePairs.newIndex
+        keyValuePairs = keyValuePairs.concat(extractedKeyValuePairs.keyValuePairs)
+
+      } else if (currentChar === `[`) {
+        let extractedKeyValuePairs = extractKeyValuePairsOfArray(content, parentStack, i + 1)
+        i = extractedKeyValuePairs.newIndex
+        keyValuePairs = keyValuePairs.concat(extractedKeyValuePairs.keyValuePairs)
+      } else if (currentChar === `]`) {
+        parentStack.pop()
+        return { keyValuePairs: keyValuePairs, newIndex: i - 1 }
+      } else {
+        let extractedPropertyValue = extractPropertyValue(content, i)
+        keyValuePairs.push({ key: parentStack[parentStack.length - 1], value: extractedPropertyValue.propertyValue })
+        i = extractedPropertyValue.newIndex
+      }
+    }
+  }
+}
+
+const extractPropertyKey = (content, parentStack, startIndex) => {
+  let quotationMarksFound = 0
+  let isEscaped = false
+  let startPropertyKeyIndex
+  for (let i = startIndex; i < content.length; i++) {
+    let currentChar = content.charAt(i)
+    if (currentChar === `\\`) {
+      isEscaped = !isEscaped
+    } else {
+      if (currentChar === `"` && !isEscaped) {
+        quotationMarksFound++
+        if (startPropertyKeyIndex === undefined) {
+          startPropertyKeyIndex = i
+        }
+      } else {
+        if (quotationMarksFound === 2) {
+          if (currentChar === `:`) {
+            let newSubStringEnding = i + 1
+            return { propertyKey: PropertyKey(formatKey(content.substring(startPropertyKeyIndex, newSubStringEnding)), parentStack[parentStack.length - 1]), newIndex: i }
+          }
+        }
+      }
+      isEscaped = false
+    }
+  }
+}
+
+const extractPropertyValue = (content, startIndex) => {
   let evenAmountOfQuotationMarks = true
   let isEscaped = false
-  let lastSubStringEnding = 0
-  let currentKey
-  let arrayStack = []
-  let keyValuePairs = []
-  for (let i = 0; i < content.length; i++) {
+  for (let i = startIndex; i < content.length; i++) {
     let currentChar = content.charAt(i)
     if (currentChar === `\\`) {
       isEscaped = !isEscaped
@@ -99,46 +148,20 @@ const manualSplit = (content) => {
       if (currentChar === `"` && !isEscaped) {
         evenAmountOfQuotationMarks = !evenAmountOfQuotationMarks
       } else {
-        let newSubStringEnding = i + 1
-        if (evenAmountOfQuotationMarks) {
-          if (currentChar === `:`) {
-            currentKey = content.substring(lastSubStringEnding, newSubStringEnding).trim()
-            lastSubStringEnding = newSubStringEnding
-          } else if (currentChar === `,` || currentChar === `{` || currentChar === `}` || currentChar === `[` || currentChar === `]`) {
-            let rawCurrentKey
-            let currentValue = content.substring(lastSubStringEnding, newSubStringEnding).trim()
-            if (currentChar === `[`) {
-              arrayStack.push(0)
-              rawCurrentKey = currentKey
-            } else if (currentKey === undefined) {
-              if (currentChar === `,`) {
-                arrayStack[arrayStack.length - 1]++
-              }
-              rawCurrentKey = arrayStack[arrayStack.length - 1]
-              currentKey = `[${rawCurrentKey}]`
-            } else {
-              rawCurrentKey = currentKey
-            }
-            if (rawCurrentKey !== undefined) {
-              keyValuePairs.push({ key: currentKey, value: currentValue })
-            }
-            if (currentChar === ']') {
-              arrayStack.pop()
-            }
-            currentKey = undefined
-            lastSubStringEnding = newSubStringEnding
-          }
+        if ((currentChar === `,` || currentChar === `}` || currentChar === `]`) && evenAmountOfQuotationMarks) {
+          let newSubStringEnding = i
+          return { propertyValue: content.substring(startIndex, newSubStringEnding).trim(), newIndex: i - 1 }
         }
+        isEscaped = false
       }
-      isEscaped = false
     }
   }
-  return keyValuePairs
 }
 
 const formatKey = (unformattedKey) => {
-  if (unformattedKey.startsWith(`"`) && unformattedKey.endsWith(`":`)) {
-    let formattedKey = unformattedKey.substring(1, unformattedKey.length - 2)
+  let trimmedKey = unformattedKey.trim()
+  if (trimmedKey.startsWith(`"`) && trimmedKey.endsWith(`":`)) {
+    let formattedKey = trimmedKey.substring(1, trimmedKey.length - 2)
     return formattedKey
   } else {
     throw new Error(`Key ${unformattedKey} is not wrapped by ""`)
