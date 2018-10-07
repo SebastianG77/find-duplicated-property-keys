@@ -2,7 +2,7 @@
   "name": "find-duplicated-property-keys",
   "version": "0.1.0",
   "description": "Returns all property keys which are not unique",
-  "main": "dist/index.js",
+  "main": "build/index.js",
   "scripts": {
     "test": "jest ./src/ --coverage",
     "dist": "standard src/**/*.js && yarn test && ./node_modules/.bin/babel src --out-dir build",
