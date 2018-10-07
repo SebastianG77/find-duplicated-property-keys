@@ -20,9 +20,7 @@ const checkRedundancy = (content) => {
   return aggregatedPropertyKeys.filter(propertyKey => propertyKey.occurrence > 1)
 }
 
-const initContent = (content) => {
-  return content.trim()
-}
+const initContent = (content) => content.trim()
 
 const extractAllPropertyKeysOfContent = (content) => {
   let parentStack = [PropertyKey(`<instance>`, null)]
