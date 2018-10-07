@@ -10,10 +10,10 @@ export const findDuplicatedProperties = (content) => {
 
 const checkRedundancy = (content) => {
   let formattedContent = initContent(content)
-  let keyValuePairs = extractKeyValuePairsOfContent(formattedContent)
+  let allPropertyKeys = extractAllPropertyKeysOfContent(formattedContent)
   let propertyKeys = []
 
-  keyValuePairs.forEach(propertyKey => {
+  allPropertyKeys.forEach(propertyKey => {
     addPropertyKeyToArray(propertyKeys, propertyKey)
   })
 
@@ -24,40 +24,40 @@ const initContent = (content) => {
   return content.trim()
 }
 
-const extractKeyValuePairsOfContent = (content) => {
+const extractAllPropertyKeysOfContent = (content) => {
   let parentStack = [PropertyKey(`<instance>`, null)]
   for (let i = 0; i < content.length; i++) {
     let currentChar = content.charAt(i)
     if (currentChar === '{') {
-      return extractKeyValuePairsOfObject(content, parentStack, i + 1).keyValuePairs
+      return extractPropertyKeysOfObject(content, parentStack, i + 1).propertyKeys
     } else if (currentChar === '[') {
-      return extractKeyValuePairsOfArray(content, parentStack, i + 1).keyValuePairs
+      return extractPropertyKeysOfArray(content, parentStack, i + 1).propertyKeys
     }
   }
 }
 
-const extractKeyValuePairsOfObject = (content, parentStack, startIndex) => {
+const extractPropertyKeysOfObject = (content, parentStack, startIndex) => {
   let currentPropertyKey
-  let keyValuePairs = []
+  let allPropertyKeys = []
   for (let i = startIndex; i < content.length; i++) {
     let currentChar = content.charAt(i)
     if (!isWhitespace(currentChar)) {
       if (currentChar === '{' && currentPropertyKey !== undefined) {
         parentStack.push(currentPropertyKey.propertyKey)
-        keyValuePairs.push(currentPropertyKey.propertyKey)
-        let extractedKeyValuePairs = extractKeyValuePairsOfObject(content, parentStack, i + 1)
-        i = extractedKeyValuePairs.newIndex
-        keyValuePairs = keyValuePairs.concat(extractedKeyValuePairs.keyValuePairs)
+        allPropertyKeys.push(currentPropertyKey.propertyKey)
+        let extractedPropertyKeys = extractPropertyKeysOfObject(content, parentStack, i + 1)
+        i = extractedPropertyKeys.newIndex
+        allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
         currentPropertyKey = undefined
         parentStack.pop()
       } else if (currentChar === '}') {
-        return { keyValuePairs: keyValuePairs, newIndex: i }
+        return { propertyKeys: allPropertyKeys, newIndex: i }
       } else if (currentChar === '[') {
         parentStack.push(currentPropertyKey.propertyKey)
-        keyValuePairs.push(currentPropertyKey.propertyKey)
-        let extractedKeyValuePairs = extractKeyValuePairsOfArray(content, parentStack, i + 1)
-        i = extractedKeyValuePairs.newIndex
-        keyValuePairs = keyValuePairs.concat(extractedKeyValuePairs.keyValuePairs)
+        allPropertyKeys.push(currentPropertyKey.propertyKey)
+        let extractedPropertyKeys = extractPropertyKeysOfArray(content, parentStack, i + 1)
+        i = extractedPropertyKeys.newIndex
+        allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
         currentPropertyKey = undefined
       } else if (currentChar === ']') {
         parentStack.pop()
@@ -67,7 +67,7 @@ const extractKeyValuePairsOfObject = (content, parentStack, startIndex) => {
           i = currentPropertyKey.newIndex
         } else {
           i = lastIndexOfPropertyValue(content, i)
-          keyValuePairs.push(currentPropertyKey.propertyKey)
+          allPropertyKeys.push(currentPropertyKey.propertyKey)
           currentPropertyKey = undefined
         }
       }
@@ -75,11 +75,11 @@ const extractKeyValuePairsOfObject = (content, parentStack, startIndex) => {
   }
 }
 
-const extractKeyValuePairsOfArray = (content, parentStack, startIndex) => {
+const extractPropertyKeysOfArray = (content, parentStack, startIndex) => {
   let currentIndex = 0
   let currentKey = PropertyKey(`[${currentIndex}]`, parentStack[parentStack.length - 1])
   parentStack.push(currentKey)
-  let keyValuePairs = []
+  let allPropertyKeys = []
   for (let i = startIndex; i < content.length; i++) {
     let currentChar = content.charAt(i)
     if (!isWhitespace(currentChar)) {
@@ -89,19 +89,19 @@ const extractKeyValuePairsOfArray = (content, parentStack, startIndex) => {
         currentKey = PropertyKey(`[${currentIndex}]`, parentStack[parentStack.length - 1])
         parentStack.push(currentKey)
       } else if (currentChar === `{`) {
-        let extractedKeyValuePairs = extractKeyValuePairsOfObject(content, parentStack, i + 1)
-        i = extractedKeyValuePairs.newIndex
-        keyValuePairs = keyValuePairs.concat(extractedKeyValuePairs.keyValuePairs)
+        let extractedPropertyKeys = extractPropertyKeysOfObject(content, parentStack, i + 1)
+        i = extractedPropertyKeys.newIndex
+        allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
       } else if (currentChar === `[`) {
-        let extractedKeyValuePairs = extractKeyValuePairsOfArray(content, parentStack, i + 1)
-        i = extractedKeyValuePairs.newIndex
-        keyValuePairs = keyValuePairs.concat(extractedKeyValuePairs.keyValuePairs)
+        let extractedPropertyKeys = extractPropertyKeysOfArray(content, parentStack, i + 1)
+        i = extractedPropertyKeys.newIndex
+        allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
       } else if (currentChar === `]`) {
         parentStack.pop()
-        return { keyValuePairs: keyValuePairs, newIndex: i - 1 }
+        return { propertyKeys: allPropertyKeys, newIndex: i - 1 }
       } else {
         i = lastIndexOfPropertyValue(content, i)
-        keyValuePairs.push(parentStack[parentStack.length - 1])
+        allPropertyKeys.push(parentStack[parentStack.length - 1])
       }
     }
   }
