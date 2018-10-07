@@ -41,7 +41,7 @@ const extractKeyValuePairsOfObject = (content, parentStack, startIndex) => {
   let keyValuePairs = []
   for (let i = startIndex; i < content.length; i++) {
     let currentChar = content.charAt(i)
-    if (currentChar.trim() !== ``) {
+    if (!isWhitespace(currentChar)) {
       if (currentChar === '{' && currentPropertyKey !== undefined) {
         parentStack.push(currentPropertyKey.propertyKey)
         keyValuePairs.push({ key: currentPropertyKey.propertyKey, value: `{` })
@@ -83,7 +83,7 @@ const extractKeyValuePairsOfArray = (content, parentStack, startIndex) => {
   let keyValuePairs = []
   for (let i = startIndex; i < content.length; i++) {
     let currentChar = content.charAt(i)
-    if (currentChar.trim() !== ``) {
+    if (!isWhitespace(currentChar)) {
       if (currentChar === `,`) {
         parentStack.pop()
         currentIndex++
@@ -118,7 +118,7 @@ const extractPropertyKey = (content, parentStack, startIndex) => {
     if (currentChar === `\\`) {
       isEscaped = !isEscaped
     } else {
-      if (currentChar === `"` && !isEscaped) {
+      if (isQuotationMark(currentChar, isEscaped)) {
         quotationMarksFound++
         if (startPropertyKeyIndex === undefined) {
           startPropertyKeyIndex = i
@@ -144,7 +144,7 @@ const extractPropertyValue = (content, startIndex) => {
     if (currentChar === `\\`) {
       isEscaped = !isEscaped
     } else {
-      if (currentChar === `"` && !isEscaped) {
+      if (isQuotationMark(currentChar, isEscaped)) {
         evenAmountOfQuotationMarks = !evenAmountOfQuotationMarks
       } else {
         if ((currentChar === `,` || currentChar === `}` || currentChar === `]`) && evenAmountOfQuotationMarks) {
@@ -156,6 +156,11 @@ const extractPropertyValue = (content, startIndex) => {
     }
   }
 }
+
+const isWhitespace = (currentChar) => (currentChar.trim() === ``)
+
+
+const isQuotationMark = (currentChar, isEscaped) => (currentChar === `"` && !isEscaped)
 
 const formatKey = (unformattedKey) => {
   let trimmedKey = unformattedKey.trim()
