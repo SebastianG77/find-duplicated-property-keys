@@ -1,3 +1,4 @@
+import chalk from 'chalk'
 import commandLineArgs from 'command-line-args'
 import commandLineUsage from 'command-line-usage'
 import fs from 'fs'
@@ -41,7 +42,11 @@ const runCli = (options) => {
       let content = fs.readFileSync(jsonFile).toString()
       let duplicatedPropertyKeys = findDuplicatedPropertyKeys(content)
       if (duplicatedPropertyKeys != null) {
-        console.log(duplicatedPropertyKeys.toString())
+        if (duplicatedPropertyKeys.length === 0) {
+          console.log(chalk.green(`No duplicated property keys found in ${options.src}.`))
+        } else {
+          console.log(chalk.red(`The following duplicated property keys have been detected in ${options.src}: ${duplicatedPropertyKeys.toString()}`))
+        }
       }
     } else {
       throw new Error(`File ${jsonFile} does not exist.`)
