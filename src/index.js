@@ -93,7 +93,6 @@ const extractKeyValuePairsOfArray = (content, parentStack, startIndex) => {
         let extractedKeyValuePairs = extractKeyValuePairsOfObject(content, parentStack, i + 1)
         i = extractedKeyValuePairs.newIndex
         keyValuePairs = keyValuePairs.concat(extractedKeyValuePairs.keyValuePairs)
-
       } else if (currentChar === `[`) {
         let extractedKeyValuePairs = extractKeyValuePairsOfArray(content, parentStack, i + 1)
         i = extractedKeyValuePairs.newIndex
