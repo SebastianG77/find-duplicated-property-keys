@@ -155,7 +155,7 @@ describe(`Root is an array but one of the objects contained by the array contain
 })
 
 describe(`Test if the toString() function of a PropertyKey object returns the expected value`, () => {
-  it(`returns the expected property objects`, () => {
+  it(`returns the expected string representation`, () => {
     let propertyKey = createPropertyKey([`<instance>`, `myObject`, `name`], 2)
     expect(propertyKey.toString()).toBe(`<instance>.myObject.name`)
   })
