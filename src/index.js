@@ -4,7 +4,7 @@ export default (content) => {
   if (isValidJSON(content)) {
     return checkRedundancy(content)
   } else {
-    throw new Error(`Input is no valid JSON file.`)
+    throw new Error(`Input is no valid JSON.`)
   }
 }
 

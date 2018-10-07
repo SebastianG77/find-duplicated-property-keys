@@ -129,7 +129,7 @@ describe(`One array of string porperty is contained by an object Object which is
 describe(`Root is duplicated`, () => {
   it(`does not validate anything as an invalid file has been passed as argument`, () => {
     let filePath = readFile(path.join(appRootPath, `./assets/test_files/root_is_duplicated.json`))
-    expect(() => findDuplicatedPropertyKeys(filePath)).toThrowError(`Input is no valid JSON file.`)
+    expect(() => findDuplicatedPropertyKeys(filePath)).toThrowError(`Input is no valid JSON.`)
   })
 })
 
