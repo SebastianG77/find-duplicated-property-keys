@@ -1,6 +1,6 @@
 import { PropertyKey, addPropertyKeyToArray } from './propertykey'
 
-export const findDuplicatedProperties = (content) => {
+export const findDuplicatedPropertyKeys = (content) => {
   if (isValidJSON(content)) {
     return checkRedundancy(content)
   } else {

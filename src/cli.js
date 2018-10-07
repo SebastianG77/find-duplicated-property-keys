@@ -2,7 +2,7 @@ import commandLineArgs from 'command-line-args'
 import commandLineUsage from 'command-line-usage'
 import fs from 'fs'
 
-import { findDuplicatedProperties } from './index'
+import { findDuplicatedPropertyKeys } from './index'
 
 const sections = [
   {
@@ -39,7 +39,7 @@ const runCli = (options) => {
     let jsonFile = options.src
     if (fs.existsSync(jsonFile)) {
       let content = fs.readFileSync(jsonFile).toString()
-      let duplicatedPropertyKeys = findDuplicatedProperties(content)
+      let duplicatedPropertyKeys = findDuplicatedPropertyKeys(content)
       if (duplicatedPropertyKeys != null) {
         console.log(duplicatedPropertyKeys.toString())
       }
