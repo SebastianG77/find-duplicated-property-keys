@@ -13,7 +13,7 @@ const checkRedundancy = (content) => {
   let keyValuePairs = extractKeyValuePairsOfContent(formattedContent)
   let propertyKeys = []
 
-  keyValuePairs.map(keyValue => keyValue.key).forEach(propertyKey => {
+  keyValuePairs.forEach(propertyKey => {
     addPropertyKeyToArray(propertyKeys, propertyKey)
   })
 
@@ -44,7 +44,7 @@ const extractKeyValuePairsOfObject = (content, parentStack, startIndex) => {
     if (!isWhitespace(currentChar)) {
       if (currentChar === '{' && currentPropertyKey !== undefined) {
         parentStack.push(currentPropertyKey.propertyKey)
-        keyValuePairs.push({ key: currentPropertyKey.propertyKey, value: `{` })
+        keyValuePairs.push(currentPropertyKey.propertyKey)
         let extractedKeyValuePairs = extractKeyValuePairsOfObject(content, parentStack, i + 1)
         i = extractedKeyValuePairs.newIndex
         keyValuePairs = keyValuePairs.concat(extractedKeyValuePairs.keyValuePairs)
@@ -54,7 +54,7 @@ const extractKeyValuePairsOfObject = (content, parentStack, startIndex) => {
         return { keyValuePairs: keyValuePairs, newIndex: i }
       } else if (currentChar === '[') {
         parentStack.push(currentPropertyKey.propertyKey)
-        keyValuePairs.push({ key: currentPropertyKey.propertyKey, value: `[` })
+        keyValuePairs.push(currentPropertyKey.propertyKey)
         let extractedKeyValuePairs = extractKeyValuePairsOfArray(content, parentStack, i + 1)
         i = extractedKeyValuePairs.newIndex
         keyValuePairs = keyValuePairs.concat(extractedKeyValuePairs.keyValuePairs)
@@ -66,9 +66,8 @@ const extractKeyValuePairsOfObject = (content, parentStack, startIndex) => {
           currentPropertyKey = extractPropertyKey(content, parentStack, i)
           i = currentPropertyKey.newIndex
         } else {
-          let extractedPropertyValue = extractPropertyValue(content, i)
-          keyValuePairs.push({ key: currentPropertyKey.propertyKey, value: extractedPropertyValue.propertyValue })
-          i = extractedPropertyValue.newIndex
+          i = lastIndexOfPropertyValue(content, i)
+          keyValuePairs.push(currentPropertyKey.propertyKey)
           currentPropertyKey = undefined
         }
       }
@@ -101,9 +100,8 @@ const extractKeyValuePairsOfArray = (content, parentStack, startIndex) => {
         parentStack.pop()
         return { keyValuePairs: keyValuePairs, newIndex: i - 1 }
       } else {
-        let extractedPropertyValue = extractPropertyValue(content, i)
-        keyValuePairs.push({ key: parentStack[parentStack.length - 1], value: extractedPropertyValue.propertyValue })
-        i = extractedPropertyValue.newIndex
+        i = lastIndexOfPropertyValue(content, i)
+        keyValuePairs.push(parentStack[parentStack.length - 1])
       }
     }
   }
@@ -136,7 +134,7 @@ const extractPropertyKey = (content, parentStack, startIndex) => {
   }
 }
 
-const extractPropertyValue = (content, startIndex) => {
+const lastIndexOfPropertyValue = (content, startIndex) => {
   let evenAmountOfQuotationMarks = true
   let isEscaped = false
   for (let i = startIndex; i < content.length; i++) {
@@ -148,8 +146,7 @@ const extractPropertyValue = (content, startIndex) => {
         evenAmountOfQuotationMarks = !evenAmountOfQuotationMarks
       } else {
         if ((currentChar === `,` || currentChar === `}` || currentChar === `]`) && evenAmountOfQuotationMarks) {
-          let newSubStringEnding = i
-          return { propertyValue: content.substring(startIndex, newSubStringEnding).trim(), newIndex: i - 1 }
+          return i - 1
         }
         isEscaped = false
       }
