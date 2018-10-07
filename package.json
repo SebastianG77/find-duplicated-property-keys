@@ -1,5 +1,5 @@
 {
-  "name": "duplicated-properties-checker",
+  "name": "find-duplicated-property-keys",
   "version": "0.1.0",
   "description": "Returns all property keys which are not unique",
   "main": "dist/index.js",
@@ -11,7 +11,8 @@
   "keywords": [
     "JSON",
     "duplicated",
-    "properties"
+    "property",
+    "keys"
   ],
   "author": "SebastianG",
   "license": "MIT",
