@@ -3,7 +3,7 @@ import appRoot from 'app-root-path'
 import fs from 'fs'
 
 import { PropertyKey } from '../propertykey'
-import { findDuplicatedPropertyKeys } from '../index'
+import findDuplicatedPropertyKeys from '../index'
 
 const { describe, expect, it } = global
 

@@ -3,7 +3,7 @@ import commandLineArgs from 'command-line-args'
 import commandLineUsage from 'command-line-usage'
 import fs from 'fs'
 
-import { findDuplicatedPropertyKeys } from './index'
+import findDuplicatedPropertyKeys from './index'
 
 const sections = [
   {
