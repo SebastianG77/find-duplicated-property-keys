@@ -156,7 +156,6 @@ const lastIndexOfPropertyValue = (content, startIndex) => {
 
 const isWhitespace = (currentChar) => (currentChar.trim() === ``)
 
-
 const isQuotationMark = (currentChar, isEscaped) => (currentChar === `"` && !isEscaped)
 
 const formatKey = (unformattedKey) => {
