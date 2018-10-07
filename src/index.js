@@ -11,13 +11,13 @@ export const findDuplicatedProperties = (content) => {
 const checkRedundancy = (content) => {
   let formattedContent = initContent(content)
   let allPropertyKeys = extractAllPropertyKeysOfContent(formattedContent)
-  let propertyKeys = []
+  let aggregatedPropertyKeys = []
 
   allPropertyKeys.forEach(propertyKey => {
-    addPropertyKeyToArray(propertyKeys, propertyKey)
+    addPropertyKeyToArray(aggregatedPropertyKeys, propertyKey)
   })
 
-  return propertyKeys.filter(propertyKey => propertyKey.occurrence > 1)
+  return aggregatedPropertyKeys.filter(propertyKey => propertyKey.occurrence > 1)
 }
 
 const initContent = (content) => {
