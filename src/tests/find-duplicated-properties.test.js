@@ -238,6 +238,13 @@ describe(`Duplicated object property 'definition' exists in a deeply nested arra
   })
 })
 
+describe(`Duplicated string property 'name' exists in an array of object array`, () => {
+  it(`returns the expected property object`, () => {
+    let duplicatedProperties = findDuplicatedProperties(readFile(path.join(appRootPath, `./assets/test_files/one_duplicated_string_property_in_array_of_object_array.json`)))
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `pets`, `[0]`, `[1]`, `name`], 2)])
+  })
+})
+
 const readFile = (fileName) => (fs.readFileSync(fileName).toString())
 
 const createPropertyKey = (propertyPath, occurrence) => {
