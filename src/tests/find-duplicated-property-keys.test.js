@@ -106,7 +106,7 @@ describe(`Object property <instance>.myObject is duplicated and both properties 
     let expectedResultValues = returnExpectedResultValues(duplicatedProperties, [createPropertyKey([`<instance>`, `myObject`], 2), createPropertyKey([`<instance>`, `myObject`, `isBoolean`], 2), createPropertyKey([`<instance>`, `myObject`, `isBoolean`], 2)])
     expect(expectedResultValues).toHaveLength(3)
     expectedResultValues.forEach(expectedResultValue =>
-      expect(expectedResultValue).toHaveLength(expectedResultValue.every(expectedResult => expectedResult.propertyPath.every(property =>
+      expect(expectedResultValue).toHaveLength(expectedResultValue.every(expectedResult => expectedResult.propertyPath().every(property =>
         [`<instance>`, `myObject`].includes(property))) ? 1 : 2)
     )
   })
@@ -249,7 +249,7 @@ const readFile = (fileName) => (fs.readFileSync(fileName).toString())
 
 const createPropertyKey = (propertyPath, occurrence) => {
   let propertyKey = PropertyKey()
-  propertyKey.propertyPath = propertyPath
+  propertyKey.propertyPath = () => propertyPath
   propertyKey.occurrence = occurrence
   return propertyKey
 }
@@ -268,9 +268,9 @@ const returnExpectedResultValues = (result, expected) => {
   result.forEach(resultValue => {
     expectedResultValues.push(expected.filter(expectedValue => (
       resultValue.occurrence === expectedValue.occurrence &&
-      expectedValue.propertyPath.length === resultValue.propertyPath.length &&
-      expectedValue.propertyPath.every((property, index) => (
-        property === resultValue.propertyPath[index]
+      expectedValue.propertyPath().length === resultValue.propertyPath().length &&
+      expectedValue.propertyPath().every((property, index) => (
+        property === resultValue.propertyPath()[index]
       )))))
   })
   return expectedResultValues

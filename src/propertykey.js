@@ -1,9 +1,10 @@
 export const PropertyKey = (key, parent) => {
   let PropertyKey = {
-    propertyPath: parent == null ? [key] : parent.propertyPath.concat([key]),
+    key: key,
     parent: parent,
     occurrence: 1,
-    toString: () => { return PropertyKey.propertyPath.join(`.`) }
+    propertyPath: () => PropertyKey.parent == null ? [PropertyKey.key] : parent.propertyPath().concat([PropertyKey.key]),
+    toString: () => PropertyKey.propertyPath().join(`.`)
   }
   return PropertyKey
 }
@@ -20,7 +21,4 @@ export const addPropertyKeyToArray = (propertyKeyArray, propertyKey) => {
 }
 
 const findPropertyKeysInArray = (propertyKeysArray, propertyKey) =>
-  propertyKeysArray.filter(propertyInArray => propertyInArray.parent === propertyKey.parent && propertyPathsAreEqual(propertyInArray.propertyPath, propertyKey.propertyPath))
-
-const propertyPathsAreEqual = (firstPropertyPath, secondPropertyPath) =>
-  firstPropertyPath.length === secondPropertyPath.length && firstPropertyPath.every((propertyKey, index) => propertyKey === secondPropertyPath[index])
+  propertyKeysArray.filter(propertyInArray => propertyInArray.parent === propertyKey.parent && propertyInArray.key === propertyKey.key)
