@@ -42,8 +42,10 @@ console.log(result.toString()); // <instance>.name
 
 The returned result will be an object which contains the following attributes:
 
-- propertyPath: A list of property keys, which reprsent the acutal location of the property key
-- parent: The parent object of a property key
+- key: The key name of the duplicated property.
+- parent: The parent object of a property key.
 - occurrence: The number of property keys having this path and this parent object.
 
-The object also has a toString() function implemented to print the path of a property key. However, since all necessary raw data are also contained by the object, the result objects can also be represented in any other way.
+Moreover it also contains the following functions:
+- propertyPath(): Returns a list of property keys, which reprsent the clocation path to property key.
+- toString(): Prints the path of a property key. However, since all necessary raw data are also contained by the object, the result objects can also be represented in any other way.
