@@ -1,6 +1,6 @@
 {
   "name": "find-duplicated-property-keys",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Returns all property keys which are not unique",
   "bin": "build/cli.js",
   "main": "build/index.js",
