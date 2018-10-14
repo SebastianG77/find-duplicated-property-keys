@@ -2,6 +2,7 @@
   "name": "find-duplicated-property-keys",
   "version": "0.1.0",
   "description": "Returns all property keys which are not unique",
+  "bin": "build/cli.js",
   "main": "build/index.js",
   "scripts": {
     "test": "jest ./src/ --coverage",

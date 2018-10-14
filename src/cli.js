@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import chalk from 'chalk'
 import commandLineArgs from 'command-line-args'
 import commandLineUsage from 'command-line-usage'
