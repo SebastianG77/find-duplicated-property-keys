@@ -94,14 +94,14 @@ describe(`Object property <instance>.myObject is duplicated and both properties 
 })
 
 describe(`Object property <instance>.myObject is duplicated and one property also has a duplicated boolean property`, () => {
-  it(`returns the expected property object`, () => {
+  it(`returns the two expected property objects`, () => {
     let duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(appRootPath, `./assets/test_files/one_duplicated_object_with_duplication_in_one_object.json`)))
     comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `myObject`], 2), createPropertyKey([`<instance>`, `myObject`, `isBoolean`], 2)])
   })
 })
 
 describe(`Object property <instance>.myObject is duplicated and both properties also have a duplicated boolean property`, () => {
-  it(`returns the expected property objects`, () => {
+  it(`returns the three expected property objects`, () => {
     let duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(appRootPath, `./assets/test_files/one_duplicated_object_with_duplication_in_both_objects.json`)))
     let expectedResultValues = returnExpectedResultValues(duplicatedProperties, [createPropertyKey([`<instance>`, `myObject`], 2), createPropertyKey([`<instance>`, `myObject`, `isBoolean`], 2), createPropertyKey([`<instance>`, `myObject`, `isBoolean`], 2)])
     expect(expectedResultValues).toHaveLength(3)
@@ -148,7 +148,7 @@ describe(`Root is an array but one of the objects contained by the array contain
 })
 
 describe(`Root is an array but one of the objects contained by the array contains a duplicated string property whereas the other one contains a duplicated array of strings`, () => {
-  it(`returns the expected property objects`, () => {
+  it(`returns the two expected property objects`, () => {
     let duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(appRootPath, `./assets/test_files/root_is_an_array_and_both_contain_a_duplicated_property.json`)))
     comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `[0]`, `name`], 2), createPropertyKey([`<instance>`, `[1]`, `pets`], 2)])
   })
