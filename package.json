@@ -5,7 +5,7 @@
   "bin": "build/cli.js",
   "main": "build/index.js",
   "scripts": {
-    "build:release": "yarn dist && yarn pack",
+    "build:release": "yarn dist && yarn publish",
     "test": "jest ./src/ --coverage",
     "dist": "standard src/**/*.js && yarn test && ./node_modules/.bin/babel src --out-dir build",
     "start": "node ./build/cli"
