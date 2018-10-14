@@ -63,4 +63,4 @@ Moreover, these objects also contain the following functions for illustrating th
 - propertyPath(): Returns a list of property keys, which represents the path to the property key.
 - toString(): Prints the path of a property key. However, since all necessary raw data are also contained by the object, the result objects can also be represented in any other way.
 
-**Note:** When using `find-duplicated-property-keys` as a submodule, you always have to pass a JSON string, but not the file path to a JSON file. 
+**Note:** When using `find-duplicated-property-keys` as a submodule, you always have to pass a JSON string instead of the file path to a JSON file. 
