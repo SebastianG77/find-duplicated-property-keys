@@ -1,6 +1,6 @@
 # find-duplicated-property-keys
 
-A tool for detecting all duplicated property keys of a JSON string. It can either be used as a standalone tool for validating JSON files or as a sub module for other node projects.
+A package for detecting all duplicated property keys of a JSON string. It can either be used as a standalone tool for validating JSON files or as a sub module for other node projects.
 
 
 ### Use as a Standlone Tool
