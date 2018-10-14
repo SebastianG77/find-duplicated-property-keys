@@ -1,6 +1,6 @@
 # find-duplicated-property-keys
 
-A tool for detecting all duplicated property keys of a JSON file. It can either be used as a standalone tool for validating JSON files or as a sub module for other node projects.
+A tool for detecting all duplicated property keys of a JSON string. It can either be used as a standalone tool for validating JSON files or as a sub module for other node projects.
 
 
 ### Use as a Standlone Tool
@@ -62,3 +62,5 @@ Moreover, these objects also contain the following functions for illustrating th
 
 - propertyPath(): Returns a list of property keys, which represents the path to the property key.
 - toString(): Prints the path of a property key. However, since all necessary raw data are also contained by the object, the result objects can also be represented in any other way.
+
+**Note:** When using `find-duplicated-property-keys` as a submodule, you always have to pass a JSON string, but not the file path to a JSON file. 
