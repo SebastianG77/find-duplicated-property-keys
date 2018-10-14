@@ -1,0 +1,10 @@
+.git/
+assets/test_files/
+build/tests/
+coverage/
+src/
+.babelrc
+.gitignore
+.npmignore
+test-report.html
+yarn.lock
