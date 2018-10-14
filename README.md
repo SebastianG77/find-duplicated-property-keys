@@ -14,7 +14,7 @@ $ npm install find-duplicated-property-keys
 To run this tool you simply need to execute it from the install directory like this:
 
 ```
-$ npm start node_modules/.bin/find-duplicated-property-keys -s <path-to-json-file>
+$ node_modules/.bin/find-duplicated-property-keys -s <path-to-json-file>
 ```
 
 Of course, if you prefer a more comfortable way of running this tool, you can also install it globally by using this command:
@@ -26,7 +26,7 @@ $ npm install -g find-duplicated-property-keys
 Then you can run `find-duplicated-property-keys` from any directory by using the following command:
 
 ```
-$ npm start find-duplicated-property-keys -s <path-to-json-file>
+$ find-duplicated-property-keys -s <path-to-json-file>
 ```
 
 When running the tool from terminal, it will list all duplicated property keys or return a notification to indicate the JSON file does not contain any duplicated property keys.
