@@ -245,6 +245,13 @@ describe(`Duplicated string property 'name' exists in an array of object array`,
   })
 })
 
+describe(`Duplicated string property 'name' and integer property 'year' are duplicated`, () => {
+  it(`returns the two expected property objects`, () => {
+    let duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(appRootPath, `./assets/test_files/duplicated_string_and_integer.json`)))
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `name`], 2), createPropertyKey([`<instance>`, `year`], 2)])
+  })
+})
+
 const readFile = (fileName) => (fs.readFileSync(fileName).toString())
 
 const createPropertyKey = (propertyPath, occurrence) => {
