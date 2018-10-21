@@ -41,6 +41,7 @@
     "type": "git",
     "url": "https://github.com/SebastianG77/find-duplicated-property-keys.git"
   },
+  "bugs": "https://github.com/SebastianG77/find-duplicated-property-keys/issues",
   "jest": {
     "reporters": [
       "default",
