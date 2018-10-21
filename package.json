@@ -14,7 +14,8 @@
     "JSON",
     "duplicated",
     "property",
-    "keys"
+    "keys",
+    "validator"
   ],
   "author": "SebastianG",
   "license": "MIT",
