@@ -127,7 +127,7 @@ describe(`One array of string porperty is contained by an object Object which is
 })
 
 describe(`Root is duplicated`, () => {
-  it(`does not validate anything as an invalid file has been passed as argument`, () => {
+  it(`does not validate anything but throws the expected exception as an invalid value has been passed as argument`, () => {
     let filePath = readFile(path.join(appRootPath, `./assets/test_files/root_is_duplicated.json`))
     expect(() => findDuplicatedPropertyKeys(filePath)).toThrowError(`Input is no valid JSON.`)
   })
@@ -252,7 +252,10 @@ describe(`Duplicated string property 'name' and integer property 'year' are dupl
   })
 })
 
-const readFile = (fileName) => (fs.readFileSync(fileName).toString())
+
+const readFile = (fileName) => {
+  return fs.readFileSync(fileName, `utf8`)
+}
 
 const createPropertyKey = (propertyPath, occurrence) => {
   let propertyKey = PropertyKey()
@@ -262,7 +265,6 @@ const createPropertyKey = (propertyPath, occurrence) => {
 }
 
 const comparePropertyKeyArrays = (result, expected) => {
-  console.log('result ' + result + ' expected ' + expected)
   let expectedResultValues = returnExpectedResultValues(result, expected)
   expectedResultValues.forEach(expectedResultValue => {
     expect(expectedResultValue).toHaveLength(1)
