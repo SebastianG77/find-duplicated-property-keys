@@ -32,6 +32,7 @@ const extractAllPropertyKeysOfContent = (content) => {
       return extractPropertyKeysOfArray(content, parentStack, i + 1).propertyKeys
     }
   }
+  return []
 }
 
 const extractPropertyKeysOfObject = (content, parentStack, startIndex) => {
