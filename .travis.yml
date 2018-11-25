@@ -1,4 +1,4 @@
 language: node_js
 node_js: '8.12.0'
-script: yarn dist && cat ./tests/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+script: yarn test && cat ./tests/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 coveralls: true
