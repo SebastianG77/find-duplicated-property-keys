@@ -6,7 +6,7 @@
   "main": "build/index.js",
   "scripts": {
     "build:release": "yarn dist && yarn publish",
-    "test": "jest ./src/ --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test": "jest ./src/ --coverage",
     "dist": "standard src/**/*.js && yarn test && ./node_modules/.bin/babel src --out-dir build",
     "start": "node ./build/cli"
   },
