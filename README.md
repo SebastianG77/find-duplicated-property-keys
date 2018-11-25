@@ -1,4 +1,4 @@
-# find-duplicated-property-keys
+# find-duplicated-property-keys [![Build Status](https://travis-ci.org/SebastianG77/find-duplicated-property-keys.svg?branch=master)](https://travis-ci.org/SebastianG77/find-duplicated-property-keys) [![Coverage Status](https://coveralls.io/repos/github/SebastianG77/find-duplicated-property-keys/badge.svg?branch=master)](https://coveralls.io/github/SebastianG77/find-duplicated-property-keys?branch=master)
 
 A tool for detecting all duplicated property keys of a JSON file. It can either be used as a standalone tool for validating JSON files or as a sub module for other node projects.
 
