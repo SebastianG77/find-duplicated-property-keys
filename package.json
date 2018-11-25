@@ -6,7 +6,7 @@
   "main": "build/index.js",
   "scripts": {
     "build:release": "yarn dist && yarn publish",
-    "test": "jest ./src/ --coverage",
+    "test": "jest ./src/ --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "dist": "standard src/**/*.js && yarn test && ./node_modules/.bin/babel src --out-dir build",
     "start": "node ./build/cli"
   },
@@ -33,6 +33,7 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "babel-plugin-add-module-exports": "^1.0.0",
+    "coveralls": "^3.0.2",
     "jest": "^23.6.0",
     "jest-html-reporter": "^2.4.2",
     "regenerator-runtime": "^0.12.1",
