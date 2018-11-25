@@ -6,8 +6,9 @@
   "main": "build/index.js",
   "scripts": {
     "build:release": "yarn dist && yarn publish",
-    "test": "jest ./src/ --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test": "jest ./src/ --coverage && node ./node_modules/coveralls/bin/coveralls.js",
     "dist": "standard src/**/*.js && yarn test && ./node_modules/.bin/babel src --out-dir build",
+    "dist:ci":"standard src/**/*.js && jest ./src/ --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && ./node_modules/.bin/babel src --out-dir build",
     "start": "node ./build/cli"
   },
   "keywords": [
