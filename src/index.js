@@ -1,10 +1,15 @@
 import { PropertyKey, addPropertyKeyToArray } from './propertykey'
 
 export default (content) => {
-  if (isValidJSON(content)) {
-    return checkRedundancy(content)
+  let contentType = typeof content
+  if (contentType === 'string') {
+    if (isValidJSON(content)) {
+      return checkRedundancy(content)
+    } else {
+      throw new Error(`Input is no valid JSON.`)
+    }
   } else {
-    throw new Error(`Input is no valid JSON.`)
+    throwInvalidContentTypeError(content, contentType)
   }
 }
 
@@ -32,6 +37,7 @@ const extractAllPropertyKeysOfContent = (content) => {
       return extractPropertyKeysOfArray(content, parentStack, i + 1).propertyKeys
     }
   }
+  return []
 }
 
 const extractPropertyKeysOfObject = (content, parentStack, startIndex) => {
@@ -173,4 +179,14 @@ const isValidJSON = (content) => {
     return false
   }
   return true
+}
+
+const throwInvalidContentTypeError = (content, contentType) => {
+  if (content === null) {
+    throw new Error(`Input may not be null.`)
+  } else if (content === undefined) {
+    throw new Error(`Input may not be undefined.`)
+  } else {
+    throw new Error(`Input is of type ${contentType}, but not of type string.`)
+  }
 }

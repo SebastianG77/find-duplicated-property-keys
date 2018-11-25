@@ -127,7 +127,7 @@ describe(`One array of string porperty is contained by an object Object which is
 })
 
 describe(`Root is duplicated`, () => {
-  it(`does not validate anything as an invalid file has been passed as argument`, () => {
+  it(`does not validate anything but throws the expected exception as an invalid value has been passed as argument`, () => {
     let filePath = readFile(path.join(appRootPath, `./assets/test_files/root_is_duplicated.json`))
     expect(() => findDuplicatedPropertyKeys(filePath)).toThrowError(`Input is no valid JSON.`)
   })
@@ -252,7 +252,85 @@ describe(`Duplicated string property 'name' and integer property 'year' are dupl
   })
 })
 
-const readFile = (fileName) => (fs.readFileSync(fileName).toString())
+describe(`Pass null as parameter value`, () => {
+  it(`does not validate anything but throws the expected exception as an invalid value has been passed as argument`, () => {
+    expect(() => findDuplicatedPropertyKeys(null)).toThrowError(`Input may not be null.`)
+  })
+})
+
+describe(`Pass a quoted null as string parameter value`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedPropertyKeys(`null`)
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe(`Pass undefined as parameter value`, () => {
+  it(`does not validate anything but throws the expected exception as an invalid value has been passed as argument`, () => {
+    expect(() => findDuplicatedPropertyKeys(undefined)).toThrowError(`Input may not be undefined.`)
+  })
+})
+
+describe(`Pass a quoted undefined as string parameter value`, () => {
+  it(`does not validate anything but throws the expected exception as an invalid value has been passed as argument`, () => {
+    expect(() => findDuplicatedPropertyKeys(`undefined`)).toThrowError(`Input is no valid JSON.`)
+  })
+})
+
+describe(`Pass true as parameter value`, () => {
+  it(`does not validate anything but throws the expected exception as an invalid value has been passed as argument`, () => {
+    expect(() => findDuplicatedPropertyKeys(true)).toThrowError(`Input is of type boolean, but not of type string.`)
+  })
+})
+
+describe(`Pass a quoted true as string parameter value`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedPropertyKeys(`true`)
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe(`Pass a number as parameter value`, () => {
+  it(`does not validate anything but throws the expected exception as an invalid value has been passed as argument`, () => {
+    expect(() => findDuplicatedPropertyKeys(1)).toThrowError(`Input is of type number, but not of type string.`)
+  })
+})
+
+describe(`Pass a quoted number as string parameter value`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedPropertyKeys(`1`)
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe(`Pass a string as parameter value`, () => {
+  it(`does not validate anything but throws the expected exception as an invalid value has been passed as argument`, () => {
+    expect(() => findDuplicatedPropertyKeys(`Hello_World`)).toThrowError(`Input is no valid JSON.`)
+  })
+})
+
+describe(`Pass a quoted string as parameter value`, () => {
+  it(`does not validate anything but throws the expected exception as an invalid value has been passed as argument`, () => {
+    let duplicatedProperties = findDuplicatedPropertyKeys(`"Hello_World"`)
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe(`Pass an array as parameter value`, () => {
+  it(`does not validate anything but throws the expected exception as an invalid value has been passed as argument`, () => {
+    expect(() => findDuplicatedPropertyKeys([])).toThrowError(`Input is of type object, but not of type string.`)
+  })
+})
+
+describe(`Pass an array as parameter value`, () => {
+  it(`does not validate anything but throws the expected exception as an invalid value has been passed as argument`, () => {
+    expect(() => findDuplicatedPropertyKeys({})).toThrowError(`Input is of type object, but not of type string.`)
+  })
+})
+
+const readFile = (fileName) => {
+  return fs.readFileSync(fileName, `utf8`)
+}
 
 const createPropertyKey = (propertyPath, occurrence) => {
   let propertyKey = PropertyKey()
