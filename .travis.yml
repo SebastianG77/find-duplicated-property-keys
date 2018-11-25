@@ -1,4 +1,4 @@
 language: node_js
 node_js: '8.12.0'
-script: 'standard src/**/*.js && jest ./src/ --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && ./node_modules/.bin/babel src --out-dir build',
+script: standard src/**/*.js && jest ./src/ --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && ./node_modules/.bin/babel src --out-dir build,
 coveralls: true
