@@ -262,7 +262,6 @@ const createPropertyKey = (propertyPath, occurrence) => {
 }
 
 const comparePropertyKeyArrays = (result, expected) => {
-  console.log('result ' + result + ' expected ' + expected)
   let expectedResultValues = returnExpectedResultValues(result, expected)
   expectedResultValues.forEach(expectedResultValue => {
     expect(expectedResultValue).toHaveLength(1)
