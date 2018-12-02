@@ -1,5 +1,6 @@
 # find-duplicated-property-keys
 
+ [![npm version](https://badge.fury.io/js/find-duplicated-property-keys.svg)](https://badge.fury.io/js/find-duplicated-property-keys)
  [![Build Status](https://travis-ci.org/SebastianG77/find-duplicated-property-keys.svg?branch=master)](https://travis-ci.org/SebastianG77/find-duplicated-property-keys) 
  [![Coverage Status](https://coveralls.io/repos/github/SebastianG77/find-duplicated-property-keys/badge.svg?branch=master)](https://coveralls.io/github/SebastianG77/find-duplicated-property-keys?branch=master)
 
