@@ -37,7 +37,7 @@ When running the tool from terminal, it will list all duplicated property keys o
 
 ### Use as a Submodule
 
-In case you need to include `find-duplicated-property-keys` into another project, you first have to add it to your package.json by executing the following command while being in the root directory of your project:
+In case you need to include `find-duplicated-property-keys` into another project, you first have to add it to your node.js application by executing the following command while being in the root directory of your project:
 
 ```
 $ npm install find-duplicated-property-keys
