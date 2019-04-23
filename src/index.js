@@ -163,12 +163,17 @@ const isWhitespace = (currentChar) => (currentChar.trim() === ``)
 const isQuotationMark = (currentChar, isEscaped) => (currentChar === `"` && !isEscaped)
 
 const formatKey = (unformattedKey) => {
-  let trimmedKey = unformattedKey.trim()
-  if (trimmedKey.startsWith(`"`) && trimmedKey.endsWith(`":`)) {
-    let formattedKey = trimmedKey.substring(1, trimmedKey.length - 2)
-    return formattedKey
+  let unformattedTrimmedKey = unformattedKey.trim()
+  if (unformattedTrimmedKey.endsWith(`:`)) {
+    let trimmedKeyOnly = unformattedKey.substring(0, unformattedKey.length - 1).trim()
+    if (trimmedKeyOnly.length > 1 && trimmedKeyOnly.startsWith(`"`) && trimmedKeyOnly.endsWith(`"`)) {
+      let formattedKey = trimmedKeyOnly.substring(1, trimmedKeyOnly.length - 1)
+      return formattedKey
+    } else {
+      throw new Error(`Key ${unformattedKey} is not wrapped by "".`)
+    }
   } else {
-    throw new Error(`Key ${unformattedKey} is not wrapped by ""`)
+    throw new Error(`Key ${unformattedKey} does not end by :.`)
   }
 }
 
