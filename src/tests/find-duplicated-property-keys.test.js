@@ -328,7 +328,7 @@ describe(`Pass an array as parameter value`, () => {
   })
 })
 
-describe(`Validate a JSON file that does not contain any duplicates but contains an additional space character between key "name" and the subsequent colon`, () => {
+describe(`Validate a JSON file that does not contain any duplicates but contains an additional space character between key <instance>.name and the subsequent colon`, () => {
   it(`returns an empty list`, () => {
     let duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(appRootPath, `./assets/test_files/valid_JSON_file_containing_space_between_key_and_colon.json`)))
     expect(duplicatedProperties).toHaveLength(0)
