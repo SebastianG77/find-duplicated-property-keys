@@ -335,6 +335,13 @@ describe(`Validate a JSON file that does not contain any duplicates but contains
   })
 })
 
+describe(`Validate a JSON file that does not contain any duplicates but contains an additional tab character between key <instance>.name and the subsequent colon`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(appRootPath, `./assets/test_files/valid_JSON_file_containing_tab_between_key_and_colon.json`)))
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
 const readFile = (fileName) => {
   return fs.readFileSync(fileName, `utf8`)
 }
