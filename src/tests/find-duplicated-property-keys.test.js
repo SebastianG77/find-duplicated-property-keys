@@ -342,6 +342,62 @@ describe(`Validate a JSON file that does not contain any duplicates but contains
   })
 })
 
+describe(`Validate a JSON file that does not contain any duplicates but contains three additional space characters between key <instance>.name and the subsequent colon`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(appRootPath, `./assets/test_files/valid_JSON_file_containing_three_spaces_between_key_and_colon.json`)))
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe(`Validate a JSON file that does not contain any duplicates but contains three additional tab characters between key <instance>.name and the subsequent colon`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(appRootPath, `./assets/test_files/valid_JSON_file_containing_three_tabs_between_key_and_colon.json`)))
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe(`Validate a JSON file that does not contain any duplicates but contains an additional space character followed by an additional tab character between key <instance>.name and the subsequent colon`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(appRootPath, `./assets/test_files/valid_JSON_file_containing_space_and_tab_between_key_and_colon.json`)))
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe(`Validate a JSON file that does not contain any duplicates but contains an additional tab character followed by an additional space character between key <instance>.name and the subsequent colon`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(appRootPath, `./assets/test_files/valid_JSON_file_containing_tab_and_space_between_key_and_colon.json`)))
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe(`Validate a JSON file that has a duplicated property <instance>.name but one key has an additional space character between key <instance>.name and the subsequent colon`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(appRootPath, `./assets/test_files/one_duplicated_string_containing_a_space_between_key_and_colon.json`)))
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `name`], 2)])
+  })
+})
+
+describe(`Validate a JSON file that has a duplicated property <instance>.name and property <instance>.weight has an additional tab character between its key and the subsequent colon`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(appRootPath, `./assets/test_files/one_duplicated_string_and_a_tab_between_another_key_and_colon.json`)))
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey([`<instance>`, `name`], 2)])
+  })
+})
+
+describe(`Validate a JSON file that does not contain any duplicates but contains a new line between key <instance>.name and the subsequent colon`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(appRootPath, `./assets/test_files/valid_JSON_file_containing_new_line_between_key_and_colon.json`)))
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe(`Validate a JSON file that does not contain any duplicates but contains a space character new line and tab characater between key <instance>.name and the subsequent colon`, () => {
+  it(`returns an empty list`, () => {
+    let duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(appRootPath, `./assets/test_files/valid_JSON_file_containing_space_new_line_and_tab_before_colon.json`)))
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
 const readFile = (fileName) => {
   return fs.readFileSync(fileName, `utf8`)
 }
