@@ -1,10 +1,10 @@
 .git/
-assets/test_files/
-build/tests/
+assets/
 coverage/
 src/
 .babelrc
 .gitignore
 .npmignore
+.travis.yml
 test-report.html
 yarn.lock
