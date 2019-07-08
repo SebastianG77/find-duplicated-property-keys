@@ -40,14 +40,18 @@ const runCli = (options) => {
   } else {
     let jsonFile = options.src
     if (fs.existsSync(jsonFile)) {
-      let content = fs.readFileSync(jsonFile).toString()
-      let duplicatedPropertyKeys = findDuplicatedPropertyKeys(content)
-      if (duplicatedPropertyKeys != null) {
-        if (duplicatedPropertyKeys.length === 0) {
-          console.log(chalk.green(`No duplicated property keys found in ${options.src}.`))
-        } else {
-          console.log(chalk.red(`The following duplicated property keys have been detected in ${options.src}:\n${duplicatedPropertyKeys.join(`\n`)}`))
+      if (fs.lstatSync(jsonFile).isFile()) {
+        let content = fs.readFileSync(jsonFile).toString()
+        let duplicatedPropertyKeys = findDuplicatedPropertyKeys(content)
+        if (duplicatedPropertyKeys != null) {
+          if (duplicatedPropertyKeys.length === 0) {
+            console.log(chalk.green(`No duplicated property keys found in ${options.src}.`))
+          } else {
+            console.log(chalk.red(`The following duplicated property keys have been detected in ${options.src}:\n${duplicatedPropertyKeys.join(`\n`)}`))
+          }
         }
+      } else {
+        throw new Error(`Path ${jsonFile} does not point to a file.`)
       }
     } else {
       throw new Error(`File ${jsonFile} does not exist.`)
