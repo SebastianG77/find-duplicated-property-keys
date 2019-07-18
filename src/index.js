@@ -1,7 +1,7 @@
 import { PropertyKey, addPropertyKeyToArray } from './propertykey'
 
 export default (content) => {
-  let contentType = typeof content
+  const contentType = typeof content
   if (contentType === 'string') {
     if (isValidJSON(content)) {
       return checkRedundancy(content)
@@ -14,9 +14,9 @@ export default (content) => {
 }
 
 const checkRedundancy = (content) => {
-  let formattedContent = initContent(content)
-  let allPropertyKeys = extractAllPropertyKeysOfContent(formattedContent)
-  let aggregatedPropertyKeys = []
+  const formattedContent = initContent(content)
+  const allPropertyKeys = extractAllPropertyKeysOfContent(formattedContent)
+  const aggregatedPropertyKeys = []
 
   allPropertyKeys.forEach(propertyKey => {
     addPropertyKeyToArray(aggregatedPropertyKeys, propertyKey)
@@ -28,9 +28,9 @@ const checkRedundancy = (content) => {
 const initContent = (content) => content.trim()
 
 const extractAllPropertyKeysOfContent = (content) => {
-  let parentStack = [PropertyKey(`<instance>`, null)]
+  const parentStack = [PropertyKey(`<instance>`, null)]
   for (let i = 0; i < content.length; i++) {
-    let currentChar = content.charAt(i)
+    const currentChar = content.charAt(i)
     if (currentChar === '{') {
       return extractPropertyKeysOfObject(content, parentStack, i + 1).propertyKeys
     } else if (currentChar === '[') {
@@ -44,12 +44,12 @@ const extractPropertyKeysOfObject = (content, parentStack, startIndex) => {
   let currentPropertyKey
   let allPropertyKeys = []
   for (let i = startIndex; i < content.length; i++) {
-    let currentChar = content.charAt(i)
+    const currentChar = content.charAt(i)
     if (!isWhitespace(currentChar)) {
       if (currentChar === '{' && currentPropertyKey !== undefined) {
         parentStack.push(currentPropertyKey.propertyKey)
         allPropertyKeys.push(currentPropertyKey.propertyKey)
-        let extractedPropertyKeys = extractPropertyKeysOfObject(content, parentStack, i + 1)
+        const extractedPropertyKeys = extractPropertyKeysOfObject(content, parentStack, i + 1)
         i = extractedPropertyKeys.newIndex
         allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
         currentPropertyKey = undefined
@@ -59,7 +59,7 @@ const extractPropertyKeysOfObject = (content, parentStack, startIndex) => {
       } else if (currentChar === '[') {
         parentStack.push(currentPropertyKey.propertyKey)
         allPropertyKeys.push(currentPropertyKey.propertyKey)
-        let extractedPropertyKeys = extractPropertyKeysOfArray(content, parentStack, i + 1)
+        const extractedPropertyKeys = extractPropertyKeysOfArray(content, parentStack, i + 1)
         i = extractedPropertyKeys.newIndex
         allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
         currentPropertyKey = undefined
@@ -85,7 +85,7 @@ const extractPropertyKeysOfArray = (content, parentStack, startIndex) => {
   parentStack.push(currentKey)
   let allPropertyKeys = []
   for (let i = startIndex; i < content.length; i++) {
-    let currentChar = content.charAt(i)
+    const currentChar = content.charAt(i)
     if (!isWhitespace(currentChar)) {
       if (currentChar === `,`) {
         parentStack.pop()
@@ -93,11 +93,11 @@ const extractPropertyKeysOfArray = (content, parentStack, startIndex) => {
         currentKey = PropertyKey(`[${currentIndex}]`, parentStack[parentStack.length - 1])
         parentStack.push(currentKey)
       } else if (currentChar === `{`) {
-        let extractedPropertyKeys = extractPropertyKeysOfObject(content, parentStack, i + 1)
+        const extractedPropertyKeys = extractPropertyKeysOfObject(content, parentStack, i + 1)
         i = extractedPropertyKeys.newIndex
         allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
       } else if (currentChar === `[`) {
-        let extractedPropertyKeys = extractPropertyKeysOfArray(content, parentStack, i + 1)
+        const extractedPropertyKeys = extractPropertyKeysOfArray(content, parentStack, i + 1)
         i = extractedPropertyKeys.newIndex
         allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
       } else if (currentChar === `]`) {
@@ -116,7 +116,7 @@ const extractPropertyKey = (content, parentStack, startIndex) => {
   let isEscaped = false
   let startPropertyKeyIndex
   for (let i = startIndex; i < content.length; i++) {
-    let currentChar = content.charAt(i)
+    const currentChar = content.charAt(i)
     if (currentChar === `\\`) {
       isEscaped = !isEscaped
     } else {
@@ -128,7 +128,7 @@ const extractPropertyKey = (content, parentStack, startIndex) => {
       } else {
         if (quotationMarksFound === 2) {
           if (currentChar === `:`) {
-            let newSubStringEnding = i + 1
+            const newSubStringEnding = i + 1
             return { propertyKey: PropertyKey(formatKey(content.substring(startPropertyKeyIndex, newSubStringEnding)), parentStack[parentStack.length - 1]), newIndex: i }
           }
         }
@@ -142,7 +142,7 @@ const lastIndexOfPropertyValue = (content, startIndex) => {
   let evenAmountOfQuotationMarks = true
   let isEscaped = false
   for (let i = startIndex; i < content.length; i++) {
-    let currentChar = content.charAt(i)
+    const currentChar = content.charAt(i)
     if (currentChar === `\\`) {
       isEscaped = !isEscaped
     } else {
@@ -163,11 +163,11 @@ const isWhitespace = (currentChar) => (currentChar.trim() === ``)
 const isQuotationMark = (currentChar, isEscaped) => (currentChar === `"` && !isEscaped)
 
 const formatKey = (unformattedKey) => {
-  let unformattedTrimmedKey = unformattedKey.trim()
+  const unformattedTrimmedKey = unformattedKey.trim()
   if (unformattedTrimmedKey.endsWith(`:`)) {
-    let trimmedKeyOnly = unformattedKey.substring(0, unformattedKey.length - 1).trim()
+    const trimmedKeyOnly = unformattedKey.substring(0, unformattedKey.length - 1).trim()
     if (trimmedKeyOnly.length > 1 && trimmedKeyOnly.startsWith(`"`) && trimmedKeyOnly.endsWith(`"`)) {
-      let formattedKey = trimmedKeyOnly.substring(1, trimmedKeyOnly.length - 1)
+      const formattedKey = trimmedKeyOnly.substring(1, trimmedKeyOnly.length - 1)
       return formattedKey
     } else {
       throw new Error(`Key ${unformattedKey} is not wrapped by "".`)

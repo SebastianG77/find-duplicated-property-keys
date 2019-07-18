@@ -38,11 +38,11 @@ const runCli = (options) => {
   if (options == null || options.src == null) {
     console.log(commandLineUsage(sections))
   } else {
-    let jsonFile = options.src
+    const jsonFile = options.src
     if (fs.existsSync(jsonFile)) {
       if (fs.lstatSync(jsonFile).isFile()) {
-        let content = fs.readFileSync(jsonFile).toString()
-        let duplicatedPropertyKeys = findDuplicatedPropertyKeys(content)
+        const content = fs.readFileSync(jsonFile).toString()
+        const duplicatedPropertyKeys = findDuplicatedPropertyKeys(content)
         if (duplicatedPropertyKeys != null) {
           if (duplicatedPropertyKeys.length === 0) {
             console.log(chalk.green(`No duplicated property keys found in ${options.src}.`))

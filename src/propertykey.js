@@ -1,5 +1,5 @@
 export const PropertyKey = (key, parent) => {
-  let PropertyKey = {
+  const PropertyKey = {
     key: key,
     parent: parent,
     occurrence: 1,
@@ -10,7 +10,7 @@ export const PropertyKey = (key, parent) => {
 }
 
 export const addPropertyKeyToArray = (propertyKeyArray, propertyKey) => {
-  let propertyKeysInArray = findPropertyKeysInArray(propertyKeyArray, propertyKey)
+  const propertyKeysInArray = findPropertyKeysInArray(propertyKeyArray, propertyKey)
   if (propertyKeysInArray.length === 0) {
     propertyKeyArray.push(propertyKey)
   } else if (propertyKeysInArray.length === 1) {
