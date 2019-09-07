@@ -25,14 +25,14 @@
     "command-line-usage": "6.0.2"
   },
   "devDependencies": {
-    "@babel/cli": "7.5.5",
-    "@babel/core": "7.5.5",
-    "@babel/preset-env": "7.5.5",
+    "@babel/cli": "7.6.0",
+    "@babel/core": "7.6.0",
+    "@babel/preset-env": "7.6.0",
     "app-root-path": "2.2.1",
     "babel-plugin-add-module-exports": "1.0.2",
-    "coveralls": "3.0.5",
-    "jest": "24.8.0",
-    "jest-html-reporter": "2.5.0",
+    "coveralls": "3.0.6",
+    "jest": "24.9.0",
+    "jest-html-reporter": "2.6.0",
     "standard": "14.1.0"
   },
   "repository": {
