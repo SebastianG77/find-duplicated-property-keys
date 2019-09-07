@@ -1,5 +1,4 @@
 import path from 'path'
-import appRoot from 'app-root-path'
 import fs from 'fs'
 
 import { PropertyKey } from '../propertykey'
@@ -7,7 +6,7 @@ import findDuplicatedPropertyKeys from '../index'
 
 const { describe, expect, it } = global
 
-const appRootPath = appRoot.toString()
+const appRootPath = path.join(__dirname, '..', '..')
 
 describe('Validate a JSON file that does not contain any duplicates', () => {
   it('returns an empty list', () => {
