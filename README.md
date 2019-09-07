@@ -3,6 +3,7 @@
  [![npm version](https://badge.fury.io/js/find-duplicated-property-keys.svg)](https://badge.fury.io/js/find-duplicated-property-keys)
  [![Build Status](https://travis-ci.org/SebastianG77/find-duplicated-property-keys.svg?branch=master)](https://travis-ci.org/SebastianG77/find-duplicated-property-keys) 
  [![Coverage Status](https://coveralls.io/repos/github/SebastianG77/find-duplicated-property-keys/badge.svg?branch=master)](https://coveralls.io/github/SebastianG77/find-duplicated-property-keys?branch=master)
+ [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 A package for detecting all duplicated property keys of a JSON string. It can either be used as a standalone tool for validating JSON files or as a sub module for other Node.js projects.
 
