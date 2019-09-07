@@ -12,9 +12,11 @@
   },
   "keywords": [
     "JSON",
-    "duplicated",
+    "duplicate",
     "property",
-    "keys",
+    "key",
+    "validate",
+    "validation",
     "validator"
   ],
   "author": "SebastianG",
