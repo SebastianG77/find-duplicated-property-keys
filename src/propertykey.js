@@ -4,7 +4,7 @@ export const PropertyKey = (key, parent) => {
     parent: parent,
     occurrence: 1,
     propertyPath: () => PropertyKey.parent == null ? [PropertyKey.key] : parent.propertyPath().concat([PropertyKey.key]),
-    toString: () => PropertyKey.propertyPath().join(`.`)
+    toString: () => PropertyKey.propertyPath().join('.')
   }
   return PropertyKey
 }

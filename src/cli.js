@@ -47,7 +47,7 @@ const runCli = (options) => {
           if (duplicatedPropertyKeys.length === 0) {
             console.log(chalk.green(`No duplicated property keys found in ${options.src}.`))
           } else {
-            console.log(chalk.red(`The following duplicated property keys have been detected in ${options.src}:\n${duplicatedPropertyKeys.join(`\n`)}`))
+            console.log(chalk.red(`The following duplicated property keys have been detected in ${options.src}:\n${duplicatedPropertyKeys.join('\n')}`))
           }
         }
       } else {

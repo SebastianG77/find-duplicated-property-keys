@@ -6,7 +6,7 @@ export default (content) => {
     if (isValidJSON(content)) {
       return checkRedundancy(content)
     } else {
-      throw new Error(`Input is no valid JSON.`)
+      throw new Error('Input is no valid JSON.')
     }
   } else {
     throwInvalidContentTypeError(content, contentType)
@@ -28,7 +28,7 @@ const checkRedundancy = (content) => {
 const initContent = (content) => content.trim()
 
 const extractAllPropertyKeysOfContent = (content) => {
-  const parentStack = [PropertyKey(`<instance>`, null)]
+  const parentStack = [PropertyKey('<instance>', null)]
   for (let i = 0; i < content.length; i++) {
     const currentChar = content.charAt(i)
     if (currentChar === '{') {
@@ -87,20 +87,20 @@ const extractPropertyKeysOfArray = (content, parentStack, startIndex) => {
   for (let i = startIndex; i < content.length; i++) {
     const currentChar = content.charAt(i)
     if (!isWhitespace(currentChar)) {
-      if (currentChar === `,`) {
+      if (currentChar === ',') {
         parentStack.pop()
         currentIndex++
         currentKey = PropertyKey(`[${currentIndex}]`, parentStack[parentStack.length - 1])
         parentStack.push(currentKey)
-      } else if (currentChar === `{`) {
+      } else if (currentChar === '{') {
         const extractedPropertyKeys = extractPropertyKeysOfObject(content, parentStack, i + 1)
         i = extractedPropertyKeys.newIndex
         allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
-      } else if (currentChar === `[`) {
+      } else if (currentChar === '[') {
         const extractedPropertyKeys = extractPropertyKeysOfArray(content, parentStack, i + 1)
         i = extractedPropertyKeys.newIndex
         allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
-      } else if (currentChar === `]`) {
+      } else if (currentChar === ']') {
         parentStack.pop()
         return { propertyKeys: allPropertyKeys, newIndex: i - 1 }
       } else {
@@ -117,7 +117,7 @@ const extractPropertyKey = (content, parentStack, startIndex) => {
   let startPropertyKeyIndex
   for (let i = startIndex; i < content.length; i++) {
     const currentChar = content.charAt(i)
-    if (currentChar === `\\`) {
+    if (currentChar === '\\') {
       isEscaped = !isEscaped
     } else {
       if (isQuotationMark(currentChar, isEscaped)) {
@@ -127,7 +127,7 @@ const extractPropertyKey = (content, parentStack, startIndex) => {
         }
       } else {
         if (quotationMarksFound === 2) {
-          if (currentChar === `:`) {
+          if (currentChar === ':') {
             const newSubStringEnding = i + 1
             return { propertyKey: PropertyKey(formatKey(content.substring(startPropertyKeyIndex, newSubStringEnding)), parentStack[parentStack.length - 1]), newIndex: i }
           }
@@ -143,13 +143,13 @@ const lastIndexOfPropertyValue = (content, startIndex) => {
   let isEscaped = false
   for (let i = startIndex; i < content.length; i++) {
     const currentChar = content.charAt(i)
-    if (currentChar === `\\`) {
+    if (currentChar === '\\') {
       isEscaped = !isEscaped
     } else {
       if (isQuotationMark(currentChar, isEscaped)) {
         evenAmountOfQuotationMarks = !evenAmountOfQuotationMarks
       } else {
-        if ((currentChar === `,` || currentChar === `}` || currentChar === `]`) && evenAmountOfQuotationMarks) {
+        if ((currentChar === ',' || currentChar === '}' || currentChar === ']') && evenAmountOfQuotationMarks) {
           return i - 1
         }
         isEscaped = false
@@ -158,15 +158,15 @@ const lastIndexOfPropertyValue = (content, startIndex) => {
   }
 }
 
-const isWhitespace = (currentChar) => (currentChar.trim() === ``)
+const isWhitespace = (currentChar) => (currentChar.trim() === '')
 
-const isQuotationMark = (currentChar, isEscaped) => (currentChar === `"` && !isEscaped)
+const isQuotationMark = (currentChar, isEscaped) => (currentChar === '"' && !isEscaped)
 
 const formatKey = (unformattedKey) => {
   const unformattedTrimmedKey = unformattedKey.trim()
-  if (unformattedTrimmedKey.endsWith(`:`)) {
+  if (unformattedTrimmedKey.endsWith(':')) {
     const trimmedKeyOnly = unformattedKey.substring(0, unformattedKey.length - 1).trim()
-    if (trimmedKeyOnly.length > 1 && trimmedKeyOnly.startsWith(`"`) && trimmedKeyOnly.endsWith(`"`)) {
+    if (trimmedKeyOnly.length > 1 && trimmedKeyOnly.startsWith('"') && trimmedKeyOnly.endsWith('"')) {
       const formattedKey = trimmedKeyOnly.substring(1, trimmedKeyOnly.length - 1)
       return formattedKey
     } else {
@@ -188,9 +188,9 @@ const isValidJSON = (content) => {
 
 const throwInvalidContentTypeError = (content, contentType) => {
   if (content === null) {
-    throw new Error(`Input may not be null.`)
+    throw new Error('Input may not be null.')
   } else if (content === undefined) {
-    throw new Error(`Input may not be undefined.`)
+    throw new Error('Input may not be undefined.')
   } else {
     throw new Error(`Input is of type ${contentType}, but not of type string.`)
   }
