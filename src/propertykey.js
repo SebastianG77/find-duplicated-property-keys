@@ -3,6 +3,7 @@ export const PropertyKey = (key, parent) => {
     key: key,
     parent: parent,
     occurrence: 1,
+    alternativeSpellings: [],
     propertyPath: () => PropertyKey.parent == null ? [PropertyKey.key] : parent.propertyPath().concat([PropertyKey.key]),
     toString: () => PropertyKey.propertyPath().join('.')
   }
@@ -15,6 +16,7 @@ export const addPropertyKeyToArray = (propertyKeyArray, propertyKey) => {
     propertyKeyArray.push(propertyKey)
   } else if (propertyKeysInArray.length === 1) {
     propertyKeysInArray[0].occurrence++
+    addAlternativeSpelling(propertyKeysInArray[0], propertyKey.key)
   } else {
     throw new Error(`Property ${propertyKey.toString()} occurs multiple times in propertyKeys.`)
   }
@@ -22,3 +24,9 @@ export const addPropertyKeyToArray = (propertyKeyArray, propertyKey) => {
 
 const findPropertyKeysInArray = (propertyKeysArray, propertyKey) =>
   propertyKeysArray.filter(propertyInArray => propertyInArray.parent === propertyKey.parent && propertyInArray.key === propertyKey.key)
+
+const addAlternativeSpelling = (propertyKey, alternativeKey) => {
+  if (propertyKey.key !== alternativeKey && !propertyKey.alternativeSpellings.includes(alternativeKey)) {
+    propertyKey.alternativeSpellings.push(alternativeKey)
+  }
+}
