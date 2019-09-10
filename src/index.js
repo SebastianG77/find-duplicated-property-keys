@@ -1,10 +1,10 @@
 import { PropertyKey, addPropertyKeyToArray } from './propertykey'
 
-export default (content) => {
+export default (content, options) => {
   const contentType = typeof content
   if (contentType === 'string') {
     if (isValidJSON(content)) {
-      return checkRedundancy(content)
+      return checkRedundancy(content, options)
     } else {
       throw new Error('Input is no valid JSON.')
     }
@@ -13,13 +13,13 @@ export default (content) => {
   }
 }
 
-const checkRedundancy = (content) => {
+const checkRedundancy = (content, options) => {
   const formattedContent = initContent(content)
   const allPropertyKeys = extractAllPropertyKeysOfContent(formattedContent)
   const aggregatedPropertyKeys = []
 
   allPropertyKeys.forEach(propertyKey => {
-    addPropertyKeyToArray(aggregatedPropertyKeys, propertyKey)
+    addPropertyKeyToArray(aggregatedPropertyKeys, propertyKey, options)
   })
 
   return aggregatedPropertyKeys.filter(propertyKey => propertyKey.occurrence > 1)

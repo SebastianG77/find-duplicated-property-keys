@@ -10,8 +10,9 @@ export const PropertyKey = (key, parent) => {
   return PropertyKey
 }
 
-export const addPropertyKeyToArray = (propertyKeyArray, propertyKey) => {
-  const propertyKeysInArray = findPropertyKeysInArray(propertyKeyArray, propertyKey)
+export const addPropertyKeyToArray = (propertyKeyArray, propertyKey, options) => {
+  const sensitivity = (options == null || options.sensitivity == null) ? 'variant' : options.sensitivity
+  const propertyKeysInArray = findPropertyKeysInArray(propertyKeyArray, propertyKey, sensitivity)
   if (propertyKeysInArray.length === 0) {
     propertyKeyArray.push(propertyKey)
   } else if (propertyKeysInArray.length === 1) {
@@ -22,8 +23,12 @@ export const addPropertyKeyToArray = (propertyKeyArray, propertyKey) => {
   }
 }
 
-const findPropertyKeysInArray = (propertyKeysArray, propertyKey) =>
-  propertyKeysArray.filter(propertyInArray => propertyInArray.parent === propertyKey.parent && propertyInArray.key === propertyKey.key)
+const findPropertyKeysInArray = (propertyKeysArray, propertyKey, selectedSensitivity) =>
+  propertyKeysArray.filter(propertyInArray => propertyInArray.parent === propertyKey.parent &&
+    (propertyInArray.key === propertyKey.key || (propertyInArray.key != null && propertyKey.key != null &&
+      propertyInArray.key.localeCompare(propertyKey.key, undefined, { sensitivity: selectedSensitivity }) === 0)
+    )
+  )
 
 const addAlternativeSpelling = (propertyKey, alternativeKey) => {
   if (propertyKey.key !== alternativeKey && !propertyKey.alternativeSpellings.includes(alternativeKey)) {
