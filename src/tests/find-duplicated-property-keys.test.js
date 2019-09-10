@@ -397,14 +397,22 @@ describe('Validate a JSON file that does not contain any duplicates but contains
   })
 })
 
+describe('String properties \'name\' and \'Name\' exist while option \'sensitivity\' is set to \'base\'', () => {
+  it('returns an empty list', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_case_insensitive_duplicate_with_option_base.json')), { sensitivity: 'base' })
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey(['<instance>', 'name'], 2, ['Name'])])
+  })
+})
+
 const readFile = (fileName) => {
   return fs.readFileSync(fileName, 'utf8')
 }
 
-const createPropertyKey = (propertyPath, occurrence) => {
+const createPropertyKey = (propertyPath, occurrence, alternativeSpellings = []) => {
   const propertyKey = PropertyKey()
   propertyKey.propertyPath = () => propertyPath
   propertyKey.occurrence = occurrence
+  propertyKey.alternativeSpellings = alternativeSpellings
   return propertyKey
 }
 
@@ -423,8 +431,10 @@ const returnExpectedResultValues = (result, expected) => {
       resultValue.occurrence === expectedValue.occurrence &&
       expectedValue.propertyPath().length === resultValue.propertyPath().length &&
       expectedValue.propertyPath().every((property, index) => (
-        property === resultValue.propertyPath()[index]
-      )))))
+        property === resultValue.propertyPath()[index]) &&
+        expectedValue.alternativeSpellings.length === resultValue.alternativeSpellings.length &&
+        expectedValue.alternativeSpellings.every(alternativeSpelling => resultValue.alternativeSpellings.includes(alternativeSpelling))
+      ))))
   })
   return expectedResultValues
 }
