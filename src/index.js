@@ -1,6 +1,7 @@
 import { PropertyKey, addPropertyKeyToArray } from './propertykey'
 
 export default (content, options) => {
+  checkOptions(options)
   const contentType = typeof content
   if (contentType === 'string') {
     if (isValidJSON(content)) {
@@ -174,6 +175,15 @@ const formatKey = (unformattedKey) => {
     }
   } else {
     throw new Error(`Key ${unformattedKey} does not end by :.`)
+  }
+}
+
+const checkOptions = (options) => {
+  if (options != null) {
+    const validSensitivityValues = ['base', 'accent', 'case', 'variant']
+    if (!validSensitivityValues.includes(options.sensitivity)) {
+      throw new Error(`Option 'sensitivitiy' must be one of [${validSensitivityValues.join(', ')}], but contains invalid value '${options.sensitivity}'.`)
+    }
   }
 }
 
