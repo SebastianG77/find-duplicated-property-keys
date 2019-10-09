@@ -404,6 +404,14 @@ describe('String properties \'name\' and \'Name\' exist while option \'sensitivi
   })
 })
 
+describe('Validate a JSON file that does not contain any duplicates while option \'sensitivity\' is set to invalid value \'invalidSensitivity\'', () => {
+  it('returns an empty list', () => {
+    expect(() => findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_with_invalid_sensitivity_option.json')),
+      { sensitivity: 'invalidSensitivity' }))
+      .toThrowError('Option \'sensitivitiy\' must be one of [base, accent, case, variant], but contains invalid value \'invalidSensitivity\'.')
+  })
+})
+
 const readFile = (fileName) => {
   return fs.readFileSync(fileName, 'utf8')
 }
