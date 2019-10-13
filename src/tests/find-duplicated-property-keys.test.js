@@ -490,6 +490,20 @@ describe('Validate a JSON file that does not contain any duplicates while option
   })
 })
 
+describe('Validate a JSON file that does not contain any duplicates while option \'sensitivity\' is set to null', () => {
+  it('returns an empty list', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_with_null_sensitivity_option.json')), { sensitivity: null })
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe('Validate a JSON file that does not contain any duplicates while option \'sensitivity\' is set to undefined', () => {
+  it('returns an empty list', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_with_undefined_sensitivity_option.json')), { sensitivity: undefined })
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
 describe('Call function addPropertyKeyToArray while property propertyKeyArray contains identical values', () => {
   it('throws the expected error as duplicated entries are not allowed in propertyKeyArray', () => {
     const firstPropertyKeyArrayEntry = createPropertyKey(['<instance>', 'name'], 1)
