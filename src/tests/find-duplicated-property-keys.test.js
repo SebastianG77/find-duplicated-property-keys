@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 
-import { PropertyKey } from '../propertykey'
+import { addPropertyKeyToArray, PropertyKey } from '../propertykey'
 import findDuplicatedPropertyKeys from '../index'
 
 const { describe, expect, it } = global
@@ -487,6 +487,19 @@ describe('Validate a JSON file that does not contain any duplicates while option
     expect(() => findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_with_invalid_sensitivity_option_type.json')),
       { sensitivity: { sensitivitiy: 'base' } }))
       .toThrowError('Option \'sensitivity\' must be of type \'string\' but is of type object.')
+  })
+})
+
+describe('Call function addPropertyKeyToArray while property propertyKeyArray contains identical values', () => {
+  it('throws the expected error as duplicated entries are not allowed in propertyKeyArray', () => {
+    const firstPropertyKeyArrayEntry = createPropertyKey(['<instance>', 'name'], 1)
+    const secondPropertyKeyArrayEntry = createPropertyKey(['<instance>', 'name'], 1)
+    const propertyKeyArray = [firstPropertyKeyArrayEntry, secondPropertyKeyArrayEntry]
+
+    const newPropertyKeyArrayEntry = createPropertyKey(['<instance>', 'name'], 1)
+
+    expect(() => addPropertyKeyToArray(propertyKeyArray, newPropertyKeyArrayEntry, undefined))
+      .toThrowError('Property <instance>.name occurs multiple times in propertyKeys.')
   })
 })
 
