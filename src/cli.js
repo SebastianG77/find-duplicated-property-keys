@@ -27,6 +27,11 @@ const sections = [
         type: String,
         typeLabel: '{underline file}',
         description: 'The path to the JSON file. This parameter must be set to run this tool.'
+      },
+      {
+        name: 'sensitivity',
+        type: String,
+        description: 'An optional parameter for setting the sensitivty of the key comparison. Valid values are "base" (a ≠ b, a = á, a = A), "accent" (a ≠ b, a ≠ á, a = A), "case" (a ≠ b, a = á, a ≠ A) and "variant" (a ≠ b, a ≠ á, a ≠ A).'
       }
     ]
   }
@@ -42,7 +47,7 @@ const runCli = (options) => {
     if (fs.existsSync(jsonFile)) {
       if (fs.lstatSync(jsonFile).isFile()) {
         const content = fs.readFileSync(jsonFile).toString()
-        const duplicatedPropertyKeys = findDuplicatedPropertyKeys(content)
+        const duplicatedPropertyKeys = findDuplicatedPropertyKeys(content, { sensitivity: options.sensitivity })
         if (duplicatedPropertyKeys != null) {
           if (duplicatedPropertyKeys.length === 0) {
             console.log(chalk.green(`No duplicated property keys found in ${options.src}.`))
