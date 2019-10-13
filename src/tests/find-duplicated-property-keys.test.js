@@ -482,6 +482,14 @@ describe('Validate a JSON file that does not contain any duplicates while option
   })
 })
 
+describe('Validate a JSON file that does not contain any duplicates while option \'sensitivity\' is set to invalid object value', () => {
+  it('returns an empty list', () => {
+    expect(() => findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_with_invalid_sensitivity_option_type.json')),
+      { sensitivity: { sensitivitiy: 'base' } }))
+      .toThrowError('Option \'sensitivity\' must be of type \'string\' but is of type object.')
+  })
+})
+
 const readFile = (fileName) => {
   return fs.readFileSync(fileName, 'utf8')
 }
