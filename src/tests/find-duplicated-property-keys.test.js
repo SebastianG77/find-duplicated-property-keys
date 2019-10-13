@@ -475,7 +475,7 @@ describe('String property <instance>.name is duplicated while option \'sensitivi
 })
 
 describe('Validate a JSON file that does not contain any duplicates while option \'sensitivity\' is set to invalid value \'invalidSensitivity\'', () => {
-  it('returns an empty list', () => {
+  it('throws the expected error as option sensitivity must be of one of [\'base\', \'accent\', \'case\', \'variant\']', () => {
     expect(() => findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_with_invalid_sensitivity_option_value.json')),
       { sensitivity: 'invalidSensitivity' }))
       .toThrowError('Option \'sensitivitiy\' must be one of [\'base\', \'accent\', \'case\', \'variant\'], but contains invalid value \'invalidSensitivity\'.')
@@ -483,7 +483,7 @@ describe('Validate a JSON file that does not contain any duplicates while option
 })
 
 describe('Validate a JSON file that does not contain any duplicates while option \'sensitivity\' is set to invalid object value', () => {
-  it('returns an empty list', () => {
+  it('throws the expected error as option sensitivity must be of type string', () => {
     expect(() => findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_with_invalid_sensitivity_option_type.json')),
       { sensitivity: { sensitivitiy: 'base' } }))
       .toThrowError('Option \'sensitivity\' must be of type \'string\' but is of type object.')
