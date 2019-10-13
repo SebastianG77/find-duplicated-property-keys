@@ -404,6 +404,76 @@ describe('String properties \'name\' and \'Name\' exist while option \'sensitivi
   })
 })
 
+describe('String properties \'name\' and \'Name\' exist while option \'sensitivity\' is set to \'accent\'', () => {
+  it('returns the expected property object', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_case_duplicate_with_option_accent.json')), { sensitivity: 'accent' })
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey(['<instance>', 'name'], 2, ['Name'])])
+  })
+})
+
+describe('String properties \'name\', \'Name\' and \'age\' exist while option \'sensitivity\' is set to \'case\'', () => {
+  it('returns the expected property object', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_case_duplicate_with_option_case.json')), { sensitivity: 'case' })
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe('String properties \'name\', \'Name\' and \'age\' exist while option \'sensitivity\' is set to \'variant\'', () => {
+  it('returns the expected property object', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_case_and_accent_duplicate_with_option_variant.json')), { sensitivity: 'variant' })
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe('String properties \'name\' and \'náme\' exist while option \'sensitivity\' is set to \'base\'', () => {
+  it('returns the expected property object', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_accent_duplicate_with_option_base.json')), { sensitivity: 'base' })
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey(['<instance>', 'name'], 2, ['náme'])])
+  })
+})
+
+describe('String properties \'name\' and \'náme\' exist while option \'sensitivity\' is set to \'accent\'', () => {
+  it('returns the expected property object', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_accent_duplicate_with_option_accent.json')), { sensitivity: 'accent' })
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe('String properties \'name\' and \'náme\' and \'age\' exist while option \'sensitivity\' is set to \'case\'', () => {
+  it('returns the expected property object', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_accent_duplicate_with_option_case.json')), { sensitivity: 'case' })
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey(['<instance>', 'name'], 2, ['náme'])])
+  })
+})
+
+describe('String property <instance>.name is duplicated while option \'sensitivity\' is set to \'base\'', () => {
+  it('returns the expected property object', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_duplicate_with_option_base.json')), { sensitivity: 'base' })
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey(['<instance>', 'name'], 2)])
+  })
+})
+
+describe('String property <instance>.name is duplicated while option \'sensitivity\' is set to \'accent\'', () => {
+  it('returns the expected property object', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_duplicate_with_option_accent.json')), { sensitivity: 'accent' })
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey(['<instance>', 'name'], 2)])
+  })
+})
+
+describe('String property <instance>.name is duplicated while option \'sensitivity\' is set to \'case\'', () => {
+  it('returns the expected property object', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_duplicate_with_option_case.json')), { sensitivity: 'case' })
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey(['<instance>', 'name'], 2)])
+  })
+})
+
+describe('String property <instance>.name is duplicated while option \'sensitivity\' is set to \'variant\'', () => {
+  it('returns the expected property object', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_duplicate_with_option_variant.json')), { sensitivity: 'case' })
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey(['<instance>', 'name'], 2)])
+  })
+})
+
 describe('Validate a JSON file that does not contain any duplicates while option \'sensitivity\' is set to invalid value \'invalidSensitivity\'', () => {
   it('returns an empty list', () => {
     expect(() => findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_with_invalid_sensitivity_option.json')),
