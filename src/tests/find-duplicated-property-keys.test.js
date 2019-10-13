@@ -478,7 +478,7 @@ describe('Validate a JSON file that does not contain any duplicates while option
   it('returns an empty list', () => {
     expect(() => findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_with_invalid_sensitivity_option.json')),
       { sensitivity: 'invalidSensitivity' }))
-      .toThrowError('Option \'sensitivitiy\' must be one of [base, accent, case, variant], but contains invalid value \'invalidSensitivity\'.')
+      .toThrowError('Option \'sensitivitiy\' must be one of [\'base\', \'accent\', \'case\', \'variant\'], but contains invalid value \'invalidSensitivity\'.')
   })
 })
 

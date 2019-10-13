@@ -182,7 +182,7 @@ const checkOptions = (options) => {
   if (options != null) {
     const validSensitivityValues = ['base', 'accent', 'case', 'variant']
     if (!validSensitivityValues.includes(options.sensitivity)) {
-      throw new Error(`Option 'sensitivitiy' must be one of [${validSensitivityValues.join(', ')}], but contains invalid value '${options.sensitivity}'.`)
+      throw new Error(`Option 'sensitivitiy' must be one of [${validSensitivityValues.map(sensitivityValue => `'${sensitivityValue}'`).join(', ')}], but contains invalid value '${options.sensitivity}'.`)
     }
   }
 }
