@@ -180,9 +180,16 @@ const formatKey = (unformattedKey) => {
 
 const checkOptions = (options) => {
   if (options != null) {
-    const validSensitivityValues = ['base', 'accent', 'case', 'variant']
-    if (!validSensitivityValues.includes(options.sensitivity)) {
-      throw new Error(`Option 'sensitivitiy' must be one of [${validSensitivityValues.map(sensitivityValue => `'${sensitivityValue}'`).join(', ')}], but contains invalid value '${options.sensitivity}'.`)
+    if (options.sensitivity != null) {
+      const optionSensitivityType = typeof options.sensitivity
+      if (optionSensitivityType === 'string') {
+        const validSensitivityValues = ['base', 'accent', 'case', 'variant']
+        if (!validSensitivityValues.includes(options.sensitivity)) {
+          throw new Error(`Option 'sensitivitiy' must be one of [${validSensitivityValues.map(sensitivityValue => `'${sensitivityValue}'`).join(', ')}], but contains invalid value '${options.sensitivity}'.`)
+        }
+      } else {
+        throw new Error(`Option 'sensitivity' must be of type 'string' but is of type ${optionSensitivityType}.`)
+      }
     }
   }
 }
