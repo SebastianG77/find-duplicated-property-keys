@@ -12,25 +12,25 @@ A package for detecting all duplicated property keys of a JSON string. It can ei
 
 If you like to use `find-duplicated-property-keys` as a standalone tool, you first have to install it by using the following command:
 
-```
+```bash
 $ npm install find-duplicated-property-keys
 ```
 
 To run this tool you simply need to execute it from the install directory like this:
 
-```
+```bash
 $ node_modules/.bin/find-duplicated-property-keys -s <path-to-json-file>
 ```
 
 Of course, if you prefer a more comfortable way of running this tool, you can also install it globally by using this command:
 
-```
+```bash
 $ npm install -g find-duplicated-property-keys
 ```
 
 Then you can run `find-duplicated-property-keys` from any directory by using the following command:
 
-```
+```bash
 $ find-duplicated-property-keys -s <path-to-json-file>
 ```
 
@@ -41,13 +41,13 @@ When running the tool from terminal, it will list all duplicated property keys o
 
 In case you need to include `find-duplicated-property-keys` into another project, you first have to add it to your Node.js application by executing the following command while being in the root directory of your project:
 
-```
+```bash
 $ npm install find-duplicated-property-keys
 ```
 
 To validate a JSON string you can run the module as described in the following example:
 
-```
+```javascript
 const findDuplicatedPropertyKeys = require('find-duplicated-property-keys');
 
 let jsonString = '{"name": "Carl", "name": "Carla"}';
