@@ -79,7 +79,7 @@ The following example shows how to use options for an accent and case insensitiv
 ```javascript
 const findDuplicatedPropertyKeys = require('find-duplicated-property-keys');
 
-const jsonString = '{"NAME": "Carl", "name": "Carla", "NÀME": "Carla"}';
+const jsonString = '{"NAME": "Carl", "name": "Carla", "NÀME": "Carlo"}';
 
 const options = {
   sensitivity: 'base'
