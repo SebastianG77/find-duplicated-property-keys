@@ -74,20 +74,22 @@ When running `findDuplicatedPropertyKeys` programatically, options can be set by
 
 Also here sensitivity *variant* will be used, if no sensitivty option has been set.
 
-The following example shows how to use options for a case insensitive search: 
+The following example shows how to use options for an accent and case insensitive search: 
 
 ```javascript
 const findDuplicatedPropertyKeys = require('find-duplicated-property-keys');
 
-const jsonString = '{"NAME": "Carl", "name": "Carla"}';
+const jsonString = '{"NAME": "Carl", "name": "Carla", "NÀME": "Carla"}';
 
 const options = {
-    sensitivity: 'case'
+  sensitivity: 'base'
 }
 
 let result = findDuplicatedPropertyKeys(jsonString, options);
 
 console.log(result.toString()); // <instance>.NAME
+
+console.log(result[0].alternativeSpellings.join(', ')); // name, NÀME
 ```
 
 The returned result will be an array that contains all duplicated property keys. Each of these property keys is represented by an object which has the following attributes:
