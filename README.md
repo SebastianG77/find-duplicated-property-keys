@@ -94,7 +94,7 @@ console.log(result[0].alternativeSpellings.join(', ')); // name, NÀME
 
 The returned result will be an array that contains all duplicated property keys. Each of these property keys is represented by an object which has the following attributes:
 
-- key: The key name of the duplicated property. If case insensitive or accent insensitive have been detected, the this property contains the name of the key that has been found first. 
+- key: The key name of the duplicated property. If case insensitive or accent insensitive property keys have been detected, this property contains the spelling of the key that has been found first.
 - parent: The parent object of a property key.
 - occurrence: The number of property keys having the same key and parent object.
 - alternativeSpellings: An array of strings containing alternative spellings of the key, if option *sensitivity* is set to 'base' , 'accent' or 'case'. If option *sensitivity* is set to 'variant' or not set at all, the array will always be empty.
