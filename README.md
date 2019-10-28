@@ -36,6 +36,14 @@ $ find-duplicated-property-keys -s <path-to-json-file>
 
 When running the tool from terminal, it will list all duplicated property keys or return a notification to indicate the JSON file does not contain any duplicated property keys.
 
+If desired, also the option *--sensitivity* can be set for a case or accent insensitive search. Valid values for this option are:
+
+* "base" (a ≠ b, a = á, a = A)
+* "accent" (a ≠ b, a ≠ á, a = A)
+* "case" (a ≠ b, a = á, a ≠ A)
+* "variant" (a ≠ b, a ≠ á, a ≠ A)
+
+If no corresponding option is set, sensitivity "variant" will be used as default.
 
 ### Use as a Submodule
 
@@ -57,11 +65,37 @@ let result = findDuplicatedPropertyKeys(jsonString);
 console.log(result.toString()); // <instance>.name
 ```
 
+When running `findDuplicatedPropertyKeys` programatically, options can be set by adding a second object as function parameter. Options may contain the property *sensitivity* to allow an accent or insensitive search for duplicated property keys. Comparable to the command line parameter *--sensitivity* values for this property must be one of the following string values:
+
+* "base" (a ≠ b, a = á, a = A)
+* "accent" (a ≠ b, a ≠ á, a = A)
+* "case" (a ≠ b, a = á, a ≠ A)
+* "variant" (a ≠ b, a ≠ á, a ≠ A)
+
+Also here sensitivity *variant* will be used, if no sensitivty option has been set.
+
+The following example shows how to use options for a case insensitive search: 
+
+```javascript
+const findDuplicatedPropertyKeys = require('find-duplicated-property-keys');
+
+const jsonString = '{"NAME": "Carl", "name": "Carla"}';
+
+const options = {
+    sensitivity: 'case'
+}
+
+let result = findDuplicatedPropertyKeys(jsonString, options);
+
+console.log(result.toString()); // <instance>.NAME
+```
+
 The returned result will be an array that contains all duplicated property keys. Each of these property keys is represented by an object which has the following attributes:
 
-- key: The key name of the duplicated property.
+- key: The key name of the duplicated property. If case insensitive or accent insensitive have been detected, the this property contains the name of the key that has been found first. 
 - parent: The parent object of a property key.
 - occurrence: The number of property keys having the same key and parent object.
+- alternativeSpellings: An array of strings containing alternative spellings of the key, if option *sensitivity* is set to 'base' , 'accent' or 'case'. If option *sensitivity* is set to 'variant' or not set at all, the array will always be empty.
 
 Moreover, these objects also contain the following functions for illustrating the actual path to the property key:
 
