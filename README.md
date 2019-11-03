@@ -16,7 +16,7 @@ If you like to use `find-duplicated-property-keys` as a standalone tool, you fir
 $ npm install find-duplicated-property-keys
 ```
 
-To run this tool you simply need to execute it from the install directory like this:
+To run this tool you simply need to execute it from the installation directory like this:
 
 ```bash
 $ node_modules/.bin/find-duplicated-property-keys -s <path-to-json-file>
