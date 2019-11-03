@@ -65,14 +65,14 @@ const result = findDuplicatedPropertyKeys(jsonString);
 console.log(result.toString()); // <instance>.name
 ```
 
-When running `findDuplicatedPropertyKeys` programatically, options can be set by adding a second object as function parameter. Options may contain the property *sensitivity* to allow an accent or insensitive search for duplicated property keys. Comparable to the command line parameter *--sensitivity* values for this property must be one of the following string values:
+When running `findDuplicatedPropertyKeys` programatically, options can be set by adding a second object as function parameter. This object may contain the property *sensitivity* to allow an accent or insensitive search for duplicated property keys. Comparable to the command line parameter *--sensitivity* values for this property must be one of the following string values:
 
 * "base" (a ≠ b, a = á, a = A)
 * "accent" (a ≠ b, a ≠ á, a = A)
 * "case" (a ≠ b, a = á, a ≠ A)
 * "variant" (a ≠ b, a ≠ á, a ≠ A)
 
-Also here sensitivity *variant* will be used, if no sensitivty option has been set.
+Also here sensitivity *variant* will be used, if no sensitivity option has been set.
 
 The following example shows how to use options for an accent and case insensitive search: 
 
