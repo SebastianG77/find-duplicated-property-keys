@@ -36,7 +36,7 @@ $ find-duplicated-property-keys -s <path-to-json-file>
 
 When running the tool from terminal, it will list all duplicated property keys or return a notification to indicate the JSON file does not contain any duplicated property keys.
 
-If desired, also the option *--sensitivity* can be set for a case or accent insensitive search. Valid values for this option are:
+If desired, also the option *--sensitivity* can be set for an accent or case insensitive search. Valid values for this option are:
 
 * "base" (a ≠ b, a = á, a = A)
 * "accent" (a ≠ b, a ≠ á, a = A)
@@ -65,7 +65,7 @@ const result = findDuplicatedPropertyKeys(jsonString);
 console.log(result.toString()); // <instance>.name
 ```
 
-When running `findDuplicatedPropertyKeys` programatically, options can be set by adding a second object as function parameter. This object may contain the property *sensitivity* to allow an accent or insensitive search for duplicated property keys. Comparable to the command line parameter *--sensitivity* values for this property must be one of the following string values:
+When running `findDuplicatedPropertyKeys` programatically, options can be set by adding a second object as function parameter. This object may contain the property *sensitivity* to allow an accent or case insensitive search for duplicated property keys. Comparable to the command line parameter *--sensitivity*, values for this property must be one of the following string values:
 
 * "base" (a ≠ b, a = á, a = A)
 * "accent" (a ≠ b, a ≠ á, a = A)
