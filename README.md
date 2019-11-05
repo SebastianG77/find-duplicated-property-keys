@@ -72,7 +72,7 @@ When running `findDuplicatedPropertyKeys` programatically, options can be set by
 * "case" (a ≠ b, a = á, a ≠ A)
 * "variant" (a ≠ b, a ≠ á, a ≠ A)
 
-Also here sensitivity *variant* will be used, if no sensitivity option has been set.
+Also here sensitivity "variant" will be used, if no sensitivity option has been set.
 
 The following example shows how to use options for an accent and case insensitive search: 
 
@@ -97,7 +97,7 @@ The returned result will be an array that contains all duplicated property keys.
 - key: The key name of the duplicated property. If case insensitive or accent insensitive property keys have been detected, this property contains the spelling of the key that has been found first.
 - parent: The parent object of a property key.
 - occurrence: The number of property keys having the same key and parent object.
-- alternativeSpellings: An array of strings containing alternative spellings of the key, if option *sensitivity* is set to 'base' , 'accent' or 'case'. If option *sensitivity* is set to 'variant' or not set at all, the array will always be empty.
+- alternativeSpellings: An array of strings containing alternative spellings of the key, if option *sensitivity* is set to "base" , "accent" or "case". If option *sensitivity* is set to "variant" or not set at all, the array will always be empty.
 
 Moreover, these objects also contain the following functions for illustrating the actual path to the property key:
 
