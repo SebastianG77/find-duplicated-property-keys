@@ -1,14 +1,15 @@
-export const PropertyKey = (key, parent) => {
+export const PropertyKey = (key, parent, isArray) => {
   const PropertyKey = {
     key: key,
     parent: parent,
     occurrence: 1,
     alternativeSpellings: [],
+    isArray: isArray,
     parentPath: () => PropertyKey.parent == null ? [] : parent.parentPath().concat([PropertyKey.parent.key]),
     alternativeSpellingsPath: () => PropertyKey.alternativeSpellings.map(alternativeSpelling => PropertyKey.parentPath(PropertyKey.parent).concat(alternativeSpelling)),
     propertyPath: () => PropertyKey.parentPath(PropertyKey.parent).concat([PropertyKey.key]),
     printAlternativeSpellings: () => `[${PropertyKey.alternativeSpellingsPath().map(alternativeSpellingsPath => alternativeSpellingsPath.join('.')).join(', ')}]`,
-    toString: () => PropertyKey.propertyPath().join('.')
+    toString: () => PropertyKey.parent == null ? [PropertyKey.key] : `${PropertyKey.parent.toString()}${PropertyKey.isArray ? PropertyKey.key : `.${PropertyKey.key}`}`
   }
   return PropertyKey
 }
