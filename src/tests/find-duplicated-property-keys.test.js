@@ -160,6 +160,15 @@ describe('Test if the toString() function of a PropertyKey object returns the ex
   })
 })
 
+describe('Test if the toString() function of a PropertyKey object returns the expected value if the property key is contained in an array', () => {
+  it('returns the expected string representation', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_duplicated_string_property_in_array_of_objects.json')))
+    expect(duplicatedProperties).toHaveLength(1)
+    expect(duplicatedProperties.toString()).toBe('<instance>.myObject[0].name')
+  })
+})
+
+
 describe('String property <instance>.name is duplicated and contains a comma within its value', () => {
   it('returns the expected property object', () => {
     const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_duplicated_string_with_comma_value.json')))
@@ -400,10 +409,10 @@ describe('Validate a JSON file that does not contain any duplicates but contains
 describe('Call function addPropertyKeyToArray while property propertyKeyArray contains identical values', () => {
   it('throws the expected error as duplicated entries are not allowed in propertyKeyArray', () => {
     const firstPropertyKeyArrayEntry = createPropertyKey(['<instance>', 'name'], 1)
-    const secondPropertyKeyArrayEntry = createPropertyKey(['<instance>', 'name'], 1)
+    const secondPropertyKeyArrayEntry = PropertyKey('name', firstPropertyKeyArrayEntry.parent, false)
     const propertyKeyArray = [firstPropertyKeyArrayEntry, secondPropertyKeyArrayEntry]
 
-    const newPropertyKeyArrayEntry = createPropertyKey(['<instance>', 'name'], 1)
+    const newPropertyKeyArrayEntry = PropertyKey('name', firstPropertyKeyArrayEntry.parent, false)
 
     expect(() => addPropertyKeyToArray(propertyKeyArray, newPropertyKeyArrayEntry, undefined))
       .toThrowError('Property <instance>.name occurs multiple times in propertyKeys.')
@@ -415,10 +424,12 @@ const readFile = (fileName) => {
 }
 
 const createPropertyKey = (propertyPath, occurrence) => {
-  const propertyKey = PropertyKey()
-  propertyKey.propertyPath = () => propertyPath
-  propertyKey.occurrence = occurrence
-  return propertyKey
+  let lastProperty = null
+  propertyPath.forEach(property => {
+    lastProperty = PropertyKey(property, lastProperty, false)
+  })
+  lastProperty.occurrence = occurrence
+  return lastProperty
 }
 
 const comparePropertyKeyArrays = (result, expected) => {
