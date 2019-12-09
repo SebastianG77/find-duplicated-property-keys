@@ -28,7 +28,7 @@ const checkRedundancy = (content) => {
 const initContent = (content) => content.trim()
 
 const extractAllPropertyKeysOfContent = (content) => {
-  const parentStack = [PropertyKey('<instance>', null)]
+  const parentStack = [PropertyKey('<instance>', null, false)]
   for (let i = 0; i < content.length; i++) {
     const currentChar = content.charAt(i)
     if (currentChar === '{') {
@@ -81,7 +81,7 @@ const extractPropertyKeysOfObject = (content, parentStack, startIndex) => {
 
 const extractPropertyKeysOfArray = (content, parentStack, startIndex) => {
   let currentIndex = 0
-  let currentKey = PropertyKey(`[${currentIndex}]`, parentStack[parentStack.length - 1])
+  let currentKey = PropertyKey(`[${currentIndex}]`, parentStack[parentStack.length - 1], true)
   parentStack.push(currentKey)
   let allPropertyKeys = []
   for (let i = startIndex; i < content.length; i++) {
@@ -90,7 +90,7 @@ const extractPropertyKeysOfArray = (content, parentStack, startIndex) => {
       if (currentChar === ',') {
         parentStack.pop()
         currentIndex++
-        currentKey = PropertyKey(`[${currentIndex}]`, parentStack[parentStack.length - 1])
+        currentKey = PropertyKey(`[${currentIndex}]`, parentStack[parentStack.length - 1], true)
         parentStack.push(currentKey)
       } else if (currentChar === '{') {
         const extractedPropertyKeys = extractPropertyKeysOfObject(content, parentStack, i + 1)
@@ -129,7 +129,7 @@ const extractPropertyKey = (content, parentStack, startIndex) => {
         if (quotationMarksFound === 2) {
           if (currentChar === ':') {
             const newSubStringEnding = i + 1
-            return { propertyKey: PropertyKey(formatKey(content.substring(startPropertyKeyIndex, newSubStringEnding)), parentStack[parentStack.length - 1]), newIndex: i }
+            return { propertyKey: PropertyKey(formatKey(content.substring(startPropertyKeyIndex, newSubStringEnding)), parentStack[parentStack.length - 1], false), newIndex: i }
           }
         }
       }
