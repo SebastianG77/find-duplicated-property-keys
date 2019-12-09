@@ -7,6 +7,7 @@ export const PropertyKey = (key, parent) => {
     parentPath: () => PropertyKey.parent == null ? [] : parent.parentPath().concat([PropertyKey.parent.key]),
     alternativeSpellingsPath: () => PropertyKey.alternativeSpellings.map(alternativeSpelling => PropertyKey.parentPath(PropertyKey.parent).concat(alternativeSpelling)),
     propertyPath: () => PropertyKey.parentPath(PropertyKey.parent).concat([PropertyKey.key]),
+    printAlternativeSpellings: () => `[${PropertyKey.alternativeSpellingsPath().map(alternativeSpellingsPath => alternativeSpellingsPath.join('.')).join(', ')}]`,
     toString: () => PropertyKey.propertyPath().join('.')
   }
   return PropertyKey
