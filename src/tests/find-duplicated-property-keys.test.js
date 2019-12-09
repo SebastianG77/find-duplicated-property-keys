@@ -168,7 +168,6 @@ describe('Test if the toString() function of a PropertyKey object returns the ex
   })
 })
 
-
 describe('String property <instance>.name is duplicated and contains a comma within its value', () => {
   it('returns the expected property object', () => {
     const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_duplicated_string_with_comma_value.json')))
