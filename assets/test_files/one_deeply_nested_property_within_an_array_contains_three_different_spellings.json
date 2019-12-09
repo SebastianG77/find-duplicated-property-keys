@@ -1,0 +1,9 @@
+{
+  "myObject": {
+    "mySecondObject": [{
+      "name": "Me",
+      "NAME": "You",
+      "náme": "He"
+    }]
+  }
+}

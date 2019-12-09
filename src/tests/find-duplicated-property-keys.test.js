@@ -517,6 +517,38 @@ describe('Call function addPropertyKeyToArray while property propertyKeyArray co
   })
 })
 
+describe('Check if function alternativeSpellingsPath returns the expected values', () => {
+  it('throws the expected error as duplicated entries are not allowed in propertyKeyArray', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_deeply_nested_property_contains_three_different_spellings.json')), { sensitivity: 'base' })
+    expect(duplicatedProperties).toHaveLength(1)
+    expect(duplicatedProperties[0].alternativeSpellingsPath()).toEqual([['<instance>', 'myObject', 'mySecondObject', 'NAME'], ['<instance>', 'myObject', 'mySecondObject', 'náme']])
+  })
+})
+
+describe('Check if function printAlternativeSpellings returns the expected values', () => {
+  it('throws the expected error as duplicated entries are not allowed in propertyKeyArray', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_deeply_nested_property_contains_three_different_spellings.json')), { sensitivity: 'base' })
+    expect(duplicatedProperties).toHaveLength(1)
+    expect(duplicatedProperties[0].printAlternativeSpellings()).toEqual('[<instance>.myObject.mySecondObject.NAME, <instance>.myObject.mySecondObject.náme]')
+  })
+})
+
+describe('Check if function alternativeSpellingsPath returns the expected values if the property is contained in an array', () => {
+  it('throws the expected error as duplicated entries are not allowed in propertyKeyArray', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_deeply_nested_property_within_an_array_contains_three_different_spellings.json')), { sensitivity: 'base' })
+    expect(duplicatedProperties).toHaveLength(1)
+    expect(duplicatedProperties[0].alternativeSpellingsPath()).toEqual([['<instance>', 'myObject', 'mySecondObject', '[0]', 'NAME'], ['<instance>', 'myObject', 'mySecondObject', '[0]', 'náme']])
+  })
+})
+
+describe('Check if function printAlternativeSpellings returns the expected values if the property is contained in an array', () => {
+  it('throws the expected error as duplicated entries are not allowed in propertyKeyArray', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_deeply_nested_property_within_an_array_contains_three_different_spellings.json')), { sensitivity: 'base' })
+    expect(duplicatedProperties).toHaveLength(1)
+    expect(duplicatedProperties[0].printAlternativeSpellings()).toEqual('[<instance>.myObject.mySecondObject[0].NAME, <instance>.myObject.mySecondObject[0].náme]')
+  })
+})
+
 const readFile = (fileName) => {
   return fs.readFileSync(fileName, 'utf8')
 }
