@@ -168,6 +168,14 @@ describe('Test if the toString() function of a PropertyKey object returns the ex
   })
 })
 
+describe('Test if the toString() function of a PropertyKey object returns the expected value if the property key is contained in a root array', () => {
+  it('returns the expected string representation', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/root_is_an_array_and_one_contains_a_duplicated_string.json')))
+    expect(duplicatedProperties).toHaveLength(1)
+    expect(duplicatedProperties[0].toString()).toBe('<instance>[1].name')
+  })
+})
+
 describe('Test if the propertyPath() function of a PropertyKey object returns the expected value', () => {
   it('returns the expected string representation', () => {
     const propertyKey = createPropertyKey(['<instance>', 'myObject', 'name'], 2)
@@ -180,6 +188,14 @@ describe('Test if the propertyPath() function of a PropertyKey object returns th
     const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_duplicated_string_property_in_array_of_objects.json')))
     expect(duplicatedProperties).toHaveLength(1)
     expect(duplicatedProperties[0].propertyPath()).toStrictEqual(['<instance>', 'myObject', '[0]', 'name'])
+  })
+})
+
+describe('Test if the propertyPath() function of a PropertyKey object returns the expected value if the property key is contained in a root array', () => {
+  it('returns the expected string representation', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/root_is_an_array_and_one_contains_a_duplicated_string.json')))
+    expect(duplicatedProperties).toHaveLength(1)
+    expect(duplicatedProperties[0].propertyPath()).toStrictEqual(['<instance>', '[1]', 'name'])
   })
 })
 
