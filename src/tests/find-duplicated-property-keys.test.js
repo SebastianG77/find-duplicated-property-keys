@@ -168,6 +168,21 @@ describe('Test if the toString() function of a PropertyKey object returns the ex
   })
 })
 
+describe('Test if the propertyPath() function of a PropertyKey object returns the expected value', () => {
+  it('returns the expected string representation', () => {
+    const propertyKey = createPropertyKey(['<instance>', 'myObject', 'name'], 2)
+    expect(propertyKey.propertyPath()).toStrictEqual(['<instance>', 'myObject', 'name'])
+  })
+})
+
+describe('Test if the propertyPath() function of a PropertyKey object returns the expected value if the property key is contained in an array', () => {
+  it('returns the expected string representation', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_duplicated_string_property_in_array_of_objects.json')))
+    expect(duplicatedProperties).toHaveLength(1)
+    expect(duplicatedProperties[0].propertyPath()).toStrictEqual(['<instance>','myObject','[0]','name'])
+  })
+})
+
 describe('String property <instance>.name is duplicated and contains a comma within its value', () => {
   it('returns the expected property object', () => {
     const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_duplicated_string_with_comma_value.json')))
