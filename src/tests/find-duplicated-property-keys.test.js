@@ -179,7 +179,7 @@ describe('Test if the propertyPath() function of a PropertyKey object returns th
   it('returns the expected string representation', () => {
     const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_duplicated_string_property_in_array_of_objects.json')))
     expect(duplicatedProperties).toHaveLength(1)
-    expect(duplicatedProperties[0].propertyPath()).toStrictEqual(['<instance>','myObject','[0]','name'])
+    expect(duplicatedProperties[0].propertyPath()).toStrictEqual(['<instance>', 'myObject', '[0]', 'name'])
   })
 })
 
