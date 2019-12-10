@@ -164,7 +164,7 @@ describe('Test if the toString() function of a PropertyKey object returns the ex
   it('returns the expected string representation', () => {
     const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_duplicated_string_property_in_array_of_objects.json')))
     expect(duplicatedProperties).toHaveLength(1)
-    expect(duplicatedProperties.toString()).toBe('<instance>.myObject[0].name')
+    expect(duplicatedProperties[0].toString()).toBe('<instance>.myObject[0].name')
   })
 })
 
