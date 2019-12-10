@@ -1,6 +1,6 @@
 {
   "name": "find-duplicated-property-keys",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "A package for detecting all duplicated property keys of a JSON string.",
   "bin": "build/cli.js",
   "main": "build/index.js",
