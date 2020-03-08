@@ -546,10 +546,10 @@ describe('Validate a JSON file that does not contain any duplicates while option
 describe('Call function addPropertyKeyToArray while property propertyKeyArray contains identical values', () => {
   it('throws the expected error as duplicated entries are not allowed in propertyKeyArray', () => {
     const firstPropertyKeyArrayEntry = createPropertyKey(['<instance>', 'name'], 1)
-    const secondPropertyKeyArrayEntry = PropertyKey('name', firstPropertyKeyArrayEntry.parent, false)
+    const secondPropertyKeyArrayEntry = new PropertyKey('name', firstPropertyKeyArrayEntry.parent, false)
     const propertyKeyArray = [firstPropertyKeyArrayEntry, secondPropertyKeyArrayEntry]
 
-    const newPropertyKeyArrayEntry = PropertyKey('name', firstPropertyKeyArrayEntry.parent, false)
+    const newPropertyKeyArrayEntry = new PropertyKey('name', firstPropertyKeyArrayEntry.parent, false)
 
     expect(() => addPropertyKeyToArray(propertyKeyArray, newPropertyKeyArrayEntry, undefined))
       .toThrowError('Property <instance>.name occurs multiple times in propertyKeys.')
@@ -595,7 +595,7 @@ const readFile = (fileName) => {
 const createPropertyKey = (propertyPath, occurrence, alternativeSpellings = []) => {
   let lastProperty = null
   propertyPath.forEach(property => {
-    lastProperty = PropertyKey(property, lastProperty, false)
+    lastProperty = new PropertyKey(property, lastProperty, false)
   })
   lastProperty.alternativeSpellings = alternativeSpellings
   lastProperty.occurrence = occurrence

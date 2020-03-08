@@ -1,17 +1,31 @@
-export const PropertyKey = (key, parent, isArray) => {
-  const PropertyKey = {
-    key: key,
-    parent: parent,
-    occurrence: 1,
-    alternativeSpellings: [],
-    isArray: isArray,
-    parentPath: () => PropertyKey.parent == null ? [] : parent.parentPath().concat([PropertyKey.parent.key]),
-    alternativeSpellingsPath: () => PropertyKey.alternativeSpellings.map(alternativeSpelling => PropertyKey.parentPath(PropertyKey.parent).concat(alternativeSpelling)),
-    propertyPath: () => PropertyKey.parentPath(PropertyKey.parent).concat([PropertyKey.key]),
-    printAlternativeSpellings: () => `[${PropertyKey.alternativeSpellingsPath().map(alternativeSpellingsPath => alternativeSpellingsPath.join('.')).join(', ')}]`,
-    toString: () => PropertyKey.parent == null ? [PropertyKey.key] : `${PropertyKey.parent.toString()}${PropertyKey.isArray ? PropertyKey.key : `.${PropertyKey.key}`}`
+export class PropertyKey {
+  constructor (key, parent, isArray) {
+    this.key = key
+    this.parent = parent
+    this.occurrence = 1
+    this.alternativeSpellings = []
+    this.isArray = isArray
   }
-  return PropertyKey
+
+  parentPath () {
+    return this.parent == null ? [] : this.parent.parentPath().concat([this.parent.key])
+  }
+
+  alternativeSpellingsPath () {
+    return this.alternativeSpellings.map(alternativeSpelling => this.parentPath().concat(alternativeSpelling))
+  }
+
+  propertyPath () {
+    return this.parentPath().concat([this.key])
+  }
+
+  printAlternativeSpellings () {
+    return `[${this.alternativeSpellingsPath().map(alternativeSpellingsPath => alternativeSpellingsPath.join('.')).join(', ')}]`
+  }
+
+  toString () {
+    return this.parent == null ? [this.key] : `${this.parent.toString()}${this.isArray ? this.key : `.${this.key}`}`
+  }
 }
 
 export const addPropertyKeyToArray = (propertyKeyArray, propertyKey, options) => {
