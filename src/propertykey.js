@@ -19,8 +19,12 @@ export class PropertyKey {
     return this.parentPath().concat([this.key])
   }
 
+  /*
+  * TODO: partly copied from toString() - try using a more generic approach
+  */
   printAlternativeSpellings () {
-    return `[${this.alternativeSpellingsPath().map(alternativeSpellingsPath => alternativeSpellingsPath.join('.')).join(', ')}]`
+    const parentString = this.parent == null ? null : this.parent.toString()
+    return `[${this.alternativeSpellings.map(alternativeSpelling => parentString == null ? [alternativeSpelling] : `${parentString}${this.isArray ? alternativeSpelling : `.${alternativeSpelling}`}`).join(', ')}]`
   }
 
   toString () {
