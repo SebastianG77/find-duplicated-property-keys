@@ -1,5 +1,10 @@
 # CHANGELOG 
 
+## 1.0.14
+
+### Minor Changes
+- Set version of NodeJS in .travis.yml to latest LTS version to ensure all dependencies will be installed when building with Travis CI.
+
 ## 1.0.13
 
 ### Minor Changes
