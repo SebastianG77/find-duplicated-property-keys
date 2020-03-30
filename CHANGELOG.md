@@ -1,5 +1,10 @@
 # CHANGELOG 
 
+## 1.0.13
+
+### Minor Changes
+- Update several devDependencies.
+
 ## 1.0.12
 
 ### Documentation
