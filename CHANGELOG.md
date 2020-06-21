@@ -1,5 +1,17 @@
 # CHANGELOG 
 
+## 1.1.0
+
+### New Feature
+- Display the occurrence for each duplicated key when running `find-duplicated-property-keys` via command line interface.
+
+### Documentation
+- Adjust README.md to new feature by explaining the meaning of the additionally printed values briefly.
+- Adjust command line interface help to new feature by explaining the meaning of the additionally printed values briefly.
+
+### Minor Changes
+- Update several dependencies.
+
 ## 1.0.14
 
 ### Minor Changes
