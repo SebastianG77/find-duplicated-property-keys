@@ -9,7 +9,7 @@ import findDuplicatedPropertyKeys from './index'
 const sections = [
   {
     header: 'A tool for detecting duplicates in JSON files.',
-    content: 'Returns a list of duplicated property keys.'
+    content: 'Lists all duplicated property keys followed by the number of their occurrence.'
   },
   {
     header: 'Options',
