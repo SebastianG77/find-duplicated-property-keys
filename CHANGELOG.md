@@ -1,5 +1,10 @@
 # CHANGELOG 
 
+## 1.1.1
+
+### Minor Changes
+- Update several devDependencies.
+
 ## 1.1.0
 
 ### New Feature
