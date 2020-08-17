@@ -3,7 +3,7 @@
 ## 1.1.2
 
 ### Minor Changes
-- Simplify function formatKey() in index.js.
+- Simplify function `formatKey()` in index.js.
 - Update several devDependencies.
 
 ## 1.1.1
