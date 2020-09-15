@@ -50,7 +50,7 @@ To validate a JSON string you can run the module as described in the following e
 ```javascript
 const findDuplicatedPropertyKeys = require('find-duplicated-property-keys');
 
-const jsonString = '{"name": "Carl", "name": "Carla"}';
+const jsonString = {"name": "Carl", "name": "Carla", "age": 29};
 
 const result = findDuplicatedPropertyKeys(jsonString);
 
