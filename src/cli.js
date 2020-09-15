@@ -48,7 +48,7 @@ const runCli = (options) => {
             console.log(chalk.green(`No duplicated property keys found in ${options.src}.`))
             return 0;
           } else {
-            console.log(chalk.red(`The following duplicated property keys have been detected in ${options.src}:\n${duplicatedPropertyKeys.map(duplicatedPropertyKey => `${duplicatedPropertyKey} (${duplicatedPropertyKey.occurrence})`).join('\n')}`))
+            console.error(chalk.red(`The following duplicated property keys have been detected in ${options.src}:\n${duplicatedPropertyKeys.map(duplicatedPropertyKey => `${duplicatedPropertyKey} (${duplicatedPropertyKey.occurrence})`).join('\n')}`))
             return 1;
           }
         }
