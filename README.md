@@ -34,13 +34,13 @@ Then you can run `find-duplicated-property-keys` from any directory by using the
 $ find-duplicated-property-keys -s <path-to-json-file>
 ```
 
-When running the tool from terminal, it will list all duplicated property keys followed by the number of their occurrence or return a notification to indicate the JSON file does not contain any duplicated property keys. Furthermore, `find-duplicated-property-keys` will also return one of the following status codes, if it has been executed as a standalone tool:
+When running the tool from terminal, it will list all duplicated property keys followed by the number of their occurrence or return a notification to indicate the JSON file does not contain any duplicated property keys. In addition to that, `find-duplicated-property-keys` will then also return one of the following exit codes:
 
-|Status Code|Description|
+|Exit Code|Description|
 |:--|:--|
-|0|The JSON file has been analyzed succesfully and no duplicated property keys have been detected.|
-|1|An exception has been thrown and the validation process was unable to determine a result.|
-|101|The JSON file has been analyzed succesfully and at least one duplicated property key has been detected.|
+|0|The passed JSON file has been analyzed succesfully and no duplicated property keys have been detected.|
+|1|An exception has been thrown by the tool and the validation process was unable to determine a result.|
+|101|The passed JSON file has been analyzed succesfully and at least one duplicated property key has been detected.|
 
 
 ### Use as a Submodule
