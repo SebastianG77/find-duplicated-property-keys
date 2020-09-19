@@ -38,7 +38,7 @@ When running the tool from terminal, it will list all duplicated property keys f
 
 |Exit Code|Description|
 |:--|:--|
-|0|The passed JSON file has been analyzed succesfully and no duplicated property keys have been detected.|
+|0|The passed JSON file has been analyzed succesfully and no duplicated property keys have been detected. Furthermore, this exit code will also be returned, if the help text has been requested by either running `find-duplicated-property-keys` without any parameters or with the parameter `--help` or its alias `-h` solely.|
 |1|An exception has been thrown by the tool and the validation process was unable to determine a result.|
 |101|The passed JSON file has been analyzed succesfully and at least one duplicated property key has been detected.|
 
