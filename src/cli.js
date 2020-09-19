@@ -37,6 +37,7 @@ const options = commandLineArgs(sections[1].optionList)
 const runCli = (options) => {
   if (options == null || options.src == null) {
     console.log(commandLineUsage(sections))
+    return 0
   } else {
     const jsonFile = options.src
     if (fs.existsSync(jsonFile)) {
