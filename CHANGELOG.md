@@ -1,5 +1,18 @@
 # CHANGELOG 
 
+## 1.2.0
+
+### New Feature
+- Return a proper exit code when executing `find-duplicated-property-keys` from command line interface.
+
+### Documentation
+- Describe exit codes that can be returned when executing `find-duplicated-property-keys` from command line interface in README.md.
+- Add an additional property to the example in README.md to emphasize only duplicated property keys will be returned.
+- Adjust build badge due to migration from https://travis-ci.org/ to https://travis-ci.com/.
+
+### Minor Changes
+- Update several devDependencies.
+
 ## 1.1.2
 
 ### Minor Changes
