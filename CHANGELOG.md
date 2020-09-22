@@ -1,5 +1,14 @@
 # CHANGELOG 
 
+## 1.2.1
+
+### Documentation
+- Describe returned exit code when requesting help text in README.md.
+- Add quotes around sample call of `find-duplicated-property-keys` again in README.md.
+
+### Minor Changes
+- Explicitly return exit code 0 when requesting help text.
+
 ## 1.2.0
 
 ### New Feature
