@@ -7,7 +7,7 @@
 - Add quotes around sample call of `find-duplicated-property-keys` again in README.md.
 
 ### Minor Changes
-- Explicitly return exit code 0 when requesting help text.
+- Explicitly return exit code 0 when requesting help text from command line interface.
 
 ## 1.2.0
 
