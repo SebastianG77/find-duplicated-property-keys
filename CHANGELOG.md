@@ -1,5 +1,10 @@
 # CHANGELOG 
 
+## 1.2.2
+
+### Bugfix
+- Publish build to npm correctly.
+
 ## 1.2.1
 
 ### Documentation
