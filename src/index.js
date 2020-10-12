@@ -98,7 +98,7 @@ const extractPropertyKeysOfArray = (content, parentStack, startIndex) => {
         allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
       } else if (currentChar === '[') {
         const extractedPropertyKeys = extractPropertyKeysOfArray(content, parentStack, i + 1)
-        i = extractedPropertyKeys.newIndex
+        i = extractedPropertyKeys.newIndex + 1
         allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
       } else if (currentChar === ']') {
         parentStack.pop()
