@@ -98,6 +98,13 @@ const extractPropertyKeysOfArray = (content, parentStack, startIndex) => {
         allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
       } else if (currentChar === '[') {
         const extractedPropertyKeys = extractPropertyKeysOfArray(content, parentStack, i + 1)
+        /*
+        * Increase index here, as the child array has already been removed from the stack and the
+        * returned index points to the character that is before the closing bracket. If we did not
+        * increase the index here, the next character would definetly also be a closing bracket,
+        * such that this array would have also been removed from the stack, which is not desired
+        * unless there was another following closing bracket. 
+        */
         i = extractedPropertyKeys.newIndex + 1
         allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
       } else if (currentChar === ']') {
