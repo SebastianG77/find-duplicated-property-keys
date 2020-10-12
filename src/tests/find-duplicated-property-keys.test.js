@@ -449,6 +449,27 @@ describe('Call function addPropertyKeyToArray while property propertyKeyArray co
   })
 })
 
+describe('Validate a JSON file that does not contain any duplicates but an array that contains another array followed by a string value', () => {
+  it('returns an empty list', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_with_array_containing_an_array_and_a_string.json')))
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe('Validate a JSON file that does not contain any duplicates but an array that contains two arrays', () => {
+  it('returns an empty list', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_with_array_containing_two_arrays.json')))
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe('Validate a JSON file that does not contain any duplicates but an array of array that contains two arrays', () => {
+  it('returns an empty list', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_with_deep_array_containing_two_arrays.json')))
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
 const readFile = (fileName) => {
   return fs.readFileSync(fileName, 'utf8')
 }
