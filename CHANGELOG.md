@@ -1,5 +1,13 @@
 # CHANGELOG 
 
+## 1.2.3
+
+### Bugfix
+- Fix exception when analyzing a JSON file with an array containing an array followed by another value.
+
+### Minor Changes
+- Update dependency to jest.
+
 ## 1.2.2
 
 ### Bugfix
