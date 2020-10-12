@@ -103,7 +103,7 @@ const extractPropertyKeysOfArray = (content, parentStack, startIndex) => {
         * returned index points to the character that is before the closing bracket. If we did not
         * increase the index here, the next character would definetly also be a closing bracket,
         * such that this array would have also been removed from the stack, which is not desired
-        * unless there was another following closing bracket. 
+        * unless there was another following closing bracket.
         */
         i = extractedPropertyKeys.newIndex + 1
         allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
