@@ -1,5 +1,10 @@
 # CHANGELOG 
 
+## 1.2.4
+
+### Minor Changes
+- Slightly simplify functions in index.js by determining the last index of an array in a more comprehensible way.
+
 ## 1.2.3
 
 ### Bugfix
