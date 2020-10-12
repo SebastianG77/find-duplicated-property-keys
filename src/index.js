@@ -63,7 +63,6 @@ const extractPropertyKeysOfObject = (content, parentStack, startIndex) => {
         i = extractedPropertyKeys.newIndex
         allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
         currentPropertyKey = undefined
-      } else if (currentChar === ']') {
         parentStack.pop()
       } else {
         if (currentPropertyKey === undefined) {
@@ -98,18 +97,11 @@ const extractPropertyKeysOfArray = (content, parentStack, startIndex) => {
         allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
       } else if (currentChar === '[') {
         const extractedPropertyKeys = extractPropertyKeysOfArray(content, parentStack, i + 1)
-        /*
-        * Increase index here, as the child array has already been removed from the stack and the
-        * returned index points to the character that is before the closing bracket. If we did not
-        * increase the index here, the next character would definetly also be a closing bracket,
-        * such that this array would have also been removed from the stack, which is not desired
-        * unless there was another following closing bracket.
-        */
-        i = extractedPropertyKeys.newIndex + 1
+        i = extractedPropertyKeys.newIndex
         allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
       } else if (currentChar === ']') {
         parentStack.pop()
-        return { propertyKeys: allPropertyKeys, newIndex: i - 1 }
+        return { propertyKeys: allPropertyKeys, newIndex: i }
       } else {
         i = lastIndexOfPropertyValue(content, i)
         allPropertyKeys.push(parentStack[parentStack.length - 1])
