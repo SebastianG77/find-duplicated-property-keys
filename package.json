@@ -5,10 +5,10 @@
   "bin": "build/cli.js",
   "main": "build/index.js",
   "scripts": {
-    "build:release": "yarn dist && yarn publish",
     "test": "jest ./src/ --coverage",
     "dist": "standard src/**/*.js && yarn test && ./node_modules/.bin/babel src --ignore src/tests --out-dir build",
-    "start": "node ./build/cli"
+    "start": "node ./build/cli",
+    "prepublishOnly": "yarn && yarn dist"
   },
   "keywords": [
     "JSON",
