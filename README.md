@@ -65,13 +65,17 @@ console.log(result.toString()); // <instance>.name
 
 The returned result will be an array that contains all duplicated property keys. Each of these property keys is represented by an object which has the following attributes:
 
-- key: The key name of the duplicated property.
-- parent: The parent object of a property key.
-- occurrence: The number of property keys having the same key and parent object.
+|Attribute|Description|
+|:--|:--|
+|key|The key name of the duplicated property.
+|parent|The parent object of a property key.
+|occurrence|The number of property keys having the same key and parent object.
 
 Moreover, these objects also contain the following functions for illustrating the actual path to the property key:
 
-- propertyPath(): Returns a list of property keys, which represents the path to the property key of the current object.
-- toString(): Prints the path to the property key. However, since all necessary raw data are also contained by the object, the result objects can also be represented in any other way if desired.
+|Function|Description|
+|:--|:--|
+|propertyPath()|Returns a list of property keys, which represents the path to the property key of the current object.
+|toString()|Prints the path to the property key. However, since all necessary raw data are also contained by the object, the result objects can also be represented in any other way if desired.
 
 **Note:** When using `find-duplicated-property-keys` as a submodule, you always have to pass a JSON string instead of the file path to a JSON file. 
