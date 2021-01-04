@@ -106,7 +106,9 @@ describe('Object property <instance>.myObject is duplicated and both properties 
     expect(expectedResultValues).toHaveLength(3)
     expectedResultValues.forEach(expectedResultValue =>
       expect(expectedResultValue).toHaveLength(expectedResultValue.every(expectedResult => expectedResult.propertyPath().every(property =>
-        ['<instance>', 'myObject'].includes(property))) ? 1 : 2)
+        ['<instance>', 'myObject'].includes(property)))
+        ? 1
+        : 2)
     )
   })
 })
