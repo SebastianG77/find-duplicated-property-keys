@@ -1,5 +1,6 @@
 import path from 'path'
 import fs from 'fs'
+import { jest } from '@jest/globals'
 
 import { addPropertyKeyToArray, PropertyKey } from '../propertykey'
 import findDuplicatedPropertyKeys from '../index'
@@ -469,6 +470,18 @@ describe('Validate a JSON file that does not contain any duplicates but an array
   it('returns an empty list', () => {
     const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_with_deep_array_containing_two_arrays.json')))
     expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe('Function formatKey() receives an invalid string value', () => {
+  it('throws the expected error as keys passed to function formatKey() must be wrapped by ""', () => {
+    const spy = jest.spyOn(String.prototype, 'substring').mockImplementation(() => 'invalid_substring')
+    const filePath = readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_whose_extracted_key_will_be_mocked.json'))
+    try {
+      expect(() => findDuplicatedPropertyKeys(filePath)).toThrowError('Key invalid_substring is not wrapped by "".')
+    } finally {
+      spy.mockRestore()
+    }
   })
 })
 
