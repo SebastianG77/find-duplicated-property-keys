@@ -1,5 +1,15 @@
 # CHANGELOG 
 
+## 1.2.5
+
+### Documentation
+- Transform attribute and function lists in README.md into tables to improve readability.
+
+### Minor Changes
+- Add test case for testing untested line of code in function `formatKey()` of index.js.
+- Use package.json script "prepublishOnly" instead of "build:release" to ensure the code will always be build before publishing to npm.
+- Update several devDependencies.
+
 ## 1.2.4
 
 ### Minor Changes
