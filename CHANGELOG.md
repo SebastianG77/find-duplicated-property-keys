@@ -7,7 +7,7 @@
 
 ### Minor Changes
 - Add test case for testing untested line of code in function `formatKey()` of index.js.
-- Use package.json script "prepublishOnly" instead of "build:release" to ensure the code will always be build before publishing to npm.
+- Use package.json script "prepublishOnly" instead of "build:release" to ensure the code will always be built before publishing to npm.
 - Update several devDependencies.
 
 ## 1.2.4
