@@ -1,5 +1,10 @@
 # CHANGELOG 
 
+## 1.2.6
+
+### Minor Changes
+- Update several dependencies.
+
 ## 1.2.5
 
 ### Documentation
