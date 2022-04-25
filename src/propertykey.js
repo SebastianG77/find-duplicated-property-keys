@@ -1,9 +1,9 @@
 export const PropertyKey = (key, parent, isArray) => {
   const PropertyKey = {
-    key: key,
-    parent: parent,
+    key,
+    parent,
     occurrence: 1,
-    isArray: isArray,
+    isArray,
     propertyPath: () => PropertyKey.parent == null ? [PropertyKey.key] : parent.propertyPath().concat([PropertyKey.key]),
     toString: () => PropertyKey.parent == null ? [PropertyKey.key] : `${PropertyKey.parent.toString()}${PropertyKey.isArray ? PropertyKey.key : `.${PropertyKey.key}`}`
   }
