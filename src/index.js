@@ -64,7 +64,6 @@ const extractPropertyKeysOfObject = (content, parentStack, startIndex) => {
         i = extractedPropertyKeys.newIndex
         allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
         currentPropertyKey = undefined
-      } else if (currentChar === ']') {
         parentStack.pop()
       } else {
         if (currentPropertyKey === undefined) {
@@ -103,7 +102,7 @@ const extractPropertyKeysOfArray = (content, parentStack, startIndex) => {
         allPropertyKeys = allPropertyKeys.concat(extractedPropertyKeys.propertyKeys)
       } else if (currentChar === ']') {
         parentStack.pop()
-        return { propertyKeys: allPropertyKeys, newIndex: i - 1 }
+        return { propertyKeys: allPropertyKeys, newIndex: i }
       } else {
         i = lastIndexOfPropertyValue(content, i)
         allPropertyKeys.push(parentStack[parentStack.length - 1])
@@ -129,8 +128,7 @@ const extractPropertyKey = (content, parentStack, startIndex) => {
       } else {
         if (quotationMarksFound === 2) {
           if (currentChar === ':') {
-            const newSubStringEnding = i + 1
-            return { propertyKey: new PropertyKey(formatKey(content.substring(startPropertyKeyIndex, newSubStringEnding)), parentStack[parentStack.length - 1], false), newIndex: i }
+            return { propertyKey: PropertyKey(formatKey(content.substring(startPropertyKeyIndex, i)), parentStack[parentStack.length - 1], false), newIndex: i }
           }
         }
       }
@@ -164,17 +162,11 @@ const isWhitespace = (currentChar) => (currentChar.trim() === '')
 const isQuotationMark = (currentChar, isEscaped) => (currentChar === '"' && !isEscaped)
 
 const formatKey = (unformattedKey) => {
-  const unformattedTrimmedKey = unformattedKey.trim()
-  if (unformattedTrimmedKey.endsWith(':')) {
-    const trimmedKeyOnly = unformattedKey.substring(0, unformattedKey.length - 1).trim()
-    if (trimmedKeyOnly.length > 1 && trimmedKeyOnly.startsWith('"') && trimmedKeyOnly.endsWith('"')) {
-      const formattedKey = trimmedKeyOnly.substring(1, trimmedKeyOnly.length - 1)
-      return formattedKey
-    } else {
-      throw new Error(`Key ${unformattedKey} is not wrapped by "".`)
-    }
+  const trimmedKey = unformattedKey.trim()
+  if (trimmedKey.length > 1 && trimmedKey.startsWith('"') && trimmedKey.endsWith('"')) {
+    return trimmedKey.substring(1, trimmedKey.length - 1)
   } else {
-    throw new Error(`Key ${unformattedKey} does not end by :.`)
+    throw new Error(`Key ${unformattedKey} is not wrapped by "".`)
   }
 }
 

@@ -1,0 +1,8 @@
+{
+  "pets": [
+	[
+    ["dog", "cat"],
+    ["bird", "hamster"]
+	]
+  ]
+}

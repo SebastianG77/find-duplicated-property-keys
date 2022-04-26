@@ -1,5 +1,6 @@
 import path from 'path'
 import fs from 'fs'
+import { jest } from '@jest/globals'
 
 import { addPropertyKeyToArray, PropertyKey } from '../propertykey'
 import findDuplicatedPropertyKeys from '../index'
@@ -106,7 +107,9 @@ describe('Object property <instance>.myObject is duplicated and both properties 
     expect(expectedResultValues).toHaveLength(3)
     expectedResultValues.forEach(expectedResultValue =>
       expect(expectedResultValue).toHaveLength(expectedResultValue.every(expectedResult => expectedResult.propertyPath().every(property =>
-        ['<instance>', 'myObject'].includes(property))) ? 1 : 2)
+        ['<instance>', 'myObject'].includes(property)))
+        ? 1
+        : 2)
     )
   })
 })
@@ -464,24 +467,24 @@ describe('String properties \'name\', \'Name\' and \'age\' exist while option \'
   })
 })
 
-describe('String properties \'name\' and \'nÃ¡me\' exist while option \'sensitivity\' is set to \'base\'', () => {
+describe('String properties \'name\' and \'náme\' exist while option \'sensitivity\' is set to \'base\'', () => {
   it('returns the expected property object', () => {
     const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_accent_duplicate_with_option_base.json')), { sensitivity: 'base' })
-    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey(['<instance>', 'name'], 2, ['nÃ¡me'])])
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey(['<instance>', 'name'], 2, ['náme'])])
   })
 })
 
-describe('String properties \'name\' and \'nÃ¡me\' exist while option \'sensitivity\' is set to \'accent\'', () => {
+describe('String properties \'name\' and \'náme\' exist while option \'sensitivity\' is set to \'accent\'', () => {
   it('returns the expected property object', () => {
     const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_accent_duplicate_with_option_accent.json')), { sensitivity: 'accent' })
     expect(duplicatedProperties).toHaveLength(0)
   })
 })
 
-describe('String properties \'name\' and \'nÃ¡me\' and \'age\' exist while option \'sensitivity\' is set to \'case\'', () => {
+describe('String properties \'name\' and \'náme\' and \'age\' exist while option \'sensitivity\' is set to \'case\'', () => {
   it('returns the expected property object', () => {
     const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_accent_duplicate_with_option_case.json')), { sensitivity: 'case' })
-    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey(['<instance>', 'name'], 2, ['nÃ¡me'])])
+    comparePropertyKeyArrays(duplicatedProperties, [createPropertyKey(['<instance>', 'name'], 2, ['náme'])])
   })
 })
 
@@ -556,11 +559,44 @@ describe('Call function addPropertyKeyToArray while property propertyKeyArray co
   })
 })
 
+describe('Validate a JSON file that does not contain any duplicates but an array that contains another array followed by a string value', () => {
+  it('returns an empty list', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_with_array_containing_an_array_and_a_string.json')))
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe('Validate a JSON file that does not contain any duplicates but an array that contains two arrays', () => {
+  it('returns an empty list', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_with_array_containing_two_arrays.json')))
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe('Validate a JSON file that does not contain any duplicates but an array of array that contains two arrays', () => {
+  it('returns an empty list', () => {
+    const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_with_deep_array_containing_two_arrays.json')))
+    expect(duplicatedProperties).toHaveLength(0)
+  })
+})
+
+describe('Function formatKey() receives an invalid string value', () => {
+  it('throws the expected error as keys passed to function formatKey() must be wrapped by ""', () => {
+    const spy = jest.spyOn(String.prototype, 'substring').mockImplementation(() => 'invalid_substring')
+    const filePath = readFile(path.join(ROOT_DIRECTORY, './assets/test_files/valid_JSON_file_whose_extracted_key_will_be_mocked.json'))
+    try {
+      expect(() => findDuplicatedPropertyKeys(filePath)).toThrowError('Key invalid_substring is not wrapped by "".')
+    } finally {
+      spy.mockRestore()
+    }
+  })
+})
+
 describe('Check if function alternativeSpellingsPath returns the expected values', () => {
   it('throws the expected error as duplicated entries are not allowed in propertyKeyArray', () => {
     const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_deeply_nested_property_contains_three_different_spellings.json')), { sensitivity: 'base' })
     expect(duplicatedProperties).toHaveLength(1)
-    expect(duplicatedProperties[0].alternativeSpellingsPath()).toEqual([['<instance>', 'myObject', 'mySecondObject', 'NAME'], ['<instance>', 'myObject', 'mySecondObject', 'nÃ¡me']])
+    expect(duplicatedProperties[0].alternativeSpellingsPath()).toEqual([['<instance>', 'myObject', 'mySecondObject', 'NAME'], ['<instance>', 'myObject', 'mySecondObject', 'náme']])
   })
 })
 
@@ -568,7 +604,7 @@ describe('Check if function printAlternativeSpellings returns the expected value
   it('throws the expected error as duplicated entries are not allowed in propertyKeyArray', () => {
     const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_deeply_nested_property_contains_three_different_spellings.json')), { sensitivity: 'base' })
     expect(duplicatedProperties).toHaveLength(1)
-    expect(duplicatedProperties[0].printAlternativeSpellings()).toEqual('[<instance>.myObject.mySecondObject.NAME, <instance>.myObject.mySecondObject.nÃ¡me]')
+    expect(duplicatedProperties[0].printAlternativeSpellings()).toEqual('[<instance>.myObject.mySecondObject.NAME, <instance>.myObject.mySecondObject.náme]')
   })
 })
 
@@ -576,7 +612,7 @@ describe('Check if function alternativeSpellingsPath returns the expected values
   it('throws the expected error as duplicated entries are not allowed in propertyKeyArray', () => {
     const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_deeply_nested_property_within_an_array_contains_three_different_spellings.json')), { sensitivity: 'base' })
     expect(duplicatedProperties).toHaveLength(1)
-    expect(duplicatedProperties[0].alternativeSpellingsPath()).toEqual([['<instance>', 'myObject', 'mySecondObject', '[0]', 'NAME'], ['<instance>', 'myObject', 'mySecondObject', '[0]', 'nÃ¡me']])
+    expect(duplicatedProperties[0].alternativeSpellingsPath()).toEqual([['<instance>', 'myObject', 'mySecondObject', '[0]', 'NAME'], ['<instance>', 'myObject', 'mySecondObject', '[0]', 'náme']])
   })
 })
 
@@ -584,7 +620,7 @@ describe('Check if function printAlternativeSpellings returns the expected value
   it('throws the expected error as duplicated entries are not allowed in propertyKeyArray', () => {
     const duplicatedProperties = findDuplicatedPropertyKeys(readFile(path.join(ROOT_DIRECTORY, './assets/test_files/one_deeply_nested_property_within_an_array_contains_three_different_spellings.json')), { sensitivity: 'base' })
     expect(duplicatedProperties).toHaveLength(1)
-    expect(duplicatedProperties[0].printAlternativeSpellings()).toEqual('[<instance>.myObject.mySecondObject[0].NAME, <instance>.myObject.mySecondObject[0].nÃ¡me]')
+    expect(duplicatedProperties[0].printAlternativeSpellings()).toEqual('[<instance>.myObject.mySecondObject[0].NAME, <instance>.myObject.mySecondObject[0].náme]')
   })
 })
 

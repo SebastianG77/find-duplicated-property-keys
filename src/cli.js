@@ -9,7 +9,7 @@ import findDuplicatedPropertyKeys from './index'
 const sections = [
   {
     header: 'A tool for detecting duplicates in JSON files.',
-    content: 'Returns a list of duplicated property keys.'
+    content: 'Lists all duplicated property keys followed by the number of their occurrence.'
   },
   {
     header: 'Options',
@@ -42,6 +42,7 @@ const options = commandLineArgs(sections[1].optionList)
 const runCli = (options) => {
   if (options == null || options.src == null) {
     console.log(commandLineUsage(sections))
+    return 0
   } else {
     const jsonFile = options.src
     if (fs.existsSync(jsonFile)) {
@@ -51,8 +52,10 @@ const runCli = (options) => {
         if (duplicatedPropertyKeys != null) {
           if (duplicatedPropertyKeys.length === 0) {
             console.log(chalk.green(`No duplicated property keys found in ${options.src}.`))
+            return 0
           } else {
-            console.log(chalk.red(`The following duplicated property keys have been detected in ${options.src}:\n${duplicatedPropertyKeys.join('\n')}`))
+            console.error(chalk.red(`The following duplicated property keys have been detected in ${options.src}:\n${duplicatedPropertyKeys.map(duplicatedPropertyKey => `${duplicatedPropertyKey} (${duplicatedPropertyKey.occurrence})`).join('\n')}`))
+            return 101
           }
         }
       } else {
@@ -64,4 +67,4 @@ const runCli = (options) => {
   }
 }
 
-runCli(options)
+process.exit(runCli(options))

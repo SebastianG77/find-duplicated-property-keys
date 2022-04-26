@@ -1,10 +1,12 @@
-export class PropertyKey {
-  constructor (key, parent, isArray) {
-    this.key = key
-    this.parent = parent
-    this.occurrence = 1
+export const PropertyKey = (key, parent, isArray) => {
+  const PropertyKey = {
+    key,
+    parent,
+    occurrence: 1,
     this.alternativeSpellings = []
-    this.isArray = isArray
+    isArray,
+    propertyPath: () => PropertyKey.parent == null ? [PropertyKey.key] : parent.propertyPath().concat([PropertyKey.key]),
+    toString: () => PropertyKey.parent == null ? [PropertyKey.key] : `${PropertyKey.parent.toString()}${PropertyKey.isArray ? PropertyKey.key : `.${PropertyKey.key}`}`
   }
 
   parentPath () {
