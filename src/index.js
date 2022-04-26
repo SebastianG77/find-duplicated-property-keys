@@ -29,7 +29,7 @@ const checkRedundancy = (content, options) => {
 const initContent = (content) => content.trim()
 
 const extractAllPropertyKeysOfContent = (content) => {
-  const parentStack = [new PropertyKey('<instance>', null, false)]
+  const parentStack = [PropertyKey('<instance>', null, false)]
   for (let i = 0; i < content.length; i++) {
     const currentChar = content.charAt(i)
     if (currentChar === '{') {
@@ -81,7 +81,7 @@ const extractPropertyKeysOfObject = (content, parentStack, startIndex) => {
 
 const extractPropertyKeysOfArray = (content, parentStack, startIndex) => {
   let currentIndex = 0
-  let currentKey = new PropertyKey(`[${currentIndex}]`, parentStack[parentStack.length - 1], true)
+  let currentKey = PropertyKey(`[${currentIndex}]`, parentStack[parentStack.length - 1], true)
   parentStack.push(currentKey)
   let allPropertyKeys = []
   for (let i = startIndex; i < content.length; i++) {
@@ -90,7 +90,7 @@ const extractPropertyKeysOfArray = (content, parentStack, startIndex) => {
       if (currentChar === ',') {
         parentStack.pop()
         currentIndex++
-        currentKey = new PropertyKey(`[${currentIndex}]`, parentStack[parentStack.length - 1], true)
+        currentKey = PropertyKey(`[${currentIndex}]`, parentStack[parentStack.length - 1], true)
         parentStack.push(currentKey)
       } else if (currentChar === '{') {
         const extractedPropertyKeys = extractPropertyKeysOfObject(content, parentStack, i + 1)

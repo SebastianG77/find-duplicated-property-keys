@@ -3,35 +3,18 @@ export const PropertyKey = (key, parent, isArray) => {
     key,
     parent,
     occurrence: 1,
-    this.alternativeSpellings = []
+    alternativeSpellings: [],
     isArray,
     propertyPath: () => PropertyKey.parent == null ? [PropertyKey.key] : parent.propertyPath().concat([PropertyKey.key]),
-    toString: () => PropertyKey.parent == null ? [PropertyKey.key] : `${PropertyKey.parent.toString()}${PropertyKey.isArray ? PropertyKey.key : `.${PropertyKey.key}`}`
+    toString: () => PropertyKey.parent == null ? [PropertyKey.key] : `${PropertyKey.parent.toString()}${PropertyKey.isArray ? PropertyKey.key : `.${PropertyKey.key}`}`,
+    parentPath: () => PropertyKey.parent == null ? [] : PropertyKey.parent.parentPath().concat([PropertyKey.parent.key]),
+    alternativeSpellingsPath: () => PropertyKey.alternativeSpellings.map(alternativeSpelling => PropertyKey.parentPath().concat(alternativeSpelling)),
+    printAlternativeSpellings: () => {
+      const parentString = PropertyKey.parent == null ? null : PropertyKey.parent.toString()
+      return `[${PropertyKey.alternativeSpellings.map(alternativeSpelling => parentString == null ? [alternativeSpelling] : `${parentString}${PropertyKey.isArray ? alternativeSpelling : `.${alternativeSpelling}`}`).join(', ')}]`
+    }
   }
-
-  parentPath () {
-    return this.parent == null ? [] : this.parent.parentPath().concat([this.parent.key])
-  }
-
-  alternativeSpellingsPath () {
-    return this.alternativeSpellings.map(alternativeSpelling => this.parentPath().concat(alternativeSpelling))
-  }
-
-  propertyPath () {
-    return this.parentPath().concat([this.key])
-  }
-
-  /*
-  * TODO: partly copied from toString() - try using a more generic approach
-  */
-  printAlternativeSpellings () {
-    const parentString = this.parent == null ? null : this.parent.toString()
-    return `[${this.alternativeSpellings.map(alternativeSpelling => parentString == null ? [alternativeSpelling] : `${parentString}${this.isArray ? alternativeSpelling : `.${alternativeSpelling}`}`).join(', ')}]`
-  }
-
-  toString () {
-    return this.parent == null ? [this.key] : `${this.parent.toString()}${this.isArray ? this.key : `.${this.key}`}`
-  }
+  return PropertyKey
 }
 
 export const addPropertyKeyToArray = (propertyKeyArray, propertyKey, options) => {
