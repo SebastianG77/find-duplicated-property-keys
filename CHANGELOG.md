@@ -1,10 +1,15 @@
 # CHANGELOG 
 
+## 1.2.9
+
+### Bugfix
+- Downgrade version of dependency `chalk` to 4.1.2, since version 5.1.2 of `chalk` is incompatible with the current state of `find-duplicated-property-keys`.
+
 ## 1.2.8
 
 ### Minor Changes
 - Update several dependencies.
-- Adjust .travis.yml to avoid building issues
+- Adjust .travis.yml to avoid building issues.
 
 ## 1.2.7
 
