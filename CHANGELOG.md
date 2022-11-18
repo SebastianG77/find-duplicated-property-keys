@@ -1,5 +1,11 @@
 # CHANGELOG 
 
+## 1.2.8
+
+### Minor Changes
+- Update several dependencies.
+- Adjust .travis.yml to avoid building issues
+
 ## 1.2.7
 
 ### Minor Changes
