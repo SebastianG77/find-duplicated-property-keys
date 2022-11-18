@@ -1,4 +1,5 @@
 language: node_js
 node_js: 'lts/*'
+dist: focal
 script: standard src/**/*.js && jest ./src/ --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && ./node_modules/.bin/babel src --out-dir build,
 coveralls: true
